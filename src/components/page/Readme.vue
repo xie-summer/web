@@ -69,7 +69,7 @@
             <div style="display: flex;display: -webkit-flex;flex-direcion:row ;width: 100%; flex-wrap:wrap;">
                 <el-col :md="10"  class="top"style="flex-grow:1">
                     <div style="width: 50%;display: inline-block;flex-grow:1;float: left" class="noticeBoard" v-for=" (i,index) in items" >
-                        <div class="noticeBoardNumber">{{i.number}}</div>
+                        <div class="noticeBoardNumber":class='i.color'>{{i.number}}</div>
                         <div class="noticeBoardText">{{i.text}}</div>
                     </div>
                 </el-col>
@@ -88,8 +88,8 @@
             <el-col :md="24">
                 <div style="float: left;font-size: 2.4rem">数据校验</div>
 
-                <div style="float: right;font-size: 1.8rem">0.00-24.00</div>
-                <div style="float: right;font-size: 1.8rem;margin-right: 5rem">{{date|formatDate}}</div>
+                <div class="time" >0.00-24.00</div>
+                <div class="time timeRight">{{date|formatDate}}</div>
             </el-col>
 
                 <div style="display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;justify-content:space-between;"class="row-bg dataVerify">
@@ -128,6 +128,7 @@
             vTable
         },
         data: function(){
+
             return {
                 value11: new Date(),
                 timeDefaultShow:new Date(),
@@ -136,12 +137,13 @@
                 return time.getTime() > Date.now();
             }
         },
+
         item:['1','2','3','4','5','6'],
         items:[
-            {'number':'3%','text':'巡检作业项完成率'},
-            {'number':'3%','text':'作业项异常次数'},
-            {'number':'3%','text':'巡检作业项数'},
-            {'number':'3%','text':'检修次数'}
+            {'number':'3%','text':'巡检作业项完成率','color':'red'},
+            {'number':'3%','text':'作业项异常次数','color':'blue'},
+            {'number':'3%','text':'巡检作业项数','color':'green'},
+            {'number':'3%','text':'检修次数','color':'yellow'}
         ],
         tableData:[{
             date: '2016-05-02',
@@ -184,14 +186,14 @@
 <style>
 
    .right{float:right}
-   .titleCount{display: flex;display: -webkit-flex;flex-direction:row ; flex-wrap:wrap}
+   .titleCount{display: flex;display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;box-shadow: 5px 5px 3px #888888;margin-bottom: 2rem}
     .title{margin-top: 4.5rem;font-size: 2.4rem}
     .count{background-color: #ffffff;height:10rem}
     .fontCenter{text-align: center;}
     .font1{font-size: 1.8rem}
     .font2{font-size: 2.4rem}
 
-    .goods{background-color: #ffffff;margin-bottom: 1rem;}
+    .goods{background-color: #ffffff;box-shadow: 5px 5px 3px #888888;margin-bottom: 2rem}
     .goodsTitle{font-size: 2rem;padding-left:2rem}
     .goodsHeight {height: 30.8rem}
 
@@ -207,6 +209,11 @@
     .noticeBoardText{font-size: 1.8rem;text-align: center}
    .row-bg {  padding: 10px 0; width: 100%}
    .backgroundVerify {  background: #ffffff; box-shadow: 5px 5px 3px #888888; }
-
+    .red{color:red}
+    .blue{color:blue}
+    .yellow{color: yellow}
+    .green{color: green}
+    .numberVerify .time{float: right;font-size: 1.8rem;color:#888888}
+    .numberVerify .timeRight{margin-right: 1rem}
 
 </style>

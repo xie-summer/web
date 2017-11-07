@@ -1,11 +1,5 @@
 =<template>
     <div>
-        <div class="crumbs">
-            <el-breadcrumb separator="/">
-                <el-breadcrumb-item><i class="el-icon-date"></i> 图表</el-breadcrumb-item>
-                <el-breadcrumb-item>基础图表</el-breadcrumb-item>
-            </el-breadcrumb>
-        </div>
         <div class="chart" ref="chartOne" :style="{width: '300px', height: '300px'}"></div>
     </div>
 </template>
@@ -14,8 +8,9 @@
     let echarts=require('echarts/lib/echarts');
     //引入柱状图
     require('echarts/lib/chart/bar');
-    //引入圆饼图
-    require('echarts/lib/chart/pie');
+    //引入仪表盘图
+    require('echarts/lib/chart/gauge');
+
     //引入所需组件
     require('echarts/lib/component/tooltip');
     require('echarts/lib/component/legend');
@@ -29,17 +24,59 @@
             let chartOne=echarts.init(this.$refs.chartOne);
 
             chartOne.setOption({
-                title: { text: '在Vue中使用echarts' },
-                tooltip: {},
-                xAxis: {
-                    data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+                tooltip : {
+                    formatter: "{a} <br/>{b} : {c}%"
                 },
-                yAxis: {},
-                series: [{
-                    name: '销量',
-                    type: 'bar',
-                    data: [5, 20, 36, 10, 10, 20]
-                }]
+                toolbox: {
+                    feature: {
+                        restore: {},
+                        saveAsImage: {}
+                    }
+                },
+
+                series: [
+                    {
+                        name: '业务指标',
+                        type: 'gauge',
+                        center : ['50%', '60%'],    // 默认全局居中
+                        radius : 120,
+                        detail: {formatter:'{value}吨'},
+                        data: [{value: 1000, name: ''}],
+                        axisLine:{
+                            show:true,
+                            lineStyle: {
+                                color:[[0.33, '#f56954'],[0.67, '#0089ee'],[1,'#1ea75c']],
+                                width: 30
+                            }
+                        },
+                        splitLine:{
+                            show:false,
+                        },
+                        axisTick: {
+                            splitNumber: 1,
+                            length :0,
+                        },
+                        axisLabel:{
+                            show:true,
+                        },
+                        splitNumber:3,
+                        startAngle:180,
+                        endAngle:0,
+                        min:0,
+                        max:3000,
+                        detail : {
+                            show : true,
+                            offsetCenter: [0, '25%'],
+                            formatter:function(e){
+                                return e+'吨'
+                            },
+                            textStyle: {
+                                fontSize : 20,
+                            }
+                        },
+
+                    }
+                ]
             })
         }
     },
