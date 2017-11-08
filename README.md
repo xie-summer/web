@@ -30,10 +30,17 @@
 	|           |-- BaseTable.vue        // 基础表格
 	|           |-- Login.vue          	 // 登录
 	|           |-- Markdown.vue         // markdown组件
-	|           |-- Readme.vue           // 自述组件
+	|           |-- Readme.vue           // 首页
 	|           |-- Upload.vue           // 图片上传
 	|           |-- VueEditor.vue        // 富文本编辑器
 	|           |-- VueTable.vue         // vue表格组件
+	|           |-- accurate.vue         // 库存原料偏差组件
+	|           |-- classThree.vue       // 原料库存三班图
+	|           |-- OldCharts.vue        // echarts仪表盘
+	|           |-- Percentage.vue       // 库存原料百分比组件
+	|           |-- PublicOne.vue        // 库存原料提醒
+	|           |-- Product.vue          // 产品库
+	|           |-- Material.vue         // 原料库
 	|   |-- App.vue                      // 页面入口文件
 	|   |-- main.js                      // 程序入口文件，加载各种公共组件
 	|-- .babelrc                         // ES6语法编译配置
