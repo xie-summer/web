@@ -1,6 +1,32 @@
 =<template>
+
     <div>
-        <div class="chartLine" ref="chartLine" :style="{width: '100%', height: '35rem'}"></div>
+        <div style="width: 100%;height: 5rem;display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;justify-content:space-around;">
+            <div style="width: 15rem">
+                <el-col :span="5"style="height: 2.8rem;background-color: #0082e6;margin-top: 0.7rem"></el-col>
+                <el-col :span="14">
+                    <el-col :span="24" style="font-size: 1.6rem">早班消耗量</el-col>
+                    <el-col :span="24" style="font-size: 2.4rem">96.54吨</el-col>
+                </el-col>
+
+            </div>
+            <div style="">
+                <el-col :span="5"style="height: 2.8rem;background-color: #0082e6;margin-top: 0.7rem"></el-col>
+                <el-col :span="14">
+                    <el-col :span="24" style="font-size: 1.6rem">早班消耗量</el-col>
+                    <el-col :span="24" style="font-size: 2.4rem">96.54吨</el-col>
+                </el-col>
+            </div>
+            <div style="">
+                <el-col :span="5"style="height: 2.8rem;background-color: #0082e6;margin-top: 0.7rem"></el-col>
+                <el-col :span="14">
+                    <el-col :span="24" style="font-size: 1.6rem">早班消耗量</el-col>
+                    <el-col :span="24" style="font-size: 2.4rem">96.54吨</el-col>
+                </el-col>
+            </div>
+
+        </div>
+        <div class="chartLine" ref="chartLine" :style="{width: '100%', height: '30rem'}"></div>
     </div>
 </template>
 

@@ -39,7 +39,7 @@
     }
     }
 </script>
-<style>
+<style scoped>
 .accTime{float: left;font-size: 1.6rem;color: white;height: 2.5rem;line-height: 2.5rem;padding-left: 1rem}
 .el-icon-warning{float: right;font-size: 1rem;color:#01ACED}
 .number{font-size: 3.6rem;color: white;float: left;width: 100%;text-align: center}

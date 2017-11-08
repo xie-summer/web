@@ -5,7 +5,10 @@
            <el-col :md="24" :xs="24" :sm="24" >
                 <div class="titleCenter font">3</div>
                <div class="titleCenter">预计可使用天数</div>
-               <div class="remind">提醒：</div>
+               <div class="remind ">
+                   <svg class="icon" aria-hidden="true"style="width: 1.5rem;height: 1.5rem">
+                         <use xlink:href="#el-icon-erp-jinggao"></use>
+                    </svg>提醒：</div>
                <div class="remindText">电石库存较低，未来7天计划到货700吨</div>
             </el-col>
 

@@ -30,6 +30,13 @@
                 <v-accurate></v-accurate>
             </el-col>
         </div>
+        <div style="display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%;margin-top: 3rem;box-shadow: 5px 5px 3px #888888;">
+
+            <el-col :md="24" :xs="24":sm="24"class="solidTitle">原料质检</el-col>
+            <el-col :md="12":xs="24":sm="24">
+                <v-percentage></v-percentage>
+            </el-col>
+        </div>
     </div>
 
 </template>
@@ -39,11 +46,12 @@
     import vGauge from './OldCharts.vue';
     import vLine from './classThree.vue';
     import vAccurate from './accurate.vue';
+    import vPercentage from './percentage.vue';
     import {formatDate} from './../../../static/js/dateFormat.js'
 
     export default {
         components:{
-            vPone,vGauge,vLine,vAccurate
+            vPone,vGauge,vLine,vAccurate,vPercentage
         },
 
         data: function(){
@@ -61,7 +69,7 @@
     }
 </script>
 
-<style>
+<style scoped>
     .bigTitle{font-size: 2.4rem;height: 3rem;border-bottom: solid 1px #5e7382}
     .title{font-size: 2rem;color: #000000;padding-left: 2rem}
     .solidTitle{font-size: 2.4rem;height: 3rem;}

@@ -34,12 +34,11 @@
         </el-table>
         <div class="pagination">
             <el-pagination
-                     @size-change="handleSizeChange"
+
                     @current-change ="handleCurrentChange"
-                    layout="total, sizes, prev, pager, next, jumper"
+                    layout="total, prev, pager, next"
                     :total="totalCount"
-                    :page-size="2"
-                    :page-sizes="[5, 6, 30, 40]"
+
                      :current-page="currentPage"
                 >
             </el-pagination>
@@ -76,10 +75,10 @@
 
                 if(process.env.NODE_ENV === 'development'){
                     self.url = '/ms/table/list';
-                    console.log(self.url)
+
                 };
                 self.$axios.post(self.url, {page:self.cur_page}).then((res) => {
-                    console.log(res.data.list);
+
                     var   tableData=[{
                         date: '2016-05-02',
                         name: '王小虎',
@@ -107,13 +106,7 @@
                 //过滤
                 return row.tag === value;
             },
-            //每页显示数据量变更
-            handleSizeChange: function(val) {
-                console.log(val)
-                this.pagesize = val;
 
-
-            },
          /*   handleEdit(index, row) {
                 this.$message('编辑第'+(index+1)+'行');
             },*/
