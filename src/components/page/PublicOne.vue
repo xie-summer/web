@@ -3,13 +3,17 @@
 
 
            <el-col :md="24" :xs="24" :sm="24" >
-                <div class="titleCenter font">3</div>
-               <div class="titleCenter">预计可使用天数</div>
+               <div style="height: 12rem">
+                   <div v-if="data.bool">
+                       <div class="titleCenter font">{{data.num}}</div>
+                       <div class="titleCenter">预计可使用天数</div>
+                   </div>
+               </div>
                <div class="remind ">
                    <svg class="icon" aria-hidden="true"style="width: 1.5rem;height: 1.5rem">
                          <use xlink:href="#el-icon-erp-jinggao"></use>
                     </svg>提醒：</div>
-               <div class="remindText">电石库存较低，未来7天计划到货700吨</div>
+               <div class="remindText">{{data.remindtext}}</div>
             </el-col>
 
 
@@ -19,9 +23,10 @@
 
 <script>
     export default {
+        props:['publicData'],
         data() {
         return {
-
+                data:this.publicData
         }
     },
     created(){

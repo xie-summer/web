@@ -21,7 +21,7 @@
             </el-table-column>
             <el-table-column prop="name" label="出场时间" width="120">
             </el-table-column>
-            <el-table-column prop="address" label="物料名称" :formatter="formatter">
+            <el-table-column prop="address" label="物料名称" >
             </el-table-column>
            <!-- <el-table-column label="操作" width="180">
                 <template scope="scope">
@@ -62,6 +62,7 @@
             }
         },
         created(){
+            this.tableData;
             this.getData();
         },
         methods: {
@@ -99,9 +100,7 @@
                     self.tableData = tableData;
                 })
             },
-            formatter(row, column) {
-                return row.address;
-            },
+
             filterTag(value, row) {
                 //过滤
                 return row.tag === value;

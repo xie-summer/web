@@ -22,7 +22,7 @@
             物资监管
         </div>
         <div class="titleCount">
-            <div  v-for=" i in item" style="flex-grow:1">
+            <el-col :md="4" :sm="8" :xs="8"  v-for=" (i,value) in item" :key="value" style="flex-grow:1">
                 <el-col :span="23" class="count">
                     <el-col :span="24" class="fontCenter font1">磷矿粉</el-col>
                     <el-col :span="24"  class="fontCenter">
@@ -34,7 +34,7 @@
                     <el-col :span="24" class="fontCenter font2">100.110</el-col>
                 </el-col>
                 <el-col  :span="1" style="height: 11rem" v-if="i<6"></el-col>
-            </div>
+            </el-col>
         </div>
         <div class="goods">
             <el-col :span="24" class="goodsTitle">出库监控</el-col>
@@ -186,14 +186,14 @@
 <style>
 
    .right{float:right}
-   .titleCount{display: flex;display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;box-shadow: 5px 5px 3px #888888;margin-bottom: 2rem}
+   .titleCount{display: flex;display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;box-shadow: 5px 5px 3px #E5E5E5;margin-bottom: 2rem;justify-content:space-between}
     .title{margin-top: 4.5rem;font-size: 2.4rem}
     .count{background-color: #ffffff;height:10rem}
     .fontCenter{text-align: center;}
     .font1{font-size: 1.8rem}
     .font2{font-size: 2.4rem}
 
-    .goods{background-color: #ffffff;box-shadow: 5px 5px 3px #888888;margin-bottom: 2rem}
+    .goods{background-color: #ffffff;box-shadow: 5px 5px 3px #E5E5E5;margin-bottom: 2rem}
     .goodsTitle{font-size: 2rem;padding-left:2rem}
     .goodsHeight {height: 30.8rem}
 
@@ -208,12 +208,12 @@
     .noticeBoardNumber{font-size: 3.6rem;text-align: center}
     .noticeBoardText{font-size: 1.8rem;text-align: center}
    .row-bg {  padding: 10px 0; width: 100%}
-   .backgroundVerify {  background: #ffffff; box-shadow: 5px 5px 3px #888888; }
+   .backgroundVerify {  background: #ffffff; box-shadow: 5px 5px 3px #E5E5E5; }
     .red{color:red}
     .blue{color:blue}
     .yellow{color: yellow}
     .green{color: green}
-    .numberVerify .time{float: right;font-size: 1.8rem;color:#888888}
+    .numberVerify .time{float: right;font-size: 1.8rem;color:#E5E5E5}
     .numberVerify .timeRight{margin-right: 1rem}
 
 </style>

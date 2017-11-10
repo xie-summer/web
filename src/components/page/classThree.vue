@@ -3,30 +3,30 @@
     <div>
         <div style="width: 100%;height: 5rem;display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;justify-content:space-around;">
             <div style="width: 15rem">
-                <el-col :span="5"style="height: 2.8rem;background-color: #0082e6;margin-top: 0.7rem"></el-col>
+                <el-col :span="5"style="height: 2.8rem;background-color: #01ACED;margin-top: 0.7rem"></el-col>
                 <el-col :span="14">
-                    <el-col :span="24" style="font-size: 1.6rem">早班消耗量</el-col>
-                    <el-col :span="24" style="font-size: 2.4rem">96.54吨</el-col>
+                    <el-col :span="24" style="font-size: 1.6rem">{{obj.class1.name}}</el-col>
+                    <el-col :span="24" style="font-size: 2.4rem">{{obj.class1.value}}吨</el-col>
                 </el-col>
 
             </div>
-            <div style="">
-                <el-col :span="5"style="height: 2.8rem;background-color: #0082e6;margin-top: 0.7rem"></el-col>
+            <div style="width: 15rem">
+                <el-col :span="5"style="height: 2.8rem;background-color: #BB4B39;margin-top: 0.7rem"></el-col>
                 <el-col :span="14">
-                    <el-col :span="24" style="font-size: 1.6rem">早班消耗量</el-col>
-                    <el-col :span="24" style="font-size: 2.4rem">96.54吨</el-col>
+                    <el-col :span="24" style="font-size: 1.6rem">{{obj.class2.name}}</el-col>
+                    <el-col :span="24" style="font-size: 2.4rem">{{obj.class2.value}}吨</el-col>
                 </el-col>
             </div>
-            <div style="">
-                <el-col :span="5"style="height: 2.8rem;background-color: #0082e6;margin-top: 0.7rem"></el-col>
+            <div style="width: 15rem">
+                <el-col :span="5"style="height: 2.8rem;background-color: #3B5898;margin-top: 0.7rem"></el-col>
                 <el-col :span="14">
-                    <el-col :span="24" style="font-size: 1.6rem">早班消耗量</el-col>
-                    <el-col :span="24" style="font-size: 2.4rem">96.54吨</el-col>
+                    <el-col :span="24" style="font-size: 1.6rem">{{obj.class3.name}}</el-col>
+                    <el-col :span="24" style="font-size: 2.4rem">{{obj.class3.value}}吨</el-col>
                 </el-col>
             </div>
 
         </div>
-        <div class="chartLine" ref="chartLine" :style="{width: '100%', height: '30rem'}"></div>
+        <div class="chartLine" ref="chartLine" :style="{width: '100%', height: '32rem'}"></div>
     </div>
 </template>
 
@@ -42,11 +42,13 @@
     export default {
         props: ['childMsg'],
         data () {
-        return {}
+        return {
+            obj:this.childMsg
+        }
     },
     methods:{
         /*创建图表一*/
-        createChartOne(name){
+        createChartOne(obj){
             let chartLine=echarts.init(this.$refs.chartLine);
 
             chartLine.setOption({
@@ -56,13 +58,13 @@
 
                 tooltip : {
                     borderColor:'#01ACED',
-                    borderWidth:20,
+                    borderWidth:0,
                     formatter:function(p){
                        for(let i=0;i< p.length;i++){
                            if(p[i].value==""){
 
                            }else{
-                               return '<div style="display: inline-block;background-color:'+p[i].color+'">'+p[i].seriesName+"："+p[i].value+'</div>'
+                               return '<div style="width:100px;height:50px;display: inline-block;background-color:'+p[i].color+'">'+p[i].seriesName+"："+p[i].value+'</div>'
                            }
                        }
                     },
@@ -87,7 +89,7 @@
                     {
                         type : 'category',
                         boundaryGap : false,
-                        data : name
+                        data : obj.date
                     }
                 ],
                 yAxis : [
@@ -101,19 +103,19 @@
                         name:'早班',
                         type:'line',
                         areaStyle: {normal: {}},
-                        data:[90, 230, 210,90, 230, 210,90, 230,"","","","","","","","","","","","","","","","",]
+                        data:obj.data1
                     },
                     {
                         name:'中班',
                         type:'line',
                         areaStyle: {normal: {}},
-                        data:["","","","","","","","",220, 182, 191, 234, 84, 152, 247,"","","","","","","","",]
+                        data:obj.data2
                     },
                     {
                         name:'晚班',
                         type:'line',
                         areaStyle: {normal: {}},
-                        data:["","","","","","","","","","","","","","","","",220, 182, 191, 234, 98, 256, 310]
+                        data:obj.data3
                 },
                 ],
                 color:['#01ACED','#BB4B39','#3B5898']

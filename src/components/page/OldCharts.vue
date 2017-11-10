@@ -1,6 +1,6 @@
 =<template>
     <div>
-        <div class="chart" ref="chartOne" :style="{width: '300px', height: '300px'}"></div>
+        <div class="chart" ref="chartOne" :style="{width: '22rem', height: '21rem'}"></div>
     </div>
 </template>
 

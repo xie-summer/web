@@ -27,7 +27,7 @@ export default new Router({
                 },
                 {
                     path: '/product',
-                    component: resolve => require(['../components/page/VueTable.vue'], resolve)
+                    component: resolve => require(['../components/page/Product.vue'], resolve)
                 },
                 {
                     path: '/vuetable',
