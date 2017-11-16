@@ -17,12 +17,19 @@
         </div>-->
         <el-table :data="tableData" border style="width: 100%;" ref="multipleTable" @selection-change="handleSelectionChange"height=282 >
           <!--  <el-table-column type="selection" width="55"></el-table-column>-->
-            <el-table-column prop="date" label="进厂时间" sortable width="150" >
+            <el-table-column prop="enterDate" label="进厂时间"  align="center" :show-overflow-tooltip="showtf" >
             </el-table-column>
-            <el-table-column prop="name" label="出场时间" width="120">
+            <el-table-column prop="comeData" label="出厂时间"align="center" :show-overflow-tooltip="showtf">
             </el-table-column>
-            <el-table-column prop="address" label="物料名称" >
+            <el-table-column prop="name" label="物料名称"  align="center" :show-overflow-tooltip="showtf">
             </el-table-column>
+            <el-table-column prop="plateNumber" label="车牌" align="center":show-overflow-tooltip="showtf" >
+            </el-table-column>
+            <el-table-column prop="weight" label="净重" align="center" width="70":show-overflow-tooltip="showtf">
+            </el-table-column>
+            <el-table-column prop="detainWeight" label="扣重" align="center" width="70":show-overflow-tooltip="showtf">
+            </el-table-column>
+
            <!-- <el-table-column label="操作" width="180">
                 <template scope="scope">
                     <el-button size="small"
@@ -59,6 +66,7 @@
                 select_word: '',
                 currentPage: 1,
                 totalCount: 500,
+                showtf:true
             }
         },
         created(){
@@ -81,22 +89,13 @@
                 self.$axios.post(self.url, {page:self.cur_page}).then((res) => {
 
                     var   tableData=[{
-                        date: '2016-05-02',
-                        name: '王小虎',
-                        address: '上海市普陀区金沙江路 1518 弄'
-                    }, {
-                        date: '2016-05-04',
-                        name: '王小虎',
-                        address: '上海市普陀区金沙江路 1517 弄'
-                    }, {
-                        date: '2016-05-01',
-                        name: '王小虎',
-                        address: '上海市普陀区金沙江路 1519 弄'
-                    }, {
-                        date: '2016-05-03',
-                        name: '王小虎',
-                        address: '上海市普陀区金沙江路 1516 弄'
-                    }]
+                        enterDate: '2016-05-02',
+                        comeData: '2016-05-02',
+                        name: '磷钙',
+                        plateNumber: '沪A88888811111111111111111111111111111111111111',
+                        weight: '20',
+                        detainWeight: '1'
+                    },]
                     self.tableData = tableData;
                 })
             },

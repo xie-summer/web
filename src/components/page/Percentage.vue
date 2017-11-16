@@ -22,12 +22,8 @@
         }
     },
     methods:{
-
     },
     mounted(){
-        console.log(this.perData);
-
-
     }
     }
 </script>

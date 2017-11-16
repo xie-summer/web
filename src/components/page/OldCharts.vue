@@ -6,8 +6,6 @@
 
 <script>
     let echarts=require('echarts/lib/echarts');
-    //引入柱状图
-    require('echarts/lib/chart/bar');
     //引入仪表盘图
     require('echarts/lib/chart/gauge');
 
@@ -41,11 +39,11 @@
                         center : ['50%', '60%'],    // 默认全局居中
                         radius : 120,
                         detail: {formatter:'{value}吨'},
-                        data: [{value: 1000, name: ''}],
+                        data: [{value: 500, name: ''}],
                         axisLine:{
                             show:true,
                             lineStyle: {
-                                color:[[0.33, '#f56954'],[0.67, '#0089ee'],[1,'#1ea75c']],
+                                color:[[0.33, '#3b5898'],[0.67, '#00a8ec'],[1,'#bb4b39']],
                                 width: 30
                             }
                         },

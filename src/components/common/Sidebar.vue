@@ -47,7 +47,7 @@
                     {
                         icon: 'el-icon-menu',
                         index: '3',
-                        title: '库存',
+                        title: '库存监管',
                         subs: [
                             {
                                 index: 'material',

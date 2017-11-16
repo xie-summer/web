@@ -1,32 +1,35 @@
 =<template>
 
     <div>
-        <div style="width: 100%;height: 5rem;display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;justify-content:space-around;">
+        <div class="contents">
             <div style="width: 15rem">
                 <el-col :span="5"style="height: 2.8rem;background-color: #01ACED;margin-top: 0.7rem"></el-col>
-                <el-col :span="14">
-                    <el-col :span="24" style="font-size: 1.6rem">{{obj.class1.name}}</el-col>
-                    <el-col :span="24" style="font-size: 2.4rem">{{obj.class1.value}}吨</el-col>
+                <el-col :span="1" style="height: 1px"></el-col>
+                <el-col :span="12">
+                    <el-col :span="24" style="font-size: 1.2rem;line-height: 2.6rem">{{obj.class1.name}}</el-col>
+                    <el-col :span="24" style="font-size: 1.8rem;line-height: 1rem">{{obj.class1.value}}吨</el-col>
                 </el-col>
 
             </div>
             <div style="width: 15rem">
                 <el-col :span="5"style="height: 2.8rem;background-color: #BB4B39;margin-top: 0.7rem"></el-col>
-                <el-col :span="14">
-                    <el-col :span="24" style="font-size: 1.6rem">{{obj.class2.name}}</el-col>
-                    <el-col :span="24" style="font-size: 2.4rem">{{obj.class2.value}}吨</el-col>
+                <el-col :span="1" style="height: 1px"></el-col>
+                <el-col :span="12">
+                    <el-col :span="24" style="font-size: 1.2rem;line-height: 2.6rem">{{obj.class2.name}}</el-col>
+                    <el-col :span="24" style="font-size: 1.8rem;line-height: 1rem">{{obj.class2.value}}吨</el-col>
                 </el-col>
             </div>
             <div style="width: 15rem">
                 <el-col :span="5"style="height: 2.8rem;background-color: #3B5898;margin-top: 0.7rem"></el-col>
-                <el-col :span="14">
-                    <el-col :span="24" style="font-size: 1.6rem">{{obj.class3.name}}</el-col>
-                    <el-col :span="24" style="font-size: 2.4rem">{{obj.class3.value}}吨</el-col>
+                <el-col :span="1" style="height: 1px"></el-col>
+                <el-col :span="12">
+                    <el-col :span="24" style="font-size: 1.2rem;line-height: 2.6rem">{{obj.class3.name}}</el-col>
+                    <el-col :span="24" style="font-size: 1.8rem;line-height: 1rem">{{obj.class3.value}}吨</el-col>
                 </el-col>
             </div>
 
         </div>
-        <div class="chartLine" ref="chartLine" :style="{width: '100%', height: '32rem'}"></div>
+        <div class="chartLine" ref="chartLine" :style="{width: '100%', height: '29rem'}"></div>
     </div>
 </template>
 
@@ -57,8 +60,9 @@
                 },
 
                 tooltip : {
-                    borderColor:'#01ACED',
+                    borderColor:'#ffffff',
                     borderWidth:0,
+                    backgroundColor:'rgba(0,0,0,0)',
                     formatter:function(p){
                        for(let i=0;i< p.length;i++){
                            if(p[i].value==""){
@@ -81,13 +85,14 @@
                 },
                 grid: {
                     left: '3%',
-                    right: '4%',
+                    right: '7%',
                     bottom: '3%',
                     containLabel: true
                 },
                 xAxis : [
                     {
                         type : 'category',
+                        name:'时间',
                         boundaryGap : false,
                         data : obj.date
                     }
@@ -100,19 +105,19 @@
                 ],
                 series : [
                     {
-                        name:'早班',
+                        name:'晚班',
                         type:'line',
                         areaStyle: {normal: {}},
                         data:obj.data1
                     },
                     {
-                        name:'中班',
+                        name:'早班',
                         type:'line',
                         areaStyle: {normal: {}},
                         data:obj.data2
                     },
                     {
-                        name:'晚班',
+                        name:'中班',
                         type:'line',
                         areaStyle: {normal: {}},
                         data:obj.data3
@@ -129,3 +134,23 @@
     }
     }
 </script>
+<style scoped>
+    .contents{width: 100%;
+        height: 5rem;
+        justify-content:space-around;
+        display: -moz-box;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -moz-box-align: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+        -moz-box-pack: center;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-justify-content: center;
+        flex-wrap:wrap;}
+</style>

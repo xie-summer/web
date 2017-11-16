@@ -49,7 +49,10 @@
                     }
                 });
             }
-        }
+        },
+    created:function(){
+        console.log("怎么没有页面")
+    }
     }
 </script>
 
@@ -57,7 +60,7 @@
     .login-wrap{
         position: relative;
         width:100%;
-        height:100%;
+        height:771px;
     }
     .ms-title{
         position: absolute;

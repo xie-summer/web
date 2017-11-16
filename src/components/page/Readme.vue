@@ -21,25 +21,26 @@
         <div class="title">
             物资监管
         </div>
-        <div class="titleCount">
-            <el-col :md="4" :sm="8" :xs="8"  v-for=" (i,value) in item" :key="value" style="flex-grow:1">
+        <div class="titleCount" style="min-width: 1055px">
+            <el-col :span="4"   v-for=" (i,value) in item" :key="value" style="flex-grow:1">
                 <el-col :span="23" class="count">
-                    <el-col :span="24" class="fontCenter font1">磷矿粉</el-col>
+                    <el-col :span="24" class="fontCenter font1">{{i.name}}</el-col>
                     <el-col :span="24"  class="fontCenter">
                         <svg class="icon" aria-hidden="true">
                             <use xlink:href="#el-icon-erp-shebeibaojing"></use>
                         </svg>
-                        <span>高</span>
+                        <span style="font-size: 1.5rem" :class="i.text=='高' ? 'colorRed':'colorBlue'">{{i.text}}</span>
                     </el-col>
-                    <el-col :span="24" class="fontCenter font2">100.110</el-col>
+                    <el-col :span="24" class="fontCenter font2">{{i.number}}</el-col>
                 </el-col>
                 <el-col  :span="1" style="height: 11rem" v-if="i<6"></el-col>
             </el-col>
         </div>
-        <div class="goods">
-            <el-col :span="24" class="goodsTitle">出库监控</el-col>
+        <div class="goods" style="min-width: 1055px">
+
+            <el-col :span="24" class="goodsTitle">出厂监控</el-col>
             <div  style="display: flex;display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%">
-                <el-col :md="10" :xs=24 :sm="24"class="goodsHeight" style="flex-grow:1">
+                <el-col :span="10" class="goodsHeight" style="flex-grow:1">
                     <el-col :span="12">
                         <div class="numberHint">5</div>
                         <div class="titleHint">今日异常出库次数</div>
@@ -59,48 +60,49 @@
                         </ul>
                     </el-col>
                 </el-col>
-                <el-col :md="14":xs="24":sm="24" class="goodsHeight" style="flex-grow:1">
+                <el-col :span="14" class="goodsHeight" style="flex-grow:1">
                     <v-table></v-table>
                 </el-col>
             </div>
         </div>
-        <div class="goods">
-            <el-col :md="24":xs="24":sm="24" class="goodsTitle">生产监管</el-col>
+        <div class="goods" style="min-width: 1055px">
+            <el-col :span="24" class="goodsTitle" style="font-size: 2rem">生产监管</el-col>
             <div style="display: flex;display: -webkit-flex;flex-direcion:row ;width: 100%; flex-wrap:wrap;">
-                <el-col :md="10"  class="top"style="flex-grow:1">
+                <el-col :span="10"  class="top"style="flex-grow:1">
                     <div style="width: 50%;display: inline-block;flex-grow:1;float: left" class="noticeBoard" v-for=" (i,index) in items" >
-                        <div class="noticeBoardNumber":class='i.color'>{{i.number}}</div>
+                        <div class="noticeBoardNumber":class='i.color'>{{i.number}}<span style="font-size: 2rem">{{i.symbol}}</span></div>
                         <div class="noticeBoardText">{{i.text}}</div>
                     </div>
                 </el-col>
-                <el-col :md="14" :xs="24" :sm="24" class="tableColor"style="flex-grow:1">
+                <el-col :span="14" class="tableColor"style="flex-grow:1">
                     <el-table :data="tableData" border style="width: 100%;"  >
-                        <el-table-column prop="date" label="检修工段"  >
+                        <el-table-column prop="date" label="检修工段"  align="center" >
                         </el-table-column>
-                        <el-table-column prop="name" label="检修设备" >
+                        <el-table-column prop="name" label="检修设备" align="center" >
                         </el-table-column>
+
 
                     </el-table>
                 </el-col>
             </div>
         </div>
-        <div class="numberVerify">
-            <el-col :md="24">
-                <div style="float: left;font-size: 2.4rem">数据校验</div>
+        <div class="numberVerify" style="min-width: 1055px">
+            <el-col :span="24">
+                <div style="float: left;font-size: 2rem">数据校验</div>
 
                 <div class="time" >0.00-24.00</div>
                 <div class="time timeRight">{{date|formatDate}}</div>
             </el-col>
 
-                <div style="display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;justify-content:space-between;"class="row-bg dataVerify">
-                    <el-col :md="6" class="backgroundVerify">
-                        <el-col :md="12"  :xs="12" :sm="12">
-                            <el-col :md="24" :xs="24"style="height:5rem;font-size: 1.6rem;padding-left: 1rem;padding-top: 0.5rem">磷矿粉消耗（吨）</el-col>
-                            <el-col :md="24" :xs="24"style="height:6rem;font-size: 2.4rem;text-align: center;line-height:6rem;border-right:solid 1px #0D0D0D">520.00</el-col>
-                            <el-col :md="24" :xs="24"style="height:5rem;font-size: 1.6rem;text-align: center">计量</el-col>
+                <div class="row-bg yyyyy">
+                    <el-col :span="7" class="backgroundVerify">
+                        <el-col :span="12"  >
+                            <el-col :span="24" style="height:5rem;font-size: 1.4rem;padding-left: 1rem;padding-top: 0.5rem">磷矿粉消耗（吨）</el-col>
+                            <el-col :span="24" style="height:6rem;font-size: 2.4rem;text-align: center;line-height:6rem;border-right:solid 1px #c7c7c7">520.00</el-col>
+                            <el-col :span="24" style="height:5rem;font-size: 1.6rem;text-align: center">计量</el-col>
                         </el-col>
-                        <el-col :md="12":xs="12" :sm="12">
-                            <el-col :md="24" :xs="24" style="height:5rem;font-size: 1.6rem;padding-left: 3rem;padding-top: 1rem">
+                        <el-col :span="12">
+                            <el-col :span="24"  style="height:5rem;font-size: 1.6rem;padding-left: 3rem;padding-top: 1rem">
                                 <svg class="icon" aria-hidden="true" style=" width: 3rem; height: 3rem;">
                                 <use xlink:href="#el-icon-erp-shebeibaojing"></use>
                                 </svg>
@@ -110,7 +112,40 @@
                             <el-col style="height:5rem;font-size: 1.6rem;text-align: center">记录</el-col>
                         </el-col>
                     </el-col>
-
+                    <el-col :span="7" class="backgroundVerify">
+                        <el-col :span="12" >
+                            <el-col :span="24" style="height:5rem;font-size: 1.4rem;padding-left: 1rem;padding-top: 0.5rem">磷钙（吨）</el-col>
+                            <el-col :span="24" style="height:6rem;font-size: 2.4rem;text-align: center;line-height:6rem;border-right:solid 1px #c7c7c7">520.00</el-col>
+                            <el-col :span="24" style="height:5rem;font-size: 1.6rem;text-align: center">计量</el-col>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-col :span="24"  style="height:5rem;font-size: 1.6rem;padding-left: 3rem;padding-top: 1rem">
+                                <svg class="icon" aria-hidden="true" style=" width: 3rem; height: 3rem;">
+                                    <use xlink:href="#el-icon-erp-shebeibaojing"></use>
+                                </svg>
+                                <span style="color:#BB4B39">0.00</span>
+                            </el-col>
+                            <el-col style="height:6rem;font-size: 2.4rem;text-align: center;line-height:6rem;">520.00</el-col>
+                            <el-col style="height:5rem;font-size: 1.6rem;text-align: center">记录</el-col>
+                        </el-col>
+                    </el-col>
+                    <el-col :span="7" class="backgroundVerify">
+                        <el-col :span="12" >
+                            <el-col :span="24" style="height:5rem;font-size: 1.4rem;padding-left: 1rem;padding-top: 0.5rem">普钙（吨）</el-col>
+                            <el-col :span="24" style="height:6rem;font-size: 2.4rem;text-align: center;line-height:6rem;border-right:solid 1px #c7c7c7">520.00</el-col>
+                            <el-col :span="24" style="height:5rem;font-size: 1.6rem;text-align: center">计量</el-col>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-col :span="24"  style="height:5rem;font-size: 1.6rem;padding-left: 3rem;padding-top: 1rem">
+                                <svg class="icon" aria-hidden="true" style=" width: 3rem; height: 3rem;">
+                                    <use xlink:href="#el-icon-erp-shebeibaojing"></use>
+                                </svg>
+                                <span style="color:#BB4B39">0.00</span>
+                            </el-col>
+                            <el-col style="height:6rem;font-size: 2.4rem;text-align: center;line-height:6rem;">520.00</el-col>
+                            <el-col style="height:5rem;font-size: 1.6rem;text-align: center">记录</el-col>
+                        </el-col>
+                    </el-col>
 
                 </div>
 
@@ -121,7 +156,7 @@
 
 <script>
     import vTable from './BaseTable.vue';
-        import {formatDate} from './../../../static/js/dateFormat.js'
+
 
     export default {
         components:{
@@ -138,12 +173,18 @@
             }
         },
 
-        item:['1','2','3','4','5','6'],
+        item:[{"name":"磷矿粉(吨)","number":85,"text":"高"},
+            {"name":"硫酸(立方米)","number":85,"text":"高"},
+            {"name":"石灰(吨)","number":85,"text":"低"},
+            {"name":"煤(吨)","number":85,"text":"高"},
+            {"name":"磷钙(吨)","number":85,"text":"低"},
+            {"name":"普钙(吨)","number":85,"text":"高"}],
+        redOrblue:"colorRed",
         items:[
-            {'number':'3%','text':'巡检作业项完成率','color':'red'},
-            {'number':'3%','text':'作业项异常次数','color':'blue'},
-            {'number':'3%','text':'巡检作业项数','color':'green'},
-            {'number':'3%','text':'检修次数','color':'yellow'}
+            {'number':'3','text':'巡检作业项完成率','color':'red',"symbol":"%"},
+            {'number':'3','text':'作业项异常次数','color':'blue',"symbol":"次"},
+            {'number':'3','text':'巡检作业项数','color':'green',"symbol":"次"},
+            {'number':'3','text':'检修次数','color':'green',"symbol":"次"}
         ],
         tableData:[{
             date: '2016-05-02',
@@ -171,9 +212,10 @@
    filters:{
         formatDate(){
             let date = new Date();
-            return formatDate(date,'yyyy-MM-dd');
+            return date.format("YYYY-MM-dd")
             //此处formatDate是一个函数，将其封装在common/js/date.js里面，便于全局使用
-        }
+        },
+
     },
     methods: {
         changeHandler:function(value){
@@ -187,15 +229,15 @@
 
    .right{float:right}
    .titleCount{display: flex;display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;box-shadow: 5px 5px 3px #E5E5E5;margin-bottom: 2rem;justify-content:space-between}
-    .title{margin-top: 4.5rem;font-size: 2.4rem}
-    .count{background-color: #ffffff;height:10rem}
+    .title{margin-top: 4.5rem;font-size: 2rem;height: 4rem;line-height: 4rem}
+    .count{background-color: #ffffff;height:10.5rem}
     .fontCenter{text-align: center;}
     .font1{font-size: 1.8rem}
-    .font2{font-size: 2.4rem}
+    .font2{font-size: 2.1rem}
 
-    .goods{background-color: #ffffff;box-shadow: 5px 5px 3px #E5E5E5;margin-bottom: 2rem}
-    .goodsTitle{font-size: 2rem;padding-left:2rem}
-    .goodsHeight {height: 30.8rem}
+    .goods{background-color: #ffffff;box-shadow: 5px 5px 3px #E5E5E5;margin-bottom: 3rem}
+    .goodsTitle{font-size: 1.8rem;padding-left:2rem}
+    .goodsHeight {height: 27.8rem}
 
     .numberHint{height:15.4rem;color: red;font-size: 4.8rem;text-align: center;line-height: 23rem}
     .titleHint{text-align: center;font-size: 1.8rem}
@@ -204,9 +246,9 @@
     .li li{list-style-type:none;height: 3rem;font-size: 1.6rem}
     .top:nth-child(1){padding-top: 3rem}
    .top:nth-child(2){padding-top: 3rem}
-   .noticeBoard{height:14rem}
+   .noticeBoard{height:9rem}
     .noticeBoardNumber{font-size: 3.6rem;text-align: center}
-    .noticeBoardText{font-size: 1.8rem;text-align: center}
+    .noticeBoardText{font-size: 1.8rem;text-align: center;color:#888888}
    .row-bg {  padding: 10px 0; width: 100%}
    .backgroundVerify {  background: #ffffff; box-shadow: 5px 5px 3px #E5E5E5; }
     .red{color:red}
@@ -215,5 +257,24 @@
     .green{color: green}
     .numberVerify .time{float: right;font-size: 1.8rem;color:#E5E5E5}
     .numberVerify .timeRight{margin-right: 1rem}
+    .colorRed{color: red}
+    .colorBlue{color: blue}
+    .yyyyy{
+        display: -moz-box;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -moz-box-align: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+        -moz-box-pack: center;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-justify-content: center;
+        flex-wrap:wrap;justify-content:space-between;
+    }
 
 </style>

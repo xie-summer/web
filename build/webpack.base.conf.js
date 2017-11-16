@@ -41,8 +41,10 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        include: [resolve('src'), resolve('test')]
+        include: [resolve('src'), resolve('test'),resolve('node_modules/vue-bulma-tooltip')],
+          query: { presets: ['es2015']}
       },
+        /*{ test: /\.js$/, exclude: /node_modules/, loader: 'babel', query: { presets: ['es2015']}},*/
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',
@@ -59,6 +61,7 @@ module.exports = {
           name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
         }
       }
+
     ]
   },
     // plugins: [

@@ -5,6 +5,7 @@
 </template>
 <style>
     @import "../src/assets/icon/iconfont.css";
+    @import '../node_modules/element-ui/lib/theme-default/index.css';
     @import "../static/css/main.css";
     @import "../static/css/color-dark.css";     /*深色主题*/
 

@@ -19,13 +19,15 @@
             <!--  <el-table-column type="selection" width="55"></el-table-column>-->
             <el-table-column prop="date" label="质检时间" sortable width="150" >
             </el-table-column>
-            <el-table-column prop="name" label="班次" width="120">
+            <el-table-column prop="name" label="班次" width="120"align="center">
             </el-table-column>
-            <el-table-column prop="address" label="原料名称" >
+            <el-table-column prop="address" label="原料名称"align="center" >
             </el-table-column>
-            <el-table-column prop="address" label="质检项" >
+            <el-table-column prop="address" label="质检项"align="center" >
             </el-table-column>
-            <el-table-column prop="address" label="质检项" >
+            <el-table-column prop="address" label="质检值" align="center">
+            </el-table-column>
+            <el-table-column prop="address" label="质检结果" align="center">
             </el-table-column>
 
         </el-table>
