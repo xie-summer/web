@@ -30,6 +30,10 @@ export default new Router({
                     component: resolve => require(['../components/page/Product.vue'], resolve)
                 },
                 {
+                    path: '/sparepart',
+                    component: resolve => require(['../components/page/sparepart/Sparepart.vue'], resolve)
+                },
+                {
                     path: '/vuetable',
                     component: resolve => require(['../components/page/VueTable.vue'], resolve)     // vue-datasource组件
                 },
@@ -56,11 +60,6 @@ export default new Router({
                 {
                     path: '/drag',
                     component: resolve => require(['../components/page/DragList.vue'], resolve)    // 拖拽列表组件
-                },
-                {
-                    path: '/oldcharts',
-                    component: resolve => require(['../components/page/OldCharts.vue'], resolve) ,  // vue-schart组件
-                    meta: { role: ['admin','super_editor'] }, //页面需要的权限
                 },
                 {
                     path: '/personGrade',

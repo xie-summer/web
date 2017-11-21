@@ -56,6 +56,10 @@
                             {
                                 index: 'product',
                                 title: '产品库'
+                            },
+                            {
+                                index: 'sparepart',
+                                title: '备品备件库'
                             }
                         ]
                     },
@@ -86,11 +90,6 @@
                         icon: 'el-icon-star-on',
                         index: 'basecharts',
                         title: '图表'
-                    },
-                    {
-                        icon: 'el-icon-document',
-                        index: 'oldcharts',
-                        title: '图表echarts'
                     },
                     {
                         icon: 'el-icon-upload2',

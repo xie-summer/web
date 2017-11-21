@@ -33,7 +33,7 @@
             <el-col :span="14">
                 <el-col :span="1" style="height: 1px"></el-col>
                 <el-col :span="12"  >
-                    <v-gauge></v-gauge>
+                    <v-gauge  :unit="unit"></v-gauge>
                 </el-col>
                 <el-col :span="11">
                     <div style="padding-top: 5rem">
@@ -115,6 +115,7 @@
                 publicOneData:{ "num":2, "remindtext":"电石库存较低，未来7天计划到货700吨","bool":true},
                 perData:{"value":65,"status":"success"},
                 date:new Date(),
+                unit:{"units":"吨","units2":"",wid:32,hig:21,radius:120,dist:-57},
                 curNumber:{
                     "text1":"月累积消耗量",
                     "text2":"月累积出库量",

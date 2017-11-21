@@ -1,6 +1,6 @@
 =<template>
     <div>
-        <div class="chart" ref="chartOne" :style="{width: '22rem', height: '21rem'}"></div>
+        <div class="chart" ref="chartOne" :style="{width: wid+'rem', height:hig+ 'rem'}"></div>
     </div>
 </template>
 
@@ -13,32 +13,33 @@
     require('echarts/lib/component/tooltip');
     require('echarts/lib/component/legend');
     export default {
+        props: ['unit'],
         data () {
-        return {}
+        return {
+            wid:this.unit.wid,
+            hig:this.unit.hig
+        }
     },
     methods:{
         /*创建图表一*/
-        createChartOne(){
+        createChartOne(ls){
             let chartOne=echarts.init(this.$refs.chartOne);
 
             chartOne.setOption({
                 tooltip : {
-                    formatter: "{a} <br/>{b} : {c}%"
+                    formatter: "{a} <br/>{b} : {c}"
                 },
-                toolbox: {
-                    feature: {
-                        restore: {},
-                        saveAsImage: {}
-                    }
+                grid:{
+                    x1:"30",
+                    x2:"30"
                 },
-
                 series: [
                     {
                         name: '业务指标',
                         type: 'gauge',
                         center : ['50%', '60%'],    // 默认全局居中
-                        radius : 120,
-                        detail: {formatter:'{value}吨'},
+                        radius : ls.radius,
+                        detail: {formatter:'{value}'},
                         data: [{value: 500, name: ''}],
                         axisLine:{
                             show:true,
@@ -55,8 +56,13 @@
                             length :0,
                         },
                         axisLabel:{
-                            show:true,
+                                show:true,
+                                formatter:function(e){
+                                    return e+ls.units2
+                                },
+                            "distance": ls.dist,
                         },
+
                         splitNumber:3,
                         startAngle:180,
                         endAngle:0,
@@ -66,7 +72,7 @@
                             show : true,
                             offsetCenter: [0, '25%'],
                             formatter:function(e){
-                                return e+'吨'
+                                return e+ls.units
                             },
                             textStyle: {
                                 fontSize : 20,
@@ -79,7 +85,7 @@
         }
     },
     mounted(){
-        this.createChartOne();
+        this.createChartOne(this.unit);
     }
     }
 </script>

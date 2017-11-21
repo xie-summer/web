@@ -34,7 +34,7 @@
             <el-col :span="14">
                 <el-col :span="1" style="height: 1px"></el-col>
                 <el-col :span="12">
-                    <v-gauge></v-gauge>
+                    <v-gauge :unit="unit"></v-gauge>
                 </el-col>
                 <el-col :span="11">
                     <div style="padding-top:5rem">
@@ -120,6 +120,7 @@
                     "text3":"月总计产量",
                     "text4":"月总计入库量",
                 },
+                unit:{"units":"吨","units2":"",wid:32,hig:21,radius:120,dist:-57},
                 publicOneData:{"num":"", "remindtext":"当前库存值较低，未来7日预计 出货量2.300.00吨","bool":false},
 
                 date:new Date(),

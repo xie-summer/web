@@ -60,7 +60,7 @@
     .login-wrap{
         position: relative;
         width:100%;
-        height:771px;
+        height:952px;
     }
     .ms-title{
         position: absolute;
