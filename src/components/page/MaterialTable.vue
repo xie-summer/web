@@ -16,7 +16,6 @@
               <el-button type="primary" icon="search">搜索</el-button>
           </div>-->
         <el-table :data="tableData" border style="width: 100%;" ref="multipleTable" @selection-change="handleSelectionChange"height=282 >
-            <!--  <el-table-column type="selection" width="55"></el-table-column>-->
             <el-table-column prop="date" label="质检时间" sortable width="150" >
             </el-table-column>
             <el-table-column prop="name" label="班次" width="120"align="center">

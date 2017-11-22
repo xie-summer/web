@@ -53,12 +53,10 @@
         /*创建图表一*/
         createChartOne(obj){
             let chartLine=echarts.init(this.$refs.chartLine);
-
+            window.onresize=function(){
+                chartLine.resize();
+            }
             chartLine.setOption({
-                title: {
-                    text: '堆叠区域图'
-                },
-
                 tooltip : {
                     borderColor:'#ffffff',
                     borderWidth:0,
@@ -78,11 +76,7 @@
                 legend: {
                     data:[]
                 },
-                toolbox: {
-                    feature: {
-                        saveAsImage: {}
-                    }
-                },
+
                 grid: {
                     left: '3%',
                     right: '7%',

@@ -11,36 +11,34 @@ export default new Router({
         },
         {
             path: '/readme',
-            component: resolve => require(['../components/common/Home.vue'], resolve),
+            component: resolve => require(['../components/common/Home.vue'], resolve),/*首页*/
             children:[
                 {
                     path: '/',
-                    component: resolve => require(['../components/page/Readme.vue'], resolve)
+                    component: resolve => require(['../components/page/Readme.vue'], resolve)/*首页*/
                 },
-                {
-                    path: '/basetable',
-                    component: resolve => require(['../components/page/BaseTable.vue'], resolve)
-                },
+
                 {
                     path: '/material',
-                    component: resolve => require(['../components/page/Material.vue'], resolve)
+                    component: resolve => require(['../components/page/Material.vue'], resolve)/*原料库*/
                 },
                 {
                     path: '/product',
-                    component: resolve => require(['../components/page/Product.vue'], resolve)
-                },
-                {
-                    path: '/sparepart',
-                    component: resolve => require(['../components/page/sparepart/Sparepart.vue'], resolve)
-                },
-                {
-                    path: '/vuetable',
-                    component: resolve => require(['../components/page/VueTable.vue'], resolve)     // vue-datasource组件
+                    component: resolve => require(['../components/page/Product.vue'], resolve)/*产品库*/
                 },
                 {
                     path: '/baseform',
-                    component: resolve => require(['../components/page/BaseForm.vue'], resolve)
+                    component: resolve => require(['../components/page/BaseForm.vue'], resolve)                 //form表单
                 },
+                {
+                    path: '/sparepart',
+                    component: resolve => require(['../components/page/sparepart/Sparepart.vue'], resolve)/*备品备件库*/
+                },
+                /*{
+                    path: '/vuetable',
+                    component: resolve => require(['../components/page/VueTable.vue'], resolve)     // vue-datasource组件
+                },
+
                 {
                     path: '/vueeditor',
                     component: resolve => require(['../components/page/VueEditor.vue'], resolve)    // Vue-Quill-Editor组件
@@ -60,10 +58,14 @@ export default new Router({
                 {
                     path: '/drag',
                     component: resolve => require(['../components/page/DragList.vue'], resolve)    // 拖拽列表组件
-                },
+                },*/
                 {
                     path: '/personGrade',
                     component: resolve => require(['../components/page/PersonGrade.vue'], resolve) ,  // vue-schart组件
+                },
+                {
+                    path: '/police',
+                    component: resolve => require(['../components/page/police/Police.vue'], resolve) ,  // vue-schart组件
                 }
             ]
         },

@@ -6,7 +6,7 @@
                 <el-breadcrumb-item>原料库</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
-        <div class="select_time">
+        <div class="select_time" style="min-width: 1300px">
             <button class="button_class" :class="{blue:change==key}"@click="cut(key)" v-for=" (item,key) in nameData " :key="key" style="width: 8rem">{{item.name}}</button>
             <div class="right">
                 <el-date-picker
@@ -22,7 +22,7 @@
                 </el-date-picker>
             </div>
         </div>
-        <div style="display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%;box-shadow: 5px 5px 3px #E5E5E5;;min-width: 1055px">
+        <div style="display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%;box-shadow: 5px 5px 3px #E5E5E5;;min-width: 1300px">
             <el-col :span="24" class="bigTitle">实时库存</el-col>
             <el-col :span="10" style="border-right: solid 1px #c7c7c7">
                 <el-col :span="24" style="flex-flow: 1">
@@ -36,24 +36,24 @@
                     <v-gauge  :unit="unit"></v-gauge>
                 </el-col>
                 <el-col :span="11">
-                    <div style="padding-top: 5rem">
+                    <div style="padding-top: 5rem;padding-left: 4rem">
                         <div  class="outStyle">
                             <div class="inStyle">
-                                <div class="circle" style="border: 2px solid #3b5898;"></div>
+                                <div class="circle" style="background-color: #3b5898"></div>
                             </div>
                             <div class="textStyle">较低</div>
                             <div class="textStyle">1000-2000</div>
                         </div>
                         <div  class="outStyle">
                             <div class="inStyle">
-                                <div class="circle"style="border: 2px solid #00a8ec;"></div>
+                                <div class="circle"style="background-color: #00a8ec"></div>
                             </div>
                             <div class="textStyle">正常</div>
                             <div class="textStyle">1000-2000</div>
                         </div>
                         <div class="outStyle">
                             <div class="inStyle">
-                                <div class="circle"style="border: 2px solid #bb4b39;"></div>
+                                <div class="circle"style="background-color: #bb4b39"></div>
                             </div>
                             <div class="textStyle">较高</div>
                             <div class="textStyle">2000-3000</div>
@@ -62,16 +62,16 @@
                 </el-col>
             </el-col>
         </div>
-        <div  style="display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%;margin-top: 3rem;box-shadow: 5px 5px 3px #E5E5E5;;min-width: 1055px;height: 40rem">
-            <el-col :md="24" :xs="24":sm="24" class="solidTitle">实时消耗</el-col>
-            <el-col :md="14" :xs="24" :sm="24">
+        <div  style="display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%;margin-top: 3rem;box-shadow: 5px 5px 3px #E5E5E5;;min-width: 1300px;height: 40rem">
+            <el-col :span="24"  class="solidTitle">实时消耗</el-col>
+            <el-col :span="14" >
                 <v-line :child-msg="obj"></v-line>
             </el-col>
-            <el-col :md="10" :sm="24" :xs="24">
+            <el-col :span="10">
                 <v-accurate :curNum="change" :curNumber="curNumber"></v-accurate>
             </el-col>
         </div>
-        <div style="display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%;margin-top: 3rem;box-shadow: 5px 5px 3px #E5E5E5;;min-width: 1055px">
+        <div style="display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%;margin-top: 3rem;box-shadow: 5px 5px 3px #E5E5E5;;min-width: 1300px">
 
             <el-col :span="24" class="solidTitle">原料质检</el-col>
             <el-col :span="8">
@@ -102,6 +102,8 @@
         data: function(){
 
             return {
+
+                screenWidth: document.body.clientWidth,
                 title:'库存状态',
                 obj:{
                     "date":['0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23',],
@@ -136,6 +138,9 @@
         created:function(){
 
         },
+        mounted () {
+
+        },
         filters:{
             formatDate(){
             let date = new Date();
@@ -168,5 +173,5 @@
     .textStyle{display: inline-block;height: 2rem;line-height: 2rem;padding-left: 2rem;font-size: 1.6rem}
     .outStyle{width: 100%;height: 2rem;display: inline-block;margin-bottom: 1rem}
     .inStyle{width: 1.2rem;height: 1.2rem;display: inline-block}
-    .circle{height: 100%;box-sizing: border-box;border-radius: 50%;}
+    .circle{height: 100%;box-sizing: border-box;border-radius: 50%;-webkit-border-radius:50%}
 </style>

@@ -1,7 +1,7 @@
 <template>
     <el-row>
         <el-col :span="24">
-            <div class="chart" ref="chartPie" style="height: 30rem"></div>
+            <div class="chartBar" ref="chartBar" style="height: 30rem"></div>
         </el-col>
     </el-row>
 
@@ -26,8 +26,12 @@
     methods:{
         /*创建图表一*/
         initPie(){
-            let chartPie=echarts.init(this.$refs.chartPie);
-            chartPie.setOption({
+            let chartBar=echarts.init(this.$refs.chartBar);
+            window.onresize=function(){
+                console.log("bar改变了")
+                chartBar.resize();
+            }
+            chartBar.setOption({
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: {
@@ -68,6 +72,4 @@
     }
 </script>
 <style scoped>
-    .monery{font-size: 3rem;color:#1DB5EF;text-align: center;height: 9rem;line-height: 12rem}
-    .title{font-size: 1.4rem;text-align: center;height: 4rem}
 </style>

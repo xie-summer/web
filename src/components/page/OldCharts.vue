@@ -24,7 +24,10 @@
         /*创建图表一*/
         createChartOne(ls){
             let chartOne=echarts.init(this.$refs.chartOne);
-
+            window.onresize=function(){
+                console.log("改变了")
+                chartOne.resize();
+            }
             chartOne.setOption({
                 tooltip : {
                     formatter: "{a} <br/>{b} : {c}"

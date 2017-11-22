@@ -37,24 +37,24 @@
                     <v-gauge :unit="unit"></v-gauge>
                 </el-col>
                 <el-col :span="11">
-                    <div style="padding-top:5rem">
+                    <div style="padding-top:5rem;padding-left: 4rem">
                         <div  class="outStyle">
                             <div class="inStyle">
-                                <div class="circle" style="border: 2px solid #3b5898;"></div>
+                                <div class="circle" style="background-color: #3b5898"></div>
                             </div>
                             <div class="textStyle">较低</div>
                             <div class="textStyle">1000-2000</div>
                         </div>
                         <div  class="outStyle">
                             <div class="inStyle">
-                                <div class="circle"style="border: 2px solid #00a8ec;"></div>
+                                <div class="circle"style="background-color: #00a8ec"></div>
                             </div>
                             <div class="textStyle">正常</div>
                             <div class="textStyle">1000-2000</div>
                         </div>
                         <div class="outStyle">
                             <div class="inStyle">
-                                <div class="circle"style="border: 2px solid #bb4b39;"></div>
+                                <div class="circle"style="background-color: #bb4b39"></div>
                             </div>
                             <div class="textStyle">较高</div>
                             <div class="textStyle">2000-3000</div>

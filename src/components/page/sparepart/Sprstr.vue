@@ -1,7 +1,7 @@
 <template>
     <el-row>
         <el-col :span="24">
-            <div class="chart" ref="chartPie" style="height: 30rem"></div>
+            <div class="chartStr" ref="chartstr" style="height: 30rem"></div>
         </el-col>
     </el-row>
 
@@ -20,11 +20,13 @@
         }
     },
     methods:{
+        show:function(){
+                console.log("1111111111111111111111111111")
+        },
         /*创建图表一*/
         initPie(){
-            let chartPie=echarts.init(this.$refs.chartPie);
-            chartPie.setOption({
-
+            let chartstr=echarts.init(this.$refs.chartstr);
+            chartstr.setOption({
                 tooltip: {
                     show: true
                 },
@@ -71,7 +73,9 @@
     },
     mounted(){
         this.initPie();
-    }
+
+    },
+
     }
 </script>
 <style scoped>

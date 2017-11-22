@@ -2,6 +2,9 @@
 <project version="4">
   <component name="JavaScriptLibraryMappings">
     <file url="file://$PROJECT_DIR$" libraries="{vue-manage-system-master node_modules}" />
+    <file url="file://$PROJECT_DIR$/src/components/page/PublicOne.vue" libraries="{Node.js v8.0.0 Core Modules}" />
+    <file url="file://$PROJECT_DIR$/src/components/page/sparepart/Sparepart.vue" libraries="{Node.js v8.0.0 Core Modules}" />
+    <file url="file://$PROJECT_DIR$/src/components/page/sparepart/SprPie.vue" libraries="{Node.js v8.0.0 Core Modules}" />
     <file url="PROJECT" libraries="{vue-manage-system-master node_modules}" />
     <includedPredefinedLibrary name="ECMAScript 6" />
   </component>

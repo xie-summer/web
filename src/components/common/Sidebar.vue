@@ -29,7 +29,7 @@
                         index: 'readme',
                         title: '全景监控'
                     },
-                    {
+                    /*{
                         icon: 'el-icon-menu',
                         index: '2',
                         title: '表格',
@@ -43,10 +43,10 @@
                                 title: 'Vue表格组件'
                             }
                         ]
-                    },
+                    },*/
                     {
                         icon: 'el-icon-menu',
-                        index: '3',
+                        index: '2',
                         title: '库存监管',
                         subs: [
                             {
@@ -60,10 +60,21 @@
                             {
                                 index: 'sparepart',
                                 title: '备品备件库'
-                            }
-                        ]
+                    }
+                ]
                     },
                     {
+                        icon: 'el-icon-star-off',
+                        index: 'police',
+                        title: '报警状态一览'
+                    },
+                    {
+                        icon: 'el-icon-date',
+                        index: 'baseform',
+                        title: '基本表单'
+                    },
+                    /*{
+
                         icon: 'el-icon-date',
                         index: '4',
                         title: '表单',
@@ -95,12 +106,12 @@
                         icon: 'el-icon-upload2',
                         index: 'drag',
                         title: '拖拽'
-                    },
-                    {
+                    },*/
+                 /*   {
                         icon: 'el-icon-upload2',
                         index: 'personGrade',
                         title: '评分'
-                    }
+                    }*/
                 ],
                 color:"#ffffff"
             }

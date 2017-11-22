@@ -32,7 +32,7 @@
         props:['publicData'],
         data() {
         return {
-                data:this.publicData
+            data:this.publicData
         }
     },
     created(){

@@ -3,11 +3,11 @@
         <el-col :span="8">
             <div style="height: 15rem;margin-top: 35%;border-right: 1px solid #888888">
                 <div class="monery">{{monery}}万元</div>
-                <div class="title">{{title}}</div>
+                <div class="title_t">{{title}}</div>
             </div>
         </el-col>
         <el-col :span="16">
-            <div class="chart" ref="chartPie" style="height: 30rem"></div>
+            <div class="chartPs" ref="chartPs" style="height: 30rem"></div>
         </el-col>
     </el-row>
 
@@ -32,8 +32,12 @@
     methods:{
         /*创建图表一*/
         initPie(){
-            let chartPie=echarts.init(this.$refs.chartPie);
-            chartPie.setOption({
+            let chartPs=echarts.init(this.$refs.chartPs);
+            window.onresize=function(){
+                console.log("pie变了")
+                chartPs.resize();
+            }
+            chartPs.setOption({
                 tooltip: {
                     trigger: 'item',
                     formatter: "{a} <br/>{b}: {c} ({d}%)",
@@ -80,5 +84,5 @@
 </script>
 <style scoped>
     .monery{font-size: 3rem;color:#1DB5EF;text-align: center;height: 9rem;line-height: 12rem}
-    .title{font-size: 1.4rem;text-align: center;height: 4rem}
+    .title_t{font-size: 1.4rem;text-align: center;height: 4rem}
 </style>

@@ -49,7 +49,7 @@
                 VueCoreImageUpload
         },
         methods:{
-            imageuploaded(res) {
+            imageuploaded(res){
                 console.log(res)
             },
             handleError(){
