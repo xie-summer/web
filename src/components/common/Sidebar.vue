@@ -43,7 +43,6 @@
                                 title: 'Vue表格组件'
                             }
                         ]
-                    },*/
                     {
                         icon: 'el-icon-menu',
                         index: '2',
@@ -64,17 +63,6 @@
                 ]
                     },
                     {
-                        icon: 'el-icon-star-off',
-                        index: 'police',
-                        title: '报警状态一览'
-                    },
-                    {
-                        icon: 'el-icon-date',
-                        index: 'baseform',
-                        title: '基本表单'
-                    },
-                    /*{
-
                         icon: 'el-icon-date',
                         index: '4',
                         title: '表单',

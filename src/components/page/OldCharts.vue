@@ -1,6 +1,6 @@
 =<template>
     <div>
-        <div class="chart" ref="chartOne" :style="{width: wid+'rem', height:hig+ 'rem'}"></div>
+        <div class="chart" id="chartGauge" ref="chartGauge" :style="{width: wid+'rem', height:hig+ 'rem'}"></div>
     </div>
 </template>
 
@@ -23,9 +23,12 @@
     methods:{
         /*创建图表一*/
         createChartOne(ls){
-            let chartOne=echarts.init(this.$refs.chartOne);
             window.onresize=function(){
                 console.log("改变了")
+                chartOne.resize();
+            }
+           let chartOne=echarts.init(this.$refs.chartGauge);
+            window.onresize=function(){
                 chartOne.resize();
             }
             chartOne.setOption({
@@ -43,7 +46,7 @@
                         center : ['50%', '60%'],    // 默认全局居中
                         radius : ls.radius,
                         detail: {formatter:'{value}'},
-                        data: [{value: 500, name: ''}],
+                        data: [{value: ls.value, name: ''}],
                         axisLine:{
                             show:true,
                             lineStyle: {

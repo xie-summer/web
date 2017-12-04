@@ -26,6 +26,10 @@ export default new Router({
                     path: '/product',
                     component: resolve => require(['../components/page/Product.vue'], resolve)/*产品库*/
                 },
+              /*  {
+                    path: '/baseform',
+                    component: resolve => require(['../components/page/BaseForm.vue'], resolve)                 //form表单
+                },*/
                 {
                     path: '/baseform',
                     component: resolve => require(['../components/page/BaseForm.vue'], resolve)                 //form表单
@@ -62,10 +66,6 @@ export default new Router({
                 {
                     path: '/personGrade',
                     component: resolve => require(['../components/page/PersonGrade.vue'], resolve) ,  // vue-schart组件
-                },
-                {
-                    path: '/police',
-                    component: resolve => require(['../components/page/police/Police.vue'], resolve) ,  // vue-schart组件
                 }
             ]
         },

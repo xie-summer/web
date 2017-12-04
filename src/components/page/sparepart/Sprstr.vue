@@ -9,8 +9,8 @@
 
 <script>
     let echarts=require('echarts/lib/echarts');
-    import './worldcloud.js'
     //引入所需组件
+    require('echarts/lib/chart/bar');
     require('echarts/lib/component/tooltip');
     require('echarts/lib/component/legend');
     export default {
@@ -24,55 +24,73 @@
                 console.log("1111111111111111111111111111")
         },
         /*创建图表一*/
-        initPie(){
+            var dataList=[];
+            var x=155,y=175;
+            for(let i=0;i<sr.length;i++){
+                let item={
+                    name: '', type: 'pie', clockWise: true, hoverAnimation: false,
+                    radius: [0, 0], itemStyle:{ normal: {label: {show: false,}, labelLine: {show: false}}}, data: getData(0.4)
+                };
+                item.name=listName[i];
+                item.radius=[x,y];
+                item.data=getData(sr[i]);
+                dataList.push(item);
+                x=x-25;
+                y=y-25;
+            }
+            function getData(percent) {
+                return [{
+                    value: percent,
+                    name: percent,
+                    itemStyle: {
+                        normal: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: '#00B2EE'
+                            }, {
+                                offset: 1,
+                                color: '#00DDE6'
+                            }])
+                        }
+                    }
+                }, {
+                    value: 1 - percent,
+                    itemStyle: {
+                        normal: {
+                            color: 'transparent'
+                        }
+                    }
+                }];
+            }
             let chartstr=echarts.init(this.$refs.chartstr);
             chartstr.setOption({
                 tooltip: {
-                    show: true
+                    trigger: 'item',
+                    formatter: function(params, ticket, callback) {
+                        return params.seriesName + ": " + params.name * 1000 ;
+                    }
                 },
-                series: [{
-                    name: '热点分析',
-                    type: 'wordCloud',
-                    sizeRange: [6, 66],
-                    rotationRange: [-50, 90],
-                    textPadding: 0,
-                    autoSize: {
-                        enable: true,
-                        minSize: 12
-                    },
-                    textStyle: {
-                        normal: {
-                            color: function() {
-                                return 'rgb(' + [
-                                        Math.round(Math.random() * 160),
-                                        Math.round(Math.random() * 160),
-                                        Math.round(Math.random() * 160)
-                                    ].join(',') + ')';
-                            }
-                        },
-                        emphasis: {
-                            shadowBlur: 100,
-                            shadowColor: '#ccc'
-                        }
-                    },
-                    data: [ {name: "柴油机油", value: 470},
-                            {name: "斜铁", value: 460},
-                            {name: "不锈钢焊条", value: 310},
-                            {name: "不锈钢焊条", value: 580},
-                            {name: "不锈钢焊条", value: 320},
-                            {name: "柴油机油", value: 398},
-                            {name: "斜铁", value: 421},
-                            {name: "柴油机油", value: 385},
-                            {name: "斜铁", value: 425},
-                            {name: "柴油机油", value: 400},
+                legend: {
+                    left: "40%",
+                    itemWidth:0,
+                    itemHeight: 15,
+                    data: listName,
+                    selectedMode: true,
+                    orient: "vertical",
 
-                    ]
-                }]
+                },
+                series: dataList
             })
         }
     },
     mounted(){
-        this.initPie();
+        let ar=[100,150,200,250,300];
+        let sr=[0.3,0.25,0.2,0.15,0.1]
+        let name=["NO.1","NO.2","NO.3","NO.4","NO.5"]
+        this.initPie(sr,ar,name);
+
+    },
+
 
     },
 

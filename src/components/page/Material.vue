@@ -6,8 +6,7 @@
                 <el-breadcrumb-item>原料库</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
-        <div class="select_time" style="min-width: 1300px">
-            <button class="button_class" :class="{blue:change==key}"@click="cut(key)" v-for=" (item,key) in nameData " :key="key" style="width: 8rem">{{item.name}}</button>
+        <div class="select_time">            <button class="button_class" :class="{blue:change==key}"@click="cut(key)" v-for=" (item,key) in nameData " :key="key" style="width: 8rem">{{item.name}}</button>
             <div class="right">
                 <el-date-picker
                     @change="(value) => changeHandler(value)"
@@ -22,8 +21,7 @@
                 </el-date-picker>
             </div>
         </div>
-        <div style="display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%;box-shadow: 5px 5px 3px #E5E5E5;;min-width: 1300px">
-            <el-col :span="24" class="bigTitle">实时库存</el-col>
+        <div style="display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%;box-shadow: 5px 5px 3px #E5E5E5;;min-width: 1055px">            <el-col :span="24" class="bigTitle">实时库存</el-col>
             <el-col :span="10" style="border-right: solid 1px #c7c7c7">
                 <el-col :span="24" style="flex-flow: 1">
                     <v-pone :public-data="publicOneData"></v-pone>
@@ -31,12 +29,9 @@
 
             </el-col>
             <el-col :span="14">
-                <el-col :span="1" style="height: 1px"></el-col>
                 <el-col :span="12"  >
-                    <v-gauge  :unit="unit"></v-gauge>
+                    <v-gauge  :unit="unit" ref="chartGauge"></v-gauge>
                 </el-col>
-                <el-col :span="11">
-                    <div style="padding-top: 5rem;padding-left: 4rem">
                         <div  class="outStyle">
                             <div class="inStyle">
                                 <div class="circle" style="background-color: #3b5898"></div>
@@ -62,17 +57,8 @@
                 </el-col>
             </el-col>
         </div>
-        <div  style="display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%;margin-top: 3rem;box-shadow: 5px 5px 3px #E5E5E5;;min-width: 1300px;height: 40rem">
-            <el-col :span="24"  class="solidTitle">实时消耗</el-col>
-            <el-col :span="14" >
-                <v-line :child-msg="obj"></v-line>
-            </el-col>
-            <el-col :span="10">
-                <v-accurate :curNum="change" :curNumber="curNumber"></v-accurate>
-            </el-col>
         </div>
-        <div style="display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%;margin-top: 3rem;box-shadow: 5px 5px 3px #E5E5E5;;min-width: 1300px">
-
+        <div style="display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%;margin-top: 3rem;box-shadow: 5px 5px 3px #E5E5E5;;min-width: 1055px">
             <el-col :span="24" class="solidTitle">原料质检</el-col>
             <el-col :span="8">
                 <v-percentage :per-data="perData"></v-percentage>
@@ -92,7 +78,6 @@
     import vAccurate from './accurate.vue';
     import vPercentage from './percentage.vue';
     import vMaterialTable from './MaterialTable.vue';
-
 
     export default {
         components:{
@@ -114,16 +99,17 @@
                     "class2":{"name":"早班消耗量","value":75},
                     "class3":{"name":"中班消耗量","value":95}
                 },
-                publicOneData:{ "num":2, "remindtext":"电石库存较低，未来7天计划到货700吨","bool":true},
+                publicOneData:{ "num":2, "remindtext":"磷矿粉库存较低","bool":true},
                 perData:{"value":65,"status":"success"},
                 date:new Date(),
-                unit:{"units":"吨","units2":"",wid:32,hig:21,radius:120,dist:-57},
+                unit:{"units":"吨","units2":"",wid:32,hig:21,radius:120,dist:-57,value:0},
                 curNumber:{
                     "text1":"月累积消耗量",
                     "text2":"月累积出库量",
                     "text3":"月总计消耗量",
                     "text4":"月总计出库量",
                 },
+                id:"HG01XY750000",
                 nameData:[{"name":"磷矿粉"},{"name":"硫酸"}],
                 change:0,
                 value11: new Date(),
@@ -138,9 +124,6 @@
         created:function(){
 
         },
-        mounted () {
-
-        },
         filters:{
             formatDate(){
             let date = new Date();
@@ -150,12 +133,123 @@
     },
     methods: {
         changeHandler:function(value){
-
+               this.queryClass(this.change==0?"HG01XY750000":"HG01XY750100",value);
+                this.queryGround(this.id,value);
+             this.queryMonthConsume(this.change==0?"HG01XY750000":"",this.value11.format("YYYY-MM"));
         },
         cut:function(key){
 
             this.change = key;
+           this.queryClass(this.change==0?"HG01XY750000":"HG01XY750100",this.value11.format("YYYY-MM-dd"));
+            this.queryGround(this.id,this.value11.format("YYYY-MM-dd"));
+            this.queryMonthConsume(this.change==0?"HG01XY750000":"",this.value11.format("YYYY-MM"));
 
+        },
+        dys:function(){
+           /* if(this.change==1){
+                console.log( this.$refs.chartLine);
+              /!* this.$refs.chartLine.createChartOne();*!/
+                return false;
+            }*/
+        },
+        queryClass(id,date){
+            let self = this;
+            if(this.change==0){
+                var _url='http://user:user@192.168.1.106:9000/real/time/consumption/gather/'+date+'/'+id;
+                self.$axios.get(
+                        _url
+                ).then((res) => {
+
+                    let data=res.data.retval;
+                    if(data.length==0||data==null) return false;
+                    let value=[];
+                    let value1=[];
+                    let value2=[];
+                    let value3=[];
+                    let date=[];
+                    let nullStr=["","","","","","","",""];
+                    for(let i of data){
+                        value.push(i.value);
+                        date.push(i.gatherTime.split(" ")[1]);
+                    }
+
+                    if(data.length<8){
+                        for(let j of data){
+                            value1.push(j.value)
+                        }
+                        this.obj.date=date;
+                    }else if(data.length>=8&&data.length<16){
+                        value.find(function( v,index,arr){
+                            if(index<8){
+                                value1.push(v);
+                            }else if(index>=8&&index<16){
+                                value2.push(v);
+                            }
+                        });
+                    }else if(data.length>=16){
+                        value.find(function( v,index,arr){
+                            if(index<8){
+                                value1.push(v);
+                            }else if(index>=8&&index<16){
+                                value2.push(v);
+                            }else if(index>=16){
+                                value3.push(v);
+
+                            }
+                        });
+                        if(value.length<8){
+                            let arr=new Array(8-value1.length);
+                            value1=value1+arr+nullStr+nullStr;
+                        }else if(value.length>=8&&value.length<=16){
+                            let arr=new Array(8-value1.length);
+                            let nustr =["","","","","","","",""];
+                            nustr.length=value.length-8;
+                            value1.push(value2[0]);
+                            value2.unshift.apply(value2,nullStr)
+                        }else if(value.length>=17&&value.length<=24){
+                            let arr=new Array(8-value1.length);
+                            let nustr =["","","","","","","",""];
+                            nustr.length=value.length-16;
+                            value1.push(value2[0])
+                            value2.unshift.apply(value2,nullStr);
+                            value2.push(value3[0]);
+                            value3.unshift.apply(value3,nullStr);
+                            value3.unshift.apply(value3,nullStr);
+
+
+                        }
+                       this.obj.date=date;
+                        this.obj.data1=value1;
+                        this.obj.data2=value2;
+                        this.obj.data3=value3;
+
+                    }
+                });
+            }
+            self.$refs.chartLine.createChartOne(this.obj)
+
+        },
+        queryMonthConsume(id,date){
+           if(id=="")return false;
+            let self = this;
+            let _url = "http://192.168.1.106:9000/real/time/consumption/gather/monthly/statistics/"+date+"/"+id;
+            self.$axios.get(_url).then((res)=>{
+            });
+        },
+        queryGround(id,date){
+            let self = this;
+            let _url = "http://192.168.1.106:9000/daily/inventory/summary/"+date+"/"+id;
+            self.$axios.get(_url).then((res)=>{
+                this.unit.value=(function() {
+                    if (res.data.retval!=null) {
+                        return res.data.retval.value
+                    } else {
+                        return 500
+                    }
+                })();
+                this.$refs.chartGauge.createChartOne(this.unit);
+
+        });
         }
         }
 

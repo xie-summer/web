@@ -10,7 +10,7 @@
 <script>
     let echarts=require('echarts/lib/echarts');
     //引入仪表盘图
-    require('echarts/lib/chart/pie');
+    require('echarts/lib/chart/bar');
 
     //引入所需组件
     require('echarts/lib/component/tooltip');

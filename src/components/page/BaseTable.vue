@@ -1,5 +1,5 @@
 <template>
-    <div class="table">
+    <div class="table" ref="son">
        <!-- <div class="crumbs">
             <el-breadcrumb separator="/">
                 <el-breadcrumb-item><i class="el-icon-menu"></i> 表格</el-breadcrumb-item>
@@ -17,17 +17,17 @@
         </div>-->
         <el-table :data="tableData" border style="width: 100%;" ref="multipleTable" @selection-change="handleSelectionChange"height=282 >
           <!--  <el-table-column type="selection" width="55"></el-table-column>-->
-            <el-table-column prop="enterDate" label="进厂时间"  align="center" :show-overflow-tooltip="showtf" >
+            <el-table-column prop="inTime" label="进厂时间"  align="center" :show-overflow-tooltip="showtf" :formatter="formatterIn">
             </el-table-column>
-            <el-table-column prop="comeData" label="出厂时间"align="center" :show-overflow-tooltip="showtf">
+            <el-table-column prop="outTime" label="出厂时间"align="center" :show-overflow-tooltip="showtf" :formatter="formatter">
             </el-table-column>
             <el-table-column prop="name" label="物料名称"  align="center" :show-overflow-tooltip="showtf">
             </el-table-column>
-            <el-table-column prop="plateNumber" label="车牌" align="center":show-overflow-tooltip="showtf" >
+            <el-table-column prop="numberPlate" label="车牌" align="center":show-overflow-tooltip="showtf" >
             </el-table-column>
-            <el-table-column prop="weight" label="净重" align="center" width="70":show-overflow-tooltip="showtf">
+            <el-table-column prop="netWeight" label="净重" align="center" width="80":show-overflow-tooltip="showtf">
             </el-table-column>
-            <el-table-column prop="detainWeight" label="扣重" align="center" width="70":show-overflow-tooltip="showtf">
+            <el-table-column prop="tare" label="扣重" align="center" width="70":show-overflow-tooltip="showtf">
             </el-table-column>
 
            <!-- <el-table-column label="操作" width="180">
@@ -55,13 +55,12 @@
 
 <script>
     export default {
+        props:["tableCon"],
         data() {
             return {
-                url: '../../../static/vuetable.json',
                 tableData: [],
                 cur_page: 1,
-                pagesize:2,
-               /* multipleSelection: [],*/
+                pagesize:6,
                 select_cate: '',
                 select_word: '',
                 currentPage: 1,
@@ -70,50 +69,28 @@
             }
         },
         created(){
-            this.tableData;
-            this.getData();
+            this.getData(this.tableCon);
         },
         methods: {
             handleCurrentChange(val){
                //页码
                 this.cur_page = val;
-                this.getData();
+                this.$emit('handleCurrentChange',{page:this.cur_page,pageSize:this.pagesize});
+
             },
-            getData(){
-                let self = this;
-
-                if(process.env.NODE_ENV === 'development'){
-                    self.url = '/ms/table/list';
-
-                };
-                self.$axios.post(self.url, {page:self.cur_page}).then((res) => {
-
-                    var   tableData=[{
-                        enterDate: '2016-05-02',
-                        comeData: '2016-05-02',
-                        name: '磷钙',
-                        plateNumber: '沪A88888811111111111111111111111111111111111111',
-                        weight: '20',
-                        detainWeight: '1'
-                    },]
-                    self.tableData = tableData;
-                })
+            getData(data){
+                this.tableData=data;
             },
 
-            filterTag(value, row) {
-                //过滤
-                return row.tag === value;
-            },
-
-         /*   handleEdit(index, row) {
-                this.$message('编辑第'+(index+1)+'行');
-            },*/
-          /*  handleDelete(index, row) {
-                this.$message.error('删除第'+(index+1)+'行');
-            },*/
             handleSelectionChange: function(val) {
                 this.multipleSelection = val;
-            }
+            },
+            formatter(row, column){
+              return new Date(row.outTime).format("YYYY/MM/dd")
+            },
+            formatterIn(row, column)    {
+                return new Date(row.inTime).format("YYYY/MM/dd")
+            },
         }
     }
 </script>

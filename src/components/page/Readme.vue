@@ -21,9 +21,9 @@
         <div class="title">
             物资监管
         </div>
-        <div class="titleCount" style="min-width: 1055px">
+        <div class="titleCount" style="min-width: 1055px;height: 10.5rem">
             <el-col :span="4"   v-for=" (i,value) in item" :key="value" style="flex-grow:1">
-                <el-col :span="23" class="count">
+                <el-col :span="23" :offset="1" class="count">
                     <el-col :span="24" class="fontCenter font1">{{i.name}}</el-col>
                     <el-col :span="24"  class="fontCenter">
                         <svg class="icon" aria-hidden="true">
@@ -33,7 +33,6 @@
                     </el-col>
                     <el-col :span="24" class="fontCenter font2">{{i.number}}</el-col>
                 </el-col>
-                <el-col  :span="1" style="height: 11rem" v-if="i<6"></el-col>
             </el-col>
         </div>
         <div class="goods" style="min-width: 1055px">
@@ -42,31 +41,31 @@
             <div  style="display: flex;display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%">
                 <el-col :span="10" class="goodsHeight" style="flex-grow:1">
                     <el-col :span="12">
-                        <div class="numberHint">5</div>
+                        <div class="numberHint">{{numberSize}}</div>
                         <div class="titleHint">今日异常出库次数</div>
                     </el-col>
                     <el-col :span="12">
                         <div class="timeTitle">最近一次异常出库</div>
                         <ul class="li">
                             <li>
-                                <span>抓拍时间：</span><span>2017/01/01</span>
+                                <span>抓拍时间：</span><span>{{uTime}}</span>
                             </li>
                             <li>
-                                <span>车牌：</span><span>挂138</span>
+                                <span>车牌：</span><span>{{numberPlate}}</span>
                             </li>
                             <li>
-                                <span>出库状态：</span><span>超重</span>
+                                <span>出库状态：</span><span></span>
                             </li>
                         </ul>
                     </el-col>
                 </el-col>
                 <el-col :span="14" class="goodsHeight" style="flex-grow:1">
-                    <v-table></v-table>
+                    <v-table :table-con="tableData_1" ref="son" @handleCurrentChange="toShow"></v-table>
                 </el-col>
             </div>
         </div>
         <div class="goods" style="min-width: 1055px">
-            <el-col :span="24" class="goodsTitle" style="font-size: 2rem">生产监管</el-col>
+            <el-col :span="24" class="goodsTitle" style="font-size: 2rem">巡检检修</el-col>
             <div style="display: flex;display: -webkit-flex;flex-direcion:row ;width: 100%; flex-wrap:wrap;">
                 <el-col :span="10"  class="top"style="flex-grow:1">
                     <div style="width: 50%;display: inline-block;flex-grow:1;float: left" class="noticeBoard" v-for=" (i,index) in items" >
@@ -80,9 +79,17 @@
                         </el-table-column>
                         <el-table-column prop="name" label="检修设备" align="center" >
                         </el-table-column>
-
-
                     </el-table>
+                    <div class="pagination">
+                        <el-pagination
+                            @current-change ="handleCurrentChange1"
+                            layout="total, prev, pager, next"
+                            :total="totalCount1"
+                            :current-page="currentPage1"
+                            :page-size="pageSize"
+                            >
+                        </el-pagination>
+                    </div>
                 </el-col>
             </div>
         </div>
@@ -165,6 +172,11 @@
         data: function(){
 
             return {
+                tableData: [],
+                cur_page: 1,
+                currentPage1: 1,
+                totalCount1: 500,
+                pageSize:6,
                 value11: new Date(),
                 timeDefaultShow:new Date(),
                 pickerOptions0: {
@@ -172,7 +184,10 @@
                 return time.getTime() > Date.now();
             }
         },
-
+        numberPlate:"",
+        uTime:"",
+        numberSize:"",
+        tableData_1:[1,2],
         item:[{"name":"磷矿粉(吨)","number":85,"text":"高"},
             {"name":"硫酸(立方米)","number":85,"text":"高"},
             {"name":"石灰(吨)","number":85,"text":"低"},
@@ -207,7 +222,9 @@
             }
         },
     created:function(){
-
+        this.queryOneCall();
+        this.queryTable(this.value11.format("YYYY-MM-dd"),this.cur_page,this.pageSize);
+        this.querynventoryDay(this.value11.format("YYYY-MM-dd"));
     },
    filters:{
         formatDate(){
@@ -219,7 +236,63 @@
     },
     methods: {
         changeHandler:function(value){
-            //选择时间后触发事件，预留
+            this.queryTable(value,this.cur_page,this.pageSize);
+            this.$message.success(value);
+            this.querynventoryDay(value)
+        },
+        handleCurrentChange1(val){
+            console.log(val)
+            this.$message.success(val)
+            //页码
+            this.cur_page = val;
+
+        },
+        queryTable(date,page,size){
+            let self = this;
+            let _url="http://user:user@192.168.1.106:9000/into/the/factory/records/"+date+"/"+page+"/"+size;
+            self.$axios.get(_url).then((res)=>{
+                this.tableData_1=res.data.retval.list;
+             self.$refs.son.getData( this.tableData_1);
+
+            });
+        },
+        queryOneCall(){
+                let self = this;
+                let _url="http://user:user@192.168.1.106:9000/into/the/factory/records/2017-11-29";
+                self.$axios.get(_url).then((res)=>{
+               if(res.data.retval==null) return false;
+                this.uTime  = new Date(res.data.retval.outTime).format("YYYY/MM/dd");
+                this.numberPlate  = res.data.retval.numberPlate;
+
+
+            });
+            let _url_size="http://user:user@192.168.1.106:9000/into/the/factory/records/count/2017-11-29";
+            self.$axios.get(_url_size).then((res)=>{
+                this.numberSize  = res.data.retval;
+            });
+
+        },
+        querynventoryDay(date){
+                let self = this;
+            let _url="http://192.168.1.106:9000/daily/inventory/summary/list/"+date;
+            self.$axios.get(_url).then((res)=>{
+                let list=[];
+                for( let i of res.data.retval){
+                   let obj={};
+                    obj.name= i.name;
+                    obj.number= i.value;
+                    obj.text="高";
+                   list.push(obj);
+                }
+                this.item =list;
+                console.log(this.item)
+            });
+        },
+        toShow(msg){
+            this.cur_page=msg.page;
+            this.pageSize=msg.pageSize;
+            console.log( this.pageSize)
+            this.queryTable(this.value11.format("YYYY-MM-dd"), this.cur_page,this.pageSize);
         }
     }
     }
@@ -252,10 +325,10 @@
    .row-bg {  padding: 10px 0; width: 100%}
    .backgroundVerify {  background: #ffffff; box-shadow: 5px 5px 3px #E5E5E5; }
     .red{color:red}
-    .blue{color:blue}
+    .blue{color:#0082e6}
     .yellow{color: yellow}
     .green{color: green}
-    .numberVerify .time{float: right;font-size: 1.8rem;color:#E5E5E5}
+    .numberVerify .time{float: right;font-size: 1.8rem;color:#a29999}
     .numberVerify .timeRight{margin-right: 1rem}
     .colorRed{color: red}
     .colorBlue{color: blue}

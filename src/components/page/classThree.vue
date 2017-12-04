@@ -66,7 +66,7 @@
                            if(p[i].value==""){
 
                            }else{
-                               return '<div style="width:100px;height:50px;display: inline-block;background-color:'+p[i].color+'">'+p[i].seriesName+"："+p[i].value+'</div>'
+                                   return '<div style="width:100px;height:50px;display: inline-block;background-color:'+p[i].color+'">'+p[i].seriesName+"："+p[i].value+'</div>'
                            }
                        }
                     },

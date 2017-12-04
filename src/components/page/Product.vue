@@ -32,12 +32,9 @@
 
             </el-col>
             <el-col :span="14">
-                <el-col :span="1" style="height: 1px"></el-col>
                 <el-col :span="12">
-                    <v-gauge :unit="unit"></v-gauge>
+                    <v-gauge :unit="unit" ref="chartGauge"></v-gauge>
                 </el-col>
-                <el-col :span="11">
-                    <div style="padding-top:5rem;padding-left: 4rem">
                         <div  class="outStyle">
                             <div class="inStyle">
                                 <div class="circle" style="background-color: #3b5898"></div>
@@ -66,9 +63,9 @@
         <div  style="display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%;margin-top: 3rem;box-shadow: 5px 5px 3px #E5E5E5;;min-width: 1055px">
             <el-col :span="24"  class="solidTitle">实时下线</el-col>
             <el-col :span="14" >
-                <v-line :child-msg="obj"></v-line>
+                <v-line :child-msg="obj" ref="chartLine"></v-line>
             </el-col>
-            <el-col :span="10" >
+            <el-col :span="8" :offset="2" >
                 <v-accurate :curNum="0" :curNumber="curNumber"></v-accurate>
             </el-col>
         </div>
@@ -120,7 +117,7 @@
                     "text3":"月总计产量",
                     "text4":"月总计入库量",
                 },
-                unit:{"units":"吨","units2":"",wid:32,hig:21,radius:120,dist:-57},
+                unit:{"units":"吨","units2":"",wid:32,hig:21,radius:120,dist:-57,value:0},
                 publicOneData:{"num":"", "remindtext":"当前库存值较低，未来7日预计 出货量2.300.00吨","bool":false},
 
                 date:new Date(),
@@ -135,8 +132,11 @@
         },
     }
     },
-    created:function(){
-
+    mounted:function(){
+        console.log(this.$refs.chartLine)
+        this.queryClass(this.change==0?"HG01XY750510":"HG01XY750410",this.value11.format("YYYY-MM-dd"));
+       this.queryGround(this.change==0?"HG01XY750510":"HG01XY750410",this.value11.format("YYYY-MM-dd"));
+      this.queryMonthConsume(this.change==0?"HG01XY750510":"HG01XY750510",this.value11.format("YYYY-MM"));
     },
     filters:{
         formatDate(){
@@ -151,8 +151,104 @@
         },
         cut:function(key){
             this.change = key;
+           this.queryClass(this.change==0?"HG01XY750510":"HG01XY750410",this.value11.format("YYYY-MM-dd"));
+            this.queryGround(this.change==0?"HG01XY750510":"HG01XY750410",this.value11.format("YYYY-MM-dd"));
+           this.queryMonthConsume(this.change==0?"HG01XY750510":"HG01XY750510",this.value11.format("YYYY-MM"));
 
+        },
+        queryClass(id,date){
+            let self = this;
+                var _url='http://user:user@192.168.1.106:9000/real/time/consumption/gather/'+date+'/'+id;
+                self.$axios.get(
+                    _url
+                ).then((res) => {
+                    let data=res.data.retval;
+                    if(data.length==0||data==null) return false;
+                    let value=[];
+                    let value1=[];
+                    let value2=[];
+                    let value3=[];
+                    let date=[];
+                    let nullStr=["","","","","","","",""];
+                    for(let i of data){
+                        value.push(i.value);
+                        date.push(i.gatherTime.split(" ")[1]);
+                    }
+
+                    if(data.length<8){
+                        for(let j of data){
+                            value1.push(j.value)
+                        }
+                        this.obj.date=date;
+                    }else if(data.length>=8&&data.length<16){
+                        value.find(function( v,index,arr){
+                            if(index<8){
+                                value1.push(v);
+                            }else if(index>=8&&index<16){
+                                value2.push(v);
+                            }
+                        });
+                    }else if(data.length>=16){
+                        value.find(function( v,index,arr){
+                            if(index<8){
+                                value1.push(v);
+                            }else if(index>=8&&index<16){
+                                value2.push(v);
+                            }else if(index>=16){
+                                value3.push(v);
+
+                            }
+                        });
+                        if(value.length<8){
+                            let arr=new Array(8-value1.length);
+                            value1=value1+arr+nullStr+nullStr;
+                        }else if(value.length>=8&&value.length<=16){
+                            let arr=new Array(8-value1.length);
+                            let nustr =["","","","","","","",""];
+                            nustr.length=value.length-8;
+                            value1.push(value2[0]);
+                            value2.unshift.apply(value2,nullStr)
+                        }else if(value.length>=17&&value.length<=24){
+                            let arr=new Array(8-value1.length);
+                            let nustr =["","","","","","","",""];
+                            nustr.length=value.length-16;
+                            value1.push(value2[0])
+                            value2.unshift.apply(value2,nullStr);
+                            value2.push(value3[0]);
+                            value3.unshift.apply(value3,nullStr);
+                            value3.unshift.apply(value3,nullStr);
+                        }
+                        this.obj.date=date;
+                        this.obj.data1=value1;
+                        this.obj.data2=value2;
+                        this.obj.data3=value3;
+                    }
+                });
+        },
+       queryMonthConsume(id,date){
+            if(id=="")return false;
+            let self = this;
+            let _url = "http://192.168.1.106:9000/real/time/consumption/gather/monthly/statistics/"+date+"/"+id;
+            self.$axios.get(_url).then((res)=>{
+            });
+        },
+        queryGround(id,date){
+            let self = this;
+            let _url = "http://192.168.1.106:9000/daily/inventory/summary/"+date+"/"+id;
+            self.$axios.get(_url).then((res)=>{
+                this.unit.value=(function() {
+                    if (res.data.retval!=null) {
+                        return res.data.retval.value
+                    } else {
+                        return 0
+                    }
+                })();
+                this.$refs.chartGauge.createChartOne(this.unit);
+
+            });
         }
+
+
     }
 
     }

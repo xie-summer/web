@@ -9,11 +9,16 @@ import  Login from'./components/page/Login.vue'
 import  Icon from'./assets/icon/iconfont.js'
 
 
+
+
 import 'element-ui/lib/theme-default/index.css';    // 默认主题
 // import '../static/css/theme-green/index.css';       // 浅绿色主题
 /*import "babel-polyfill";*/
 
 Vue.use(ElementUI,Vuex,Icon );
+axios.defaults.withCredentials = true;
+
+/*axios.defaults.headers.common['Authorization'] = auth;*/
 Vue.prototype.$axios = axios;
 Date.prototype.format = function(format,n) {
     var b=n|0;

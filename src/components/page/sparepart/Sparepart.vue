@@ -21,15 +21,15 @@
              </el-date-picker>
          </div>
      </el-row>
-     <el-row style="margin-bottom: 2rem;min-width: 1055px">
-            <el-col :span="10">
+     <el-row style="margin-bottom: 2rem;min-width: 1055px"type="flex"justify="space-around">
+            <el-col :span="11">
                 <el-col :span="24"style="font-size: 2.4rem;background: #ffffff;width: 90%;padding-left: 2rem">货值总览</el-col>
 
-                <div style="width: 90%;height:33.1rem;background: #ffffff;box-shadow: 2px 5px 2px #E5E5E5;">
+                <div style="width: 100%;height:33.1rem;background: #ffffff;box-shadow: 2px 5px 2px #E5E5E5;">
                     <v-gauge :unit="unit"></v-gauge>
                 </div>
             </el-col>
-            <el-col :span="14">
+            <el-col :span="11">
                 <v-table :child-table="tableName1" ></v-table>
             </el-col>
      </el-row>
@@ -81,8 +81,7 @@
             <el-col :span="11">
                 <el-col :span="24" class="title">消耗量排行前10</el-col>
                 <el-col :span="24">
-                    <v-str ref="chartstr"></v-str>
-                </el-col>
+                    <v-str></v-str>                </el-col>
             </el-col>
         </el-row>
     </div>
@@ -93,11 +92,11 @@
     import vGauge from '../OldCharts.vue';
     import vTable from './SprTable.vue';
     import vPie from './SprPie.vue';
-    import vStr from './Sprstr.vue';
+   import vStr from './Sprstr.vue';
     import vBar from'./Sprbar.vue'
     export default {
         components:{
-            vGauge,vTable,vPie,vStr,vBar
+            vGauge,vTable,vPie,vBar,vStr
         },
         data: function(){
             return {
