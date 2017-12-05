@@ -43,9 +43,21 @@
                                 title: 'Vue表格组件'
                             }
                         ]
+                    },*/
                     {
                         icon: 'el-icon-menu',
                         index: '2',
+                        title: '人员效率监控',
+                        subs: [
+                            {
+                                index: 'pefficiency',
+                                title: '生产人员效率'
+                            }
+                        ]
+                    },
+                    {
+                        icon: 'el-icon-menu',
+                        index: '3',
                         title: '库存监管',
                         subs: [
                             {
@@ -63,6 +75,22 @@
                 ]
                     },
                     {
+                        icon: 'el-icon-star-off',
+                        index: 'police',
+                        title: '报警状态一览'
+                    },
+                    {
+                        icon: 'el-icon-star-off',
+                        index: 'entering',
+                        title: '人工录入'
+                    },
+                    /*{
+                        icon: 'el-icon-date',
+                        index: 'baseform',
+                        title: '基本表单'
+                    },*/
+                    /*{
+
                         icon: 'el-icon-date',
                         index: '4',
                         title: '表单',

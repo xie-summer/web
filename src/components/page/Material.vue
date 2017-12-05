@@ -6,7 +6,8 @@
                 <el-breadcrumb-item>原料库</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
-        <div class="select_time">            <button class="button_class" :class="{blue:change==key}"@click="cut(key)" v-for=" (item,key) in nameData " :key="key" style="width: 8rem">{{item.name}}</button>
+        <div class="select_time" style="min-width: 1059px">
+            <button class="button_class" :class="{blue:change==key}"@click="cut(key)" v-for=" (item,key) in nameData " :key="key" style="width: 8rem">{{item.name}}</button>
             <div class="right">
                 <el-date-picker
                     @change="(value) => changeHandler(value)"
@@ -21,7 +22,8 @@
                 </el-date-picker>
             </div>
         </div>
-        <div style="display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%;box-shadow: 5px 5px 3px #E5E5E5;;min-width: 1055px">            <el-col :span="24" class="bigTitle">实时库存</el-col>
+        <div style="display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%;box-shadow: 5px 5px 3px #E5E5E5;;min-width: 1059px">
+            <el-col :span="24" class="bigTitle">实时库存</el-col>
             <el-col :span="10" style="border-right: solid 1px #c7c7c7">
                 <el-col :span="24" style="flex-flow: 1">
                     <v-pone :public-data="publicOneData"></v-pone>
@@ -32,6 +34,8 @@
                 <el-col :span="12"  >
                     <v-gauge  :unit="unit" ref="chartGauge"></v-gauge>
                 </el-col>
+                <el-col :span="11":offset="1">
+                    <div style="padding-top: 5rem;padding-left: 4rem">
                         <div  class="outStyle">
                             <div class="inStyle">
                                 <div class="circle" style="background-color: #3b5898"></div>
@@ -57,8 +61,17 @@
                 </el-col>
             </el-col>
         </div>
+        <div  style="display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%;margin-top: 3rem;box-shadow: 5px 5px 3px #E5E5E5;;min-width: 1059px;height: 40rem">
+            <el-col :span="24"  class="solidTitle">实时消耗</el-col>
+               <el-col :span="14" >
+                   <v-line :child-msg="obj" ref="chartLine"></v-line>
+               </el-col>
+               <el-col :span="8" :offset="2" >
+                   <v-accurate :curNum="change" :curNumber="curNumber"></v-accurate>
+               </el-col>
         </div>
-        <div style="display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%;margin-top: 3rem;box-shadow: 5px 5px 3px #E5E5E5;;min-width: 1055px">
+        <div style="display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%;margin-top: 3rem;box-shadow: 5px 5px 3px #E5E5E5;;min-width: 1059px">
+
             <el-col :span="24" class="solidTitle">原料质检</el-col>
             <el-col :span="8">
                 <v-percentage :per-data="perData"></v-percentage>
@@ -123,6 +136,11 @@
         },
         created:function(){
 
+        },
+        mounted () {
+            this.queryClass(this.change==0?"HG01XY750000":"HG01XY750100",this.value11.format("YYYY-MM-dd"));
+            this.queryMonthConsume(this.change==0?"HG01XY750000":"",this.value11.format("YYYY-MM"));
+            this.queryGround(this.id,this.value11.format("YYYY-MM-dd"));
         },
         filters:{
             formatDate(){

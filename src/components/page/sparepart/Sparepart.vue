@@ -81,7 +81,8 @@
             <el-col :span="11">
                 <el-col :span="24" class="title">消耗量排行前10</el-col>
                 <el-col :span="24">
-                    <v-str></v-str>                </el-col>
+                  <v-str ref="chartstr"></v-str>
+                </el-col>
             </el-col>
         </el-row>
     </div>

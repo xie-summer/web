@@ -35,6 +35,8 @@
                 <el-col :span="12">
                     <v-gauge :unit="unit" ref="chartGauge"></v-gauge>
                 </el-col>
+                <el-col :span="11" :offset="1">
+                    <div style="padding-top:5rem;padding-left: 4rem">
                         <div  class="outStyle">
                             <div class="inStyle">
                                 <div class="circle" style="background-color: #3b5898"></div>

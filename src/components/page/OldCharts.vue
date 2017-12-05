@@ -23,10 +23,7 @@
     methods:{
         /*创建图表一*/
         createChartOne(ls){
-            window.onresize=function(){
-                console.log("改变了")
-                chartOne.resize();
-            }
+
            let chartOne=echarts.init(this.$refs.chartGauge);
             window.onresize=function(){
                 chartOne.resize();

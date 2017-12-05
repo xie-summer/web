@@ -24,6 +24,9 @@
                 console.log("1111111111111111111111111111")
         },
         /*创建图表一*/
+       initPie(sr,ar,name){
+               var listName = name;
+
             var dataList=[];
             var x=155,y=175;
             for(let i=0;i<sr.length;i++){
@@ -88,9 +91,6 @@
         let sr=[0.3,0.25,0.2,0.15,0.1]
         let name=["NO.1","NO.2","NO.3","NO.4","NO.5"]
         this.initPie(sr,ar,name);
-
-    },
-
 
     },
 
