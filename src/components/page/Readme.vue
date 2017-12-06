@@ -105,7 +105,7 @@
                     <el-col :span="7" class="backgroundVerify">
                         <el-col :span="12"  >
                             <el-col :span="24" style="height:5rem;font-size: 1.4rem;padding-left: 1rem;padding-top: 0.5rem">磷矿粉消耗（吨）</el-col>
-                            <el-col :span="24" style="height:6rem;font-size: 2.4rem;text-align: center;line-height:6rem;border-right:solid 1px #c7c7c7">520.00</el-col>
+                            <el-col :span="24" style="height:6rem;font-size: 2.4rem;text-align: center;line-height:6rem;border-right:solid 1px #c7c7c7">{{dat.valueLKF}}</el-col>
                             <el-col :span="24" style="height:5rem;font-size: 1.6rem;text-align: center">计量</el-col>
                         </el-col>
                         <el-col :span="12">
@@ -113,16 +113,16 @@
                                 <svg class="icon" aria-hidden="true" style=" width: 3rem; height: 3rem;">
                                 <use xlink:href="#el-icon-erp-shebeibaojing"></use>
                                 </svg>
-                                <span style="color:#BB4B39">0.00</span>
+                                <span style="color:#BB4B39">{{dat.dataIoLKF}}%</span>
                             </el-col>
-                            <el-col style="height:6rem;font-size: 2.4rem;text-align: center;line-height:6rem;">520.00</el-col>
+                            <el-col style="height:6rem;font-size: 2.4rem;text-align: center;line-height:6rem;">{{dat.dataIoValueLKF}}</el-col>
                             <el-col style="height:5rem;font-size: 1.6rem;text-align: center">记录</el-col>
                         </el-col>
                     </el-col>
                     <el-col :span="7" class="backgroundVerify">
                         <el-col :span="12" >
                             <el-col :span="24" style="height:5rem;font-size: 1.4rem;padding-left: 1rem;padding-top: 0.5rem">磷钙（吨）</el-col>
-                            <el-col :span="24" style="height:6rem;font-size: 2.4rem;text-align: center;line-height:6rem;border-right:solid 1px #c7c7c7">520.00</el-col>
+                            <el-col :span="24" style="height:6rem;font-size: 2.4rem;text-align: center;line-height:6rem;border-right:solid 1px #c7c7c7">{{dat.valueLG}}</el-col>
                             <el-col :span="24" style="height:5rem;font-size: 1.6rem;text-align: center">计量</el-col>
                         </el-col>
                         <el-col :span="12">
@@ -130,16 +130,16 @@
                                 <svg class="icon" aria-hidden="true" style=" width: 3rem; height: 3rem;">
                                     <use xlink:href="#el-icon-erp-shebeibaojing"></use>
                                 </svg>
-                                <span style="color:#BB4B39">0.00</span>
+                                <span style="color:#BB4B39">{{dat.dataIoLG}}%</span>
                             </el-col>
-                            <el-col style="height:6rem;font-size: 2.4rem;text-align: center;line-height:6rem;">520.00</el-col>
+                            <el-col style="height:6rem;font-size: 2.4rem;text-align: center;line-height:6rem;">{{dat.dataIoValueLG}}</el-col>
                             <el-col style="height:5rem;font-size: 1.6rem;text-align: center">记录</el-col>
                         </el-col>
                     </el-col>
                     <el-col :span="7" class="backgroundVerify">
                         <el-col :span="12" >
                             <el-col :span="24" style="height:5rem;font-size: 1.4rem;padding-left: 1rem;padding-top: 0.5rem">普钙（吨）</el-col>
-                            <el-col :span="24" style="height:6rem;font-size: 2.4rem;text-align: center;line-height:6rem;border-right:solid 1px #c7c7c7">520.00</el-col>
+                            <el-col :span="24" style="height:6rem;font-size: 2.4rem;text-align: center;line-height:6rem;border-right:solid 1px #c7c7c7">{{dat.valuePG}}</el-col>
                             <el-col :span="24" style="height:5rem;font-size: 1.6rem;text-align: center">计量</el-col>
                         </el-col>
                         <el-col :span="12">
@@ -147,9 +147,9 @@
                                 <svg class="icon" aria-hidden="true" style=" width: 3rem; height: 3rem;">
                                     <use xlink:href="#el-icon-erp-shebeibaojing"></use>
                                 </svg>
-                                <span style="color:#BB4B39">0.00</span>
+                                <span style="color:#BB4B39">{{dat.dataIoPG}}%</span>
                             </el-col>
-                            <el-col style="height:6rem;font-size: 2.4rem;text-align: center;line-height:6rem;">520.00</el-col>
+                            <el-col style="height:6rem;font-size: 2.4rem;text-align: center;line-height:6rem;">{{dat.dataIoValuePG}}</el-col>
                             <el-col style="height:5rem;font-size: 1.6rem;text-align: center">记录</el-col>
                         </el-col>
                     </el-col>
@@ -172,6 +172,17 @@
         data: function(){
 
             return {
+                dat:{
+                    valueLKF:"",
+                    dataIoLKF:"",
+                    dataIoValueLKF:"",
+                    valueLG:"",
+                    dataIoLG:"",
+                    dataIoValueLG:"",
+                    valuePG:"",
+                    dataIoPG:"",
+                    dataIoValuePG:"",
+                },
                 tableData: [],
                 cur_page: 1,
                 currentPage1: 1,
@@ -225,6 +236,7 @@
         this.queryOneCall();
         this.queryTable(this.value11.format("YYYY-MM-dd"),this.cur_page,this.pageSize);
         this.querynventoryDay(this.value11.format("YYYY-MM-dd"));
+        this.queryDatIoValue(this.value11.format("YYYY-MM-dd"));
     },
    filters:{
         formatDate(){
@@ -238,10 +250,10 @@
         changeHandler:function(value){
             this.queryTable(value,this.cur_page,this.pageSize);
             this.$message.success(value);
-            this.querynventoryDay(value)
+            this.querynventoryDay(value);
+            this.queryDatIoValue(value);
         },
         handleCurrentChange1(val){
-            console.log(val)
             this.$message.success(val)
             //页码
             this.cur_page = val;
@@ -285,14 +297,40 @@
                    list.push(obj);
                 }
                 this.item =list;
-                console.log(this.item)
             });
         },
         toShow(msg){
             this.cur_page=msg.page;
             this.pageSize=msg.pageSize;
-            console.log( this.pageSize)
             this.queryTable(this.value11.format("YYYY-MM-dd"), this.cur_page,this.pageSize);
+        },
+        queryDatIoValue(date){
+            var self = this;
+            function queryLKF(){
+                return self.$axios.get("http://192.168.1.106:9000/real/time/consumption/gather/day/statistics/"+date+"/HG01XY75000")
+            };
+            function queryLG(){
+                return self.$axios.get("http://192.168.1.106:9000/real/time/consumption/gather/day/statistics/"+date+"/HG01XY750510")
+            };
+            function queryPG(){
+                return self.$axios.get("http://192.168.1.106:9000/real/time/consumption/gather/day/statistics/"+date+"/HG01XY750410")
+            }
+
+           self.$axios.all([queryLKF(), queryLG(),queryPG()])
+                .then(self.$axios.spread(function (lkf, lg,pg) {
+
+                   self.dat.valueLKF=lkf.data.retval.value;
+                   self.dat.dataIoLKF=lkf.data.retval.ratio;
+                   self.dat.dataIoValueLKF=lkf.data.retval.recordValues;
+
+                   self.dat.valueLG=lg.data.retval.value;
+                   self.dat.dataIoLG=lg.data.retval.ratio;
+                   self.dat.dataIoValueLG=lg.data.retval.recordValues;
+
+                   self.dat.valuePG=pg.data.retval.value;
+                   self.dat.dataIoPG=pg.data.retval.ratio;
+                   self.dat.dataIoValuePG=pg.data.retval.recordValues;
+                }));
         }
     }
     }

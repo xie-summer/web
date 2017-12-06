@@ -67,7 +67,7 @@ export default new Router({
                     path: '/police',
                     component: resolve => require(['../components/page/police/Police.vue'], resolve) ,  // vue-schart组件
                 },
-                {
+               {
                     path: '/entering',
                     component: resolve => require(['../components/page/entering/Entering.vue'], resolve) ,  // vue-schart组件
                 },

@@ -53,7 +53,7 @@
     </div>
 </template>
 <script>
-    var qs = require('qs');
+   /* var qs = require('qs');*/
 
     export default {
         data() {

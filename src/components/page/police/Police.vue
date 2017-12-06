@@ -30,7 +30,7 @@
             <el-col :span="24">
                 <el-table :data="tableData" border style="width: 100%;" ref="multipleTable" >
                     <el-table-column  label="报警状态" align="center" prop="isZero">
-                        <template scope="scope">
+                        <template slot-scope="scope">
                             <el-button v-if="scope.row.isZero>0" :class="scope.row.isZero? 'bts':'btn'"@click="handleEdit(scope.row.isZero)" >已解除</el-button>
                             <el-button v-else :class="scope.row.isZero? 'bts':'btn'"@click="handleEdit(scope.row.isZero)" >未解除</el-button>
                         </template>
