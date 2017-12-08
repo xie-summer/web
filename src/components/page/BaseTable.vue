@@ -86,10 +86,11 @@
                 this.multipleSelection = val;
             },
             formatter(row, column){
-              return new Date(row.outTime).format("YYYY/MM/dd")
+
+              return row.outTime==undefined?null:new Date(row.outTime).format("YYYY/MM/dd")
             },
             formatterIn(row, column)    {
-                return new Date(row.inTime).format("YYYY/MM/dd")
+                return row.inTime==undefined?null:new Date(row.inTime).format("YYYY/MM/dd")
             },
         }
     }

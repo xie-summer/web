@@ -103,24 +103,30 @@
 
             return {
                 title:'库存状态',
-                perData:{"value":85,"status":"success"},
+                perData:{"value":0,"status":"success"},
                 obj:{
                     "date":['0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23',],
-                    "data1":[1, 8, 9,10, 14, 11,12, 2,1,"","","","","","","","","","","","","","","",],
-                    "data2":["","","","","","","","",1, 10, 11, 15, 8, 9,3,2,1,"","","","","","",],
-                    "data3":["","","","","","","","","","","","","","","","",1, 7, 8, 6, 9, 4, 1],
-                    "class1":{"name":"晚班产量","value":35},
-                    "class2":{"name":"早班产量","value":25},
-                    "class3":{"name":"中班产量","value":15}
+                    "data1":[],
+                    "data2":[],
+                    "data3":[],
+                    "class1":{"name":"晚班产量","value":""},
+                    "class2":{"name":"早班产量","value":""},
+                    "class3":{"name":"中班产量","value":""}
                 },
                 curNumber:{
                     "text1":"月累积产量",
                     "text2":"月累积入库量",
                     "text3":"月总计产量",
                     "text4":"月总计入库量",
+                    "value1":"",
+                    "value2":"",
+                    "value3":"",
+                    "value4":"",
+                    deviation1:"0",
+                    deviation2:"0"
                 },
                 unit:{"units":"吨","units2":"",wid:32,hig:21,radius:120,dist:-57,value:0},
-                publicOneData:{"num":"", "remindtext":"当前库存值较低，未来7日预计 出货量2.300.00吨","bool":false},
+                publicOneData:{"num":"", "remindtext":"磷钙库存值较低","bool":false},
 
                 date:new Date(),
                 nameData:[{"name":"磷钙"},{"name":"普钙"}],
@@ -135,7 +141,6 @@
     }
     },
     mounted:function(){
-        console.log(this.$refs.chartLine)
         this.queryClass(this.change==0?"HG01XY750510":"HG01XY750410",this.value11.format("YYYY-MM-dd"));
        this.queryGround(this.change==0?"HG01XY750510":"HG01XY750410",this.value11.format("YYYY-MM-dd"));
       this.queryMonthConsume(this.change==0?"HG01XY750510":"HG01XY750510",this.value11.format("YYYY-MM"));
@@ -151,7 +156,8 @@
         changeHandler:function(value){
 
         },
-        cut:function(key){
+        cut:function(key,name){
+            this.publicOneData.remindtext=name+"库存较低"
             this.change = key;
            this.queryClass(this.change==0?"HG01XY750510":"HG01XY750410",this.value11.format("YYYY-MM-dd"));
             this.queryGround(this.change==0?"HG01XY750510":"HG01XY750410",this.value11.format("YYYY-MM-dd"));
@@ -160,83 +166,116 @@
         },
         queryClass(id,date){
             let self = this;
-                var _url='http://user:user@192.168.1.106:9000/real/time/consumption/gather/'+date+'/'+id;
+                var _url=self.$url+'/real/time/consumption/gather/'+date+'/'+id;
                 self.$axios.get(
                     _url
                 ).then((res) => {
-                    let data=res.data.retval;
-                    if(data.length==0||data==null) return false;
-                    let value=[];
-                    let value1=[];
-                    let value2=[];
-                    let value3=[];
-                    let date=[];
-                    let nullStr=["","","","","","","",""];
-                    for(let i of data){
-                        value.push(i.value);
-                        date.push(i.gatherTime.split(" ")[1]);
+                let data=res.data.retval;
+                if(data.length==0||data==null) return false;
+                let value=[];
+                let value1=[];
+                let value2=[];
+                let value3=[];
+                let date=[];
+                let sum1=0;
+                let sum2=0;
+                let sum3=0;
+                let nullStr=["","","","","","","",""];
+                for(let i of data){
+                    value.push(i.value);
+                    date.push(i.gatherTime.split(" ")[1]);
+                }
+
+                if(data.length<8){
+                    for(let j of data){
+                        sum1+=j.value;
+                        value1.push(j.value)
                     }
-
-                    if(data.length<8){
-                        for(let j of data){
-                            value1.push(j.value)
+                    this.obj.date=date;
+                }else if(data.length>=8&&data.length<16){
+                    value.find(function( v,index,arr){
+                        if(index<8){
+                            sum1+=v;
+                            value1.push(v);
+                        }else if(index>=8&&index<16){
+                            sum2+=v;
+                            value2.push(v);
                         }
-                        this.obj.date=date;
-                    }else if(data.length>=8&&data.length<16){
-                        value.find(function( v,index,arr){
-                            if(index<8){
-                                value1.push(v);
-                            }else if(index>=8&&index<16){
-                                value2.push(v);
-                            }
-                        });
-                    }else if(data.length>=16){
-                        value.find(function( v,index,arr){
-                            if(index<8){
-                                value1.push(v);
-                            }else if(index>=8&&index<16){
-                                value2.push(v);
-                            }else if(index>=16){
-                                value3.push(v);
+                    });
+                }else if(data.length>=16){
+                    value.find(function( v,index,arr){
+                        if(index<8){
+                            sum1+=v;
+                            value1.push(v);
+                        }else if(index>=8&&index<16){
+                            sum2+=v;
+                            value2.push(v);
+                        }else if(index>=16){
+                            sum3+=v;
+                            value3.push(v);
 
-                            }
-                        });
-                        if(value.length<8){
-                            let arr=new Array(8-value1.length);
-                            value1=value1+arr+nullStr+nullStr;
-                        }else if(value.length>=8&&value.length<=16){
-                            let arr=new Array(8-value1.length);
-                            let nustr =["","","","","","","",""];
-                            nustr.length=value.length-8;
-                            value1.push(value2[0]);
-                            value2.unshift.apply(value2,nullStr)
-                        }else if(value.length>=17&&value.length<=24){
-                            let arr=new Array(8-value1.length);
-                            let nustr =["","","","","","","",""];
-                            nustr.length=value.length-16;
-                            value1.push(value2[0])
-                            value2.unshift.apply(value2,nullStr);
-                            value2.push(value3[0]);
-                            value3.unshift.apply(value3,nullStr);
-                            value3.unshift.apply(value3,nullStr);
                         }
-                        this.obj.date=date;
-                        this.obj.data1=value1;
-                        this.obj.data2=value2;
-                        this.obj.data3=value3;
+                    });
+                    if(value.length<8){
+                        let arr=new Array(8-value1.length);
+                        value1=value1+arr+nullStr+nullStr;
+                    }else if(value.length>=8&&value.length<=16){
+                        let arr=new Array(8-value1.length);
+                        let nustr =["","","","","","","",""];
+                        nustr.length=value.length-8;
+                        value1.push(value2[0]);
+                        value2.unshift.apply(value2,nullStr)
+                    }else if(value.length>=17&&value.length<=24){
+                        let arr=new Array(8-value1.length);
+                        let nustr =["","","","","","","",""];
+                        nustr.length=value.length-16;
+                        value1.push(value2[0])
+                        value2.unshift.apply(value2,nullStr);
+                        value2.push(value3[0]);
+                        value3.unshift.apply(value3,nullStr);
+                        value3.unshift.apply(value3,nullStr);
+
+
+                    }
+                    this.obj.date=date;
+                    this.obj.data1=value1;
+                    this.obj.data2=value2;
+                    this.obj.data3=value3;
+                    this.class1.value=sum1;
+                    this.class2.value=sum2;
+                    this.class3.value=sum3;
                     }
                 });
         },
        queryMonthConsume(id,date){
             if(id=="")return false;
             let self = this;
-            let _url = "http://192.168.1.106:9000/real/time/consumption/gather/monthly/statistics/"+date+"/"+id;
+            let _url = self.$url+"/real/time/consumption/gather/monthly/statistics/"+date+"/"+id;
+            let _url_1 = self.$url+"/real/time/consumption/gather/monthly/statistics/"+new Date().format("YYYY-MM",1)+"/"+id;
             self.$axios.get(_url).then((res)=>{
+                this.curNumber.value1=(function() {
+                    if (res.data.retval!=null) {
+                        return res.data.retval.value
+                    } else {
+                        return 0
+                    }
+                })();
+
+            });
+            self.$axios.get(_url_1).then((res)=>{
+                this.curNumber.value3=(function() {
+                    if (res.data.retval!=null) {
+                        return res.data.retval.value
+                    } else {
+                        return 0
+                    }
+                })();
+
             });
         },
         queryGround(id,date){
             let self = this;
-            let _url = "http://192.168.1.106:9000/daily/inventory/summary/"+date+"/"+id;
+            let _url = self.$url+"/daily/inventory/summary/"+date+"/"+id;
             self.$axios.get(_url).then((res)=>{
                 this.unit.value=(function() {
                     if (res.data.retval!=null) {

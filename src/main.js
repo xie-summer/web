@@ -17,9 +17,20 @@ import 'element-ui/lib/theme-default/index.css';    // 默认主题
 
 Vue.use(ElementUI,Vuex,Icon );
 axios.defaults.withCredentials = true;
-
-/*axios.defaults.headers.common['Authorization'] = auth;*/
+/*axios.defaults.headers['Content-Type']="application/json"
+axios.defaults.headers.common['Authorization'] = "Basic dXNlcjp1c2Vy";*/
+let u1 = "http://test.neweplatform.com:6002";
+let u2="http://panoramic.neweplatform.com:60002"
 Vue.prototype.$axios = axios;
+Vue.prototype.$url=u1;
+Vue.prototype.$axios.interceptors.request.use(function (config) {
+     config.headers.common['Content-Type'] ="application/json";
+        config.headers['Authorization'] = 'Basic dXNlcjp1c2Vy'
+    console.log(config)
+    return config;
+}, function (err) {
+    return Promise.reject(err);
+});
 Date.prototype.format = function(format,n) {
     var b=n|0;
     var date = {

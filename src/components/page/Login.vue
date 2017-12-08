@@ -9,10 +9,12 @@
                 <el-form-item prop="password">
                     <el-input type="password" placeholder="password" v-model="ruleForm.password" @keyup.enter.native="submitForm('ruleForm')"></el-input>
                 </el-form-item>
+                <p v-if="bool" style="font-size:12px;line-height:18px;color:red;margin-bottom: 5px">*用户名或密码错误</p>
                 <div class="login-btn">
-                    <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
+                    <el-button type="primary" native-type="button" @click="submitForm('ruleForm')">登录</el-button>
                 </div>
-                <p style="font-size:12px;line-height:30px;color:#999;">Tips : 用户名和密码随便填。</p>
+
+                <p style="font-size:12px;line-height:30px;color:#999;">Tips : 用户名：admin  密码：admin</p>
             </el-form>
         </div>
     </div>
@@ -26,6 +28,7 @@
                     username: '',
                     password: ''
                 },
+                bool:false,
                 rules: {
                     username: [
                         { required: true, message: '请输入用户名', trigger: 'blur' }
@@ -38,20 +41,21 @@
         },
         methods: {
             submitForm(formName) {
+
                 const self = this;
                 self.$refs[formName].validate((valid) => {
                     if (valid&&this.ruleForm.username=="admin"&&this.ruleForm.password=="admin") {
                         localStorage.setItem('ms_username',self.ruleForm.username);
                         self.$router.push('/readme');
                     } else {
-                        console.log('error submit!!');
+                        this.bool=true
                         return false;
                     }
                 });
-            }
+            },
         },
     created:function(){
-        console.log("怎么没有页面")
+
     }
     }
 </script>
@@ -77,7 +81,7 @@
         left:50%;
         top:50%;
         width:300px;
-        height:160px;
+        height:173px;
         margin:-150px 0 0 -190px;
         padding:40px;
         border-radius: 5px;

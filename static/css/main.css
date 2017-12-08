@@ -121,3 +121,10 @@ a{text-decoration: none}
     fill: currentColor;
     overflow: hidden;
 }
+.el-table th{
+    padding: 5px 0;
+}
+.el-table th .cell{
+    height: 33px;
+    line-height: 33px;
+}

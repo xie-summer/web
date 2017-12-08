@@ -1,7 +1,7 @@
 <template>
     <div class="table">
 
-        <el-table :data="tableData" border style="width: 100%;" ref="multipleTable"size="mini" :border="zreo" :strip="zreo">
+        <el-table :data="tableData" border style="width: 100%;" ref="multipleTable"size="mini" :border="zreo" :strip="zreo"height="405">
             <el-table-column v-for=" (i,value) in item" key="value":prop="i.name" :label="i.label"  >
             </el-table-column>
         </el-table>
@@ -17,53 +17,7 @@
             zreo:true,
             item:this.childTable,
             zro:true,
-            tableData:[{
-                date: '2016-05-02',
-                name: '王小虎',
-                address: '上海'
-            }, {
-                date: '2016-05-04',
-                name: '王小虎',
-                address: '上海市'
-            }, {
-                date: '2016-05-01',
-                name: '王小虎',
-                address: '上海市'
-            }, {
-                date: '2016-05-03',
-                name: '王小虎',
-                address: '上海市'
-            },
-                {
-                    date: '2016-05-03',
-                    name: '王小虎',
-                    address: '上海市'
-                },
-                {
-                    date: '2016-05-03',
-                    name: '王小虎',
-                    address: '上海市'
-                },
-                {
-                    date: '2016-05-03',
-                    name: '王小虎',
-                    address: '上海市'
-                },
-                {
-                    date: '2016-05-03',
-                    name: '王小虎',
-                    address: '上海市'
-                },
-                {
-                    date: '2016-05-03',
-                    name: '王小虎',
-                    address: '上海市'
-                },
-                {
-                    date: '2016-05-03',
-                    name: '王小虎',
-                    address: '上海市'
-                }]
+            tableData:[]
         }
     },
 

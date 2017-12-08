@@ -6,26 +6,32 @@
 
             </el-breadcrumb>
         </div>
+
+
+
         <el-row type="flex"justify="space-between" style="margin-bottom: 2rem">
             <el-col :span="18">
                 <button class="button_class" :class="{blues:change==key}"@click="cut(key,item.name)" v-for=" (item,key) in nameData " :key="key" style="width: 8rem">{{item.name}}</button>
             </el-col>
+
             <el-col :span="6">
-              <div style="float: right">
-                  <el-date-picker
-                      :picker-options="pickerOptions"
-                      @change="(value) => changeHandler(value)"
-                      placeholder="请选择时间"
-                      v-model="value6"
-                      type="daterange"
-                      align="right"
-                      :editable="zreo"
-                      range-separator="至"
-                   >
-                  </el-date-picker>
-              </div>
+                <div style="float: right">
+                    <el-date-picker
+                        :picker-options="pickerOptions"
+                        @change="(value) => changeHandler(value)"
+                        placeholder="请选择时间"
+                        v-model="value6"
+                        type="daterange"
+                        align="right"
+                        :editable="zreo"
+                        range-separator="至"
+                        >
+                    </el-date-picker>
+                </div>
             </el-col>
+
         </el-row>
+
         <el-row>
             <el-col :span="24">
                 <el-table :data="tableData" border style="width: 100%;" ref="multipleTable" >
@@ -102,11 +108,10 @@
         },
         getData(){
             let self = this;
-                var _url='http://user:user@192.168.10.145:9000/daily/inventory/summary/2017-11-24/001';
+                var _url=self.$url+'/daily/inventory/summary/2017-11-29/HG01XY750300';
                self.$axios.get(
                    _url
                   ).then((res) => {
-                    console.log(res)
                 });
                 var   tableData=[{
                     date: '2016-05-02',
@@ -160,12 +165,19 @@
     }
     .btn{border: 1px solid #bb4b39;cursor: auto;background-color: #bb4b39;color: #ffffff;width: 100%;height: 100%}
     .bts{border: 1px solid #ffffff;cursor: auto;background-color: #ffffff;color: #000000;width: 100%;height: 100%}
-    .btn:hover{
+    .el-table--enable-row-hover .el-table__body tr:hover>td{
+
+    }
+   .btn:hover{
         border: 1px solid #bb4b39;
         color: #ffffff;
+      background-color: #bb4b39;
     }
     .bts:hover{
         border: 1px solid #ffffff;
         color: #000000;
     }
+    .el-date-editor--daterange.el-input__inner{width: 250px}
+
+  /*  .el-table td{padding:5px 0}*/
 </style>

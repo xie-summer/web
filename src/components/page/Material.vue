@@ -7,7 +7,7 @@
             </el-breadcrumb>
         </div>
         <div class="select_time" style="min-width: 1059px">
-            <button class="button_class" :class="{blue:change==key}"@click="cut(key)" v-for=" (item,key) in nameData " :key="key" style="width: 8rem">{{item.name}}</button>
+            <button class="button_class" :class="{blue:change==key}"@click="cut(key,item.name)" v-for=" (item,key) in nameData " :key="key" style="width: 8rem">{{item.name}}</button>
             <div class="right">
                 <el-date-picker
                     @change="(value) => changeHandler(value)"
@@ -91,7 +91,6 @@
     import vAccurate from './accurate.vue';
     import vPercentage from './percentage.vue';
     import vMaterialTable from './MaterialTable.vue';
-
     export default {
         components:{
             vPone,vGauge,vLine,vAccurate,vPercentage,vMaterialTable
@@ -100,20 +99,19 @@
         data: function(){
 
             return {
-
                 screenWidth: document.body.clientWidth,
                 title:'库存状态',
                 obj:{
                     "date":['0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23',],
-                    "data1":[1, 18, 19,24, 15, 21,35, 3,1,"","","","","","","","","","","","","","","",],
-                    "data2":["","","","","","","","",1, 10, 11, 7, 6, 10, 3,2,1,"","","","","","",],
-                    "data3":["","","","","","","","","","","","","","","","",1, 8, 7, 11, 10, 8, 1,2],
-                    "class1":{"name":"晚班消耗量","value":85},
-                    "class2":{"name":"早班消耗量","value":75},
-                    "class3":{"name":"中班消耗量","value":95}
+                    "data1":[],
+                    "data2":[],
+                    "data3":[],
+                    "class1":{"name":"晚班消耗量","value":""},
+                    "class2":{"name":"早班消耗量","value":""},
+                    "class3":{"name":"中班消耗量","value":""}
                 },
-                publicOneData:{ "num":2, "remindtext":"磷矿粉库存较低","bool":true},
-                perData:{"value":65,"status":"success"},
+                publicOneData:{ "num":"", "remindtext":"磷矿粉库存较低","bool":true},
+                perData:{"value":0,"status":"success"},
                 date:new Date(),
                 unit:{"units":"吨","units2":"",wid:32,hig:21,radius:120,dist:-57,value:0},
                 curNumber:{
@@ -121,6 +119,12 @@
                     "text2":"月累积出库量",
                     "text3":"月总计消耗量",
                     "text4":"月总计出库量",
+                    "value1":"",
+                    "value2":"",
+                    "value3":"",
+                    "value4":"",
+                    deviation1:"0",
+                    deviation2:"0"
                 },
                 id:"HG01XY750000",
                 nameData:[{"name":"磷矿粉"},{"name":"硫酸"}],
@@ -155,8 +159,8 @@
                 this.queryGround(this.id,value);
              this.queryMonthConsume(this.change==0?"HG01XY750000":"",this.value11.format("YYYY-MM"));
         },
-        cut:function(key){
-
+        cut:function(key,name){
+          this.publicOneData.remindtext=name+"库存较低"
             this.change = key;
            this.queryClass(this.change==0?"HG01XY750000":"HG01XY750100",this.value11.format("YYYY-MM-dd"));
             this.queryGround(this.id,this.value11.format("YYYY-MM-dd"));
@@ -173,7 +177,7 @@
         queryClass(id,date){
             let self = this;
             if(this.change==0){
-                var _url='http://user:user@192.168.1.106:9000/real/time/consumption/gather/'+date+'/'+id;
+                var _url=self.$url+'/real/time/consumption/gather/'+date+'/'+id;
                 self.$axios.get(
                         _url
                 ).then((res) => {
@@ -185,6 +189,9 @@
                     let value2=[];
                     let value3=[];
                     let date=[];
+                    let sum1=0;
+                    let sum2=0;
+                    let sum3=0;
                     let nullStr=["","","","","","","",""];
                     for(let i of data){
                         value.push(i.value);
@@ -193,24 +200,30 @@
 
                     if(data.length<8){
                         for(let j of data){
+                            sum1+=j.value;
                             value1.push(j.value)
                         }
                         this.obj.date=date;
                     }else if(data.length>=8&&data.length<16){
                         value.find(function( v,index,arr){
                             if(index<8){
+                                sum1+=v;
                                 value1.push(v);
                             }else if(index>=8&&index<16){
+                                sum2+=v;
                                 value2.push(v);
                             }
                         });
                     }else if(data.length>=16){
                         value.find(function( v,index,arr){
                             if(index<8){
+                                sum1+=v;
                                 value1.push(v);
                             }else if(index>=8&&index<16){
+                                sum2+=v;
                                 value2.push(v);
                             }else if(index>=16){
+                                sum3+=v;
                                 value3.push(v);
 
                             }
@@ -240,23 +253,46 @@
                         this.obj.data1=value1;
                         this.obj.data2=value2;
                         this.obj.data3=value3;
+                        this.class1.value=sum1;
+                        this.class2.value=sum2;
+                        this.class3.value=sum3;
 
                     }
                 });
             }
             self.$refs.chartLine.createChartOne(this.obj)
 
+
         },
         queryMonthConsume(id,date){
-           if(id=="")return false;
+            if(id=="")return false;
             let self = this;
-            let _url = "http://192.168.1.106:9000/real/time/consumption/gather/monthly/statistics/"+date+"/"+id;
+            let _url = self.$url+"/real/time/consumption/gather/monthly/statistics/"+date+"/"+id;
+            let _url_1 = self.$url+"/real/time/consumption/gather/monthly/statistics/"+new Date().format("YYYY-MM",1)+"/"+id;
             self.$axios.get(_url).then((res)=>{
+                this.curNumber.value1=(function() {
+                    if (res.data.retval!=null) {
+                        return res.data.retval.value
+                    } else {
+                        return 0
+                    }
+                })();
+
+            });
+            self.$axios.get(_url_1).then((res)=>{
+                this.curNumber.value3=(function() {
+                    if (res.data.retval!=null) {
+                        return res.data.retval.value
+                    } else {
+                        return 0
+                    }
+                })();
+
             });
         },
         queryGround(id,date){
             let self = this;
-            let _url = "http://192.168.1.106:9000/daily/inventory/summary/"+date+"/"+id;
+            let _url = self.$url+"/daily/inventory/summary/"+date+"/"+id;
             self.$axios.get(_url).then((res)=>{
                 this.unit.value=(function() {
                     if (res.data.retval!=null) {

@@ -20,7 +20,7 @@
                            >
                        </el-date-picker>
                </el-col>
-               <el-col :span="22":offset="2"class="enter_remind">您还有其他2天的数据未录入，点击日历，选择日期，去补录吧</el-col>
+               <el-col :span="22":offset="2"class="enter_remind" v-if="num>0">您还有其他{{num}}天的数据未录入，点击日历，选择日期，去补录吧</el-col>
                <el-col :span="18":offset="2">
                    <el-form ref="ruleForm" :model="ruleForm" label-width="15rem" :status-icon="status" :rules="rules">
                        <el-form-item label="磷钙入库量(晚班)" prop="capNight" auto-complete="off">
@@ -70,6 +70,7 @@
                     calNon: ''
 
                 },
+                num:"0",
                 pickerOptions: {
                     disabledDate(time) {
             return time.getTime() > Date.now();
@@ -77,39 +78,78 @@
     },
                 rules: {
                     capNight: [
-                        { required: true, message: '内容不能为空'},
-                        { type: 'number', message: '必须为数字值'}
+                        { required: true, message: '内容不能为空'}
                     ],
                     capMorning: [
-                        { required: true, message: '内容不能为空'},
-                        { type: 'number', message: '必须为数字值'}
+                        { required: true, message: '内容不能为空'}
                     ],
                     capNon: [
-                        { required: true, message: '内容不能为空'},
-                        { type: 'number', message: '必须为数字值'}
+                        { required: true, message: '内容不能为空'}
                     ],
                     calNight: [
-                        { required: true, message: '内容不能为空'},
-                        { type: 'number', message: '必须为数字值'}
+                        { required: true, message: '内容不能为空'}
                     ],
                     calMorning: [
-                        { required: true, message: '内容不能为空'},
-                        { type: 'number', message: '必须为数字值'}
+                        { required: true, message: '内容不能为空'}
                     ],
                     calNon: [
                         { required: true, message: '内容不能为空'},
-                        { type: 'number', message: '必须为数字值'}
                     ]
                 }
             };
         },
 
-        created(){
+   mounted(){
+       /* this.queryNum(this.value6.format("YYYY-MM-dd"));*/
+       this.$axios({
+           url:"http://test.neweplatform.com:6002/into/the/factory/records/2017-12-08",
+           headers: {'Authorization': 'Basic dXNlcjp1c2Vy'},
+           withCredentials:true,
+           adapter: function (config) {
+               console.log(config)
+           },
+           transformResponse: [function (data) {
+               // 对 data 进行任意转换处理
 
+             console.log(data)
+           }],
+
+       })
     },
     methods: {
         changeHandler:function(value){
-            this.$message(value)
+            let _self = this;
+            let _url_=self.$url+"/panoramic/inventory/entry/"+value.format("YYYY-MM-dd");
+            console.log(_url_)
+            _self.$axios.get(_url_).then((res)=>{
+                let data = res.data.retval;
+                console.log(data)
+                for(let i of data){
+                    if("HG01XY750510"== i.code){
+                        if("早班"== i.schedule){
+                            this.ruleForm.capMorning = i.value;
+                        }
+                        if("中班"== i.schedule){
+                            this.ruleForm.capNon = i.value;
+                        }
+                        if("晚班"== i.schedule){
+                            this.ruleForm.capNight = i.value;
+                        }
+                    }
+                    if("HG01XY750410"== i.code){
+                        if("早班"== i.schedule){
+                            this.ruleForm.calMorning = i.value;
+                        }
+                        if("中班"== i.schedule){
+                            this.ruleForm.calNon = i.value;
+                        }
+                        if("晚班"== i.schedule){
+                            this.ruleForm.calNight = i.value;
+                        }
+                    }
+                }
+            })
+
         },
         submitForm(formName) {
             let self =this;
@@ -204,9 +244,9 @@
                             console.log(error);
                         });*/
                  /*   this.$refs[formName].resetFields();*/
-                   self.$axios({
+                 /*  self.$axios({
                         method:'post',
-                        url:'http://user:user@192.168.1.106:9000/panoramic/inventory/entry',
+                        url:'http://user:user@192.168.1.106:6002/panoramic/inventory/entry',
                        data:{
                            param:{
                                "panoramicInventoryEntryList":JSON.stringify(arr)
@@ -219,13 +259,21 @@
                         withCredentials : true
                     }).then((res)=>{
 
-                    })
+                    })*/
                 } else {
                     console.log('error submit!!');
                     return false;
                 }
             });
         },
+        queryNum(date){
+            let self = this;
+            var _url =self.$url+ "/panoramic/inventory/entry/msg/"+date;
+            self.$axios.get(_url).then((res)=>{
+
+            })
+
+        }
 
     }
     };

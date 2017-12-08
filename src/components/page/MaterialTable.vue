@@ -16,7 +16,7 @@
               <el-button type="primary" icon="search">搜索</el-button>
           </div>-->
         <el-table :data="tableData" border style="width: 100%;" ref="multipleTable" @selection-change="handleSelectionChange"height=282 >
-            <el-table-column prop="date" label="质检时间" sortable width="150" >
+            <el-table-column prop="date" label="质检时间"  width="150" >
             </el-table-column>
             <el-table-column prop="name" label="班次" width="120"align="center">
             </el-table-column>
@@ -75,23 +75,7 @@
             };
             self.$axios.post(self.url, {page:self.cur_page}).then((res) => {
 
-                var   tableData=[{
-                    date: '2016-05-02',
-                    name: '王小虎',
-                    address: '上海'
-                }, {
-                    date: '2016-05-04',
-                    name: '王小虎',
-                    address: '上海市'
-                }, {
-                    date: '2016-05-01',
-                    name: '王小虎',
-                    address: '上海市'
-                }, {
-                    date: '2016-05-03',
-                    name: '王小虎',
-                    address: '上海市'
-                }]
+                var   tableData=[]
                 self.tableData = tableData;
             })
         },
@@ -109,9 +93,9 @@
 </script>
 
 <style >
-
     .el-table__fixed-header-wrapper thead div,.el-table__header-wrapper thead div {
         color:rgb(255, 255, 255);
         background-color:rgb(1, 172, 237)
     }
+
 </style>

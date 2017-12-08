@@ -37,7 +37,7 @@
                                 <el-rate
                                     v-model=i.score
                                     disabled
-                                    show-score
+
                                     text-color="#ff9900"
                                     score-template="{value}">
                                 </el-rate>

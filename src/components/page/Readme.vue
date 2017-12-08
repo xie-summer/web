@@ -54,7 +54,7 @@
                                 <span>车牌：</span><span>{{numberPlate}}</span>
                             </li>
                             <li>
-                                <span>出库状态：</span><span></span>
+                                <span>出库状态：</span><span>{{errMsg}}</span>
                             </li>
                         </ul>
                     </el-col>
@@ -74,7 +74,7 @@
                     </div>
                 </el-col>
                 <el-col :span="14" class="tableColor"style="flex-grow:1">
-                    <el-table :data="tableData" border style="width: 100%;"  >
+                    <el-table :data="tableData" border style="width: 100%;" height=282>
                         <el-table-column prop="date" label="检修工段"  align="center" >
                         </el-table-column>
                         <el-table-column prop="name" label="检修设备" align="center" >
@@ -98,7 +98,7 @@
                 <div style="float: left;font-size: 2rem">数据校验</div>
 
                 <div class="time" >0.00-24.00</div>
-                <div class="time timeRight">{{date|formatDate}}</div>
+                <div class="time timeRight">{{date}}</div>
             </el-col>
 
                 <div class="row-bg yyyyy">
@@ -183,7 +183,6 @@
                     dataIoPG:"",
                     dataIoValuePG:"",
                 },
-                tableData: [],
                 cur_page: 1,
                 currentPage1: 1,
                 totalCount1: 500,
@@ -198,6 +197,7 @@
         numberPlate:"",
         uTime:"",
         numberSize:"",
+        errMsg:"",
         tableData_1:[1,2],
         item:[{"name":"磷矿粉(吨)","number":85,"text":"高"},
             {"name":"硫酸(立方米)","number":85,"text":"高"},
@@ -207,29 +207,13 @@
             {"name":"普钙(吨)","number":85,"text":"高"}],
         redOrblue:"colorRed",
         items:[
-            {'number':'3','text':'巡检作业项完成率','color':'red',"symbol":"%"},
-            {'number':'3','text':'作业项异常次数','color':'blue',"symbol":"次"},
-            {'number':'3','text':'巡检作业项数','color':'green',"symbol":"次"},
-            {'number':'3','text':'检修次数','color':'green',"symbol":"次"}
+            {'number':'0','text':'巡检作业项完成率','color':'red',"symbol":"%"},
+            {'number':'0','text':'作业项异常次数','color':'blue',"symbol":"次"},
+            {'number':'0','text':'巡检作业项数','color':'green',"symbol":"次"},
+            {'number':'0','text':'检修次数','color':'green',"symbol":"次"}
         ],
-        tableData:[{
-            date: '2016-05-02',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-            date: '2016-05-04',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1517 弄'
-        }, {
-            date: '2016-05-01',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1519 弄'
-        }, {
-            date: '2016-05-03',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1516 弄'
-        }],
-        date:new Date()
+        tableData:[],
+        date:new Date().format("YYYY-MM-dd")
             }
         },
     created:function(){
@@ -239,17 +223,12 @@
         this.queryDatIoValue(this.value11.format("YYYY-MM-dd"));
     },
    filters:{
-        formatDate(){
-            let date = new Date();
-            return date.format("YYYY-MM-dd")
-            //此处formatDate是一个函数，将其封装在common/js/date.js里面，便于全局使用
-        },
 
     },
     methods: {
         changeHandler:function(value){
+            this.date=value;
             this.queryTable(value,this.cur_page,this.pageSize);
-            this.$message.success(value);
             this.querynventoryDay(value);
             this.queryDatIoValue(value);
         },
@@ -261,8 +240,10 @@
         },
         queryTable(date,page,size){
             let self = this;
-            let _url="http://user:user@192.168.1.106:9000/into/the/factory/records/"+date+"/"+page+"/"+size;
+            console.log(self.$axios.defaults.headers)
+            let _url=self.$url+"/into/the/factory/records/"+date+"/"+page+"/"+size;
             self.$axios.get(_url).then((res)=>{
+                console.log("请求成功了")
                 this.tableData_1=res.data.retval.list;
              self.$refs.son.getData( this.tableData_1);
 
@@ -270,50 +251,69 @@
         },
         queryOneCall(){
                 let self = this;
-                let _url="http://user:user@192.168.1.106:9000/into/the/factory/records/2017-11-29";
+                let _url=self.$url+"/into/the/factory/records/"+this.value11.format("YYYY-MM-dd");
                 self.$axios.get(_url).then((res)=>{
                if(res.data.retval==null) return false;
                 this.uTime  = new Date(res.data.retval.outTime).format("YYYY/MM/dd");
                 this.numberPlate  = res.data.retval.numberPlate;
+                this.errMsg = res.data.retval.errMsg;
 
 
             });
-            let _url_size="http://user:user@192.168.1.106:9000/into/the/factory/records/count/2017-11-29";
+            let _url_size=self.$url+"/into/the/factory/records/count/"+this.value11.format("YYYY-MM-dd");
             self.$axios.get(_url_size).then((res)=>{
+
                 this.numberSize  = res.data.retval;
             });
 
         },
         querynventoryDay(date){
-                let self = this;
-            let _url="http://192.168.1.106:9000/daily/inventory/summary/list/"+date;
+            let self = this;
+            let _url=self.$url+"/daily/inventory/summary/list/"+date;
+            let code=[];
+            let item=[];
             self.$axios.get(_url).then((res)=>{
-                let list=[];
-                for( let i of res.data.retval){
-                   let obj={};
-                    obj.name= i.name;
-                    obj.number= i.value;
-                    obj.text="高";
-                   list.push(obj);
+                let  list = res.data.retval;
+                let _url_1=self.$url+"/daily/inventory/summary/check/"+date;
+                for(let o of res.data.retval){
+                    code.push( o.code);
                 }
-                this.item =list;
+                self.$axios.get(_url_1,{params: {codeList: code}}).then((res)=>{
+                   let arr=[];
+                    for(let j  of list){
+                        let k=0;
+                        let obj={};
+                        obj.name= j.name;
+                        obj.number= j.value;
+                        obj.text=res.data.retval[j.code];
+                        item.push(obj);
+                    }
+                });
             });
+            this.item=item;
+
         },
         toShow(msg){
+           let date="";
+            if((this.value11+"").indexOf("-")==-1){
+                date=this.value11.format("YYYY-MM-dd");
+            }else{
+                date=this.value11;
+            }
             this.cur_page=msg.page;
             this.pageSize=msg.pageSize;
-            this.queryTable(this.value11.format("YYYY-MM-dd"), this.cur_page,this.pageSize);
+            this.queryTable(date, this.cur_page,this.pageSize);
         },
         queryDatIoValue(date){
             var self = this;
             function queryLKF(){
-                return self.$axios.get("http://192.168.1.106:9000/real/time/consumption/gather/day/statistics/"+date+"/HG01XY75000")
+                return self.$axios.get(self.$url+"/real/time/consumption/gather/day/statistics/"+date+"/HG01XY75000")
             };
             function queryLG(){
-                return self.$axios.get("http://192.168.1.106:9000/real/time/consumption/gather/day/statistics/"+date+"/HG01XY750510")
+                return self.$axios.get(self.$url+"/real/time/consumption/gather/day/statistics/"+date+"/HG01XY750510")
             };
             function queryPG(){
-                return self.$axios.get("http://192.168.1.106:9000/real/time/consumption/gather/day/statistics/"+date+"/HG01XY750410")
+                return self.$axios.get(self.$url+"/real/time/consumption/gather/day/statistics/"+date+"/HG01XY750410")
             }
 
            self.$axios.all([queryLKF(), queryLG(),queryPG()])

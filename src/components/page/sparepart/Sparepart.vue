@@ -21,11 +21,11 @@
              </el-date-picker>
          </div>
      </el-row>
-     <el-row style="margin-bottom: 2rem;min-width: 1055px"type="flex"justify="space-around">
+     <el-row style="margin-bottom: 2rem;min-width: 1055px;background: #ffffff;box-shadow: 2px 5px 2px #E5E5E5;"type="flex"justify="space-around" >
             <el-col :span="11">
                 <el-col :span="24"style="font-size: 2.4rem;background: #ffffff;width: 90%;padding-left: 2rem">货值总览</el-col>
 
-                <div style="width: 100%;height:33.1rem;background: #ffffff;box-shadow: 2px 5px 2px #E5E5E5;">
+                <div style="width: 100%;height:33.1rem;">
                     <v-gauge :unit="unit"></v-gauge>
                 </div>
             </el-col>
@@ -79,7 +79,7 @@
                 </el-col>
             </el-col>
             <el-col :span="11">
-                <el-col :span="24" class="title">消耗量排行前10</el-col>
+                <el-col :span="24" class="title">消耗量排行前5</el-col>
                 <el-col :span="24">
                   <v-str ref="chartstr"></v-str>
                 </el-col>
