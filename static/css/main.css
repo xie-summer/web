@@ -128,3 +128,5 @@ a{text-decoration: none}
     height: 33px;
     line-height: 33px;
 }
+
+input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill { -webkit-box-shadow:0 0 0 1000px #ffffff inset;}

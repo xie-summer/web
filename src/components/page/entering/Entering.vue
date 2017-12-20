@@ -100,8 +100,8 @@
         },
 
    mounted(){
-       /* this.queryNum(this.value6.format("YYYY-MM-dd"));*/
-       this.$axios({
+       this.queryNum(this.value6.format("YYYY-MM-dd"));
+    /*   this.$axios({
            url:"http://test.neweplatform.com:6002/into/the/factory/records/2017-12-08",
            headers: {'Authorization': 'Basic dXNlcjp1c2Vy'},
            withCredentials:true,
@@ -114,12 +114,12 @@
              console.log(data)
            }],
 
-       })
+       })*/
     },
     methods: {
         changeHandler:function(value){
             let _self = this;
-            let _url_=self.$url+"/panoramic/inventory/entry/"+value.format("YYYY-MM-dd");
+            let _url_=_self.$url+"/panoramic/inventory/entry/"+value.format("YYYY-MM-dd");
             console.log(_url_)
             _self.$axios.get(_url_).then((res)=>{
                 let data = res.data.retval;
@@ -244,22 +244,7 @@
                             console.log(error);
                         });*/
                  /*   this.$refs[formName].resetFields();*/
-                 /*  self.$axios({
-                        method:'post',
-                        url:'http://user:user@192.168.1.106:6002/panoramic/inventory/entry',
-                       data:{
-                           param:{
-                               "panoramicInventoryEntryList":JSON.stringify(arr)
-                           }
-                        },
-                        headers: {
-                            "Authorization": "Basic dXNlcjp1c2Vy",
-                            "content-type":"application/json"
-                        },
-                        withCredentials : true
-                    }).then((res)=>{
 
-                    })*/
                 } else {
                     console.log('error submit!!');
                     return false;
@@ -268,9 +253,10 @@
         },
         queryNum(date){
             let self = this;
-            var _url =self.$url+ "/panoramic/inventory/entry/msg/"+date;
+            var _url =self.$url+"/panoramic/inventory/entry/msg/"+date;
             self.$axios.get(_url).then((res)=>{
-
+            /*post*/
+                console.log(res)
             })
 
         }

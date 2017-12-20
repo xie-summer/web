@@ -22,22 +22,14 @@ module.exports = {
         bundleAnalyzerReport: process.env.npm_config_report
     },
     dev: {
-        env: require('./dev.env'),
+       env: require('./dev.env'),
         port: 8080,
         autoOpenBrowser: true,
         assetsSubDirectory: 'static',
         assetsPublicPath: '/',
         proxyTable: {
-            '/api':{
-                target:'http://jsonplaceholder.typicode.com',
-                changeOrigin:true,
-                pathRewrite:{
-                    '/api':''
-                }
-            },
-            '/ms':{
-                target: 'https://www.easy-mock.com/mock/592501a391470c0ac1fab128',
-                changeOrigin: true
+            '/panoramic':{
+                target: 'http://192.168.10.145:9000/',
             },
 
         },

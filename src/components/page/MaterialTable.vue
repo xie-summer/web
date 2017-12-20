@@ -46,7 +46,6 @@
     export default {
         data() {
         return {
-            url: '../../../static/vuetable.json',
             tableData: [],
             cur_page: 1,
             pagesize:2,
@@ -58,26 +57,11 @@
         }
     },
     created(){
-        this.getData();
     },
     methods: {
         handleCurrentChange(val){
             //页码
             this.cur_page = val;
-            this.getData();
-        },
-        getData(){
-            let self = this;
-
-            if(process.env.NODE_ENV === 'development'){
-                self.url = '/ms/table/list';
-
-            };
-            self.$axios.post(self.url, {page:self.cur_page}).then((res) => {
-
-                var   tableData=[]
-                self.tableData = tableData;
-            })
         },
 
         filterTag(value, row) {

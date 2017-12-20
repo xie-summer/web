@@ -36,7 +36,6 @@
             </el-col>
         </div>
         <div class="goods" style="min-width: 1055px">
-
             <el-col :span="24" class="goodsTitle">出厂监控</el-col>
             <div  style="display: flex;display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%">
                 <el-col :span="10" class="goodsHeight" style="flex-grow:1">
@@ -62,6 +61,12 @@
                 <el-col :span="14" class="goodsHeight" style="flex-grow:1">
                     <v-table :table-con="tableData_1" ref="son" @handleCurrentChange="toShow"></v-table>
                 </el-col>
+            </div>
+        </div>
+        <div class="goods" style="min-width: 1055px">
+            <el-col :span="24" class="goodsTitle"style="font-size: 2rem">生产监管</el-col>
+            <div  style="display: flex;display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%">
+
             </div>
         </div>
         <div class="goods" style="min-width: 1055px">

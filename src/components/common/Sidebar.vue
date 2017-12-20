@@ -46,17 +46,6 @@
                     },*/
                     {
                         icon: 'el-icon-menu',
-                        index: '2',
-                        title: '人员效率监控',
-                        subs: [
-                            {
-                                index: 'pefficiency',
-                                title: '生产人员效率'
-                            }
-                        ]
-                    },
-                    {
-                        icon: 'el-icon-menu',
                         index: '3',
                         title: '库存监管',
                         subs: [
@@ -71,9 +60,27 @@
                             {
                                 index: 'sparepart',
                                 title: '备品备件库'
-                    }
-                ]
+                            }
+                        ]
                     },
+                    {
+                        icon: 'el-icon-menu',
+                        index: 'logistics',
+                        title: '在途物资',
+                    },
+                    {
+                        icon: 'el-icon-menu',
+                        index: '2',
+                        title: '人员效率监控',
+                        subs: [
+                            {
+                                index: 'pefficiency',
+                                title: '生产人员效率'
+                            }
+                        ]
+                    },
+
+
                     {
                         icon: 'el-icon-star-off',
                         index: 'police',

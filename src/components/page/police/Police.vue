@@ -11,7 +11,7 @@
 
         <el-row type="flex"justify="space-between" style="margin-bottom: 2rem">
             <el-col :span="18">
-                <button class="button_class" :class="{blues:change==key}"@click="cut(key,item.name)" v-for=" (item,key) in nameData " :key="key" style="width: 8rem">{{item.name}}</button>
+                <button class="button_class" :class="{blues:change==key}"@click="cut(key,item.name,item.code)" v-for=" (item,key) in nameData " :key="key" style="width: 8rem">{{item.name}}</button>
             </el-col>
 
             <el-col :span="6">
@@ -20,8 +20,9 @@
                         :picker-options="pickerOptions"
                         @change="(value) => changeHandler(value)"
                         placeholder="请选择时间"
-                        v-model="value6"
+                        v-model="valueDate"
                         type="daterange"
+                        format="yyyy-MM-dd"
                         align="right"
                         :editable="zreo"
                         range-separator="至"
@@ -57,9 +58,12 @@
                 <div class="pagination">
                     <el-pagination
                         @current-change ="handleCurrentChange"
-                        layout="total, prev, pager, next"
+                        @size-change="handleSizeChange"
+                        layout="total, prev, pager, next,sizes"
+                        :page-sizes="[5, 10, 20, 30]"
                         :total="totalCount"
-                        :current-page="currentPage"
+                        :current-page="cur_page"
+                        :page-size="pagesize"
                         >
                     </el-pagination>
                 </div>
@@ -71,18 +75,30 @@
     export default {
         data:function() {
         return {
-            value6: '',
             zreo:false,
-            url: '../../../static/vuetable.json',
-            tableData: [],
+            valueDate: [new Date().format("YYYY-MM-dd"), new Date().format("YYYY-MM-dd")],
+            tableData: [{
+                date: '2016-05-02',
+                name: '王小虎',
+                address: '上海',
+                isZero:1,
+            } ,{
+                date: '2016-05-01',
+                name: '王小虎',
+                address: '上海市',
+                isZero:0,
+            }],
             cur_page: 1,
-            pagesize:2,
-            /* multipleSelection: [],*/
-            select_cate: '',
-            select_word: '',
-            currentPage: 1,
-            totalCount: 500,
-            nameData:[{"name":"全部"},{"name":"出库监控"},{"name":"生产监管"},{"name":"数据校验"},{"name":"原料库"},{"name":"产品库"},{"name":"备品备件库"}],
+            pagesize:10,
+            totalCount: 50,
+            code:"",
+            nameData:[  {name:"全部",code:""},
+                        {name:"出库监控",code:"in_or_out_exception_record"},
+                        {name:"生产监管",code:""},
+                        {name:"数据校验",code:"data_validation"},
+                        {name:"原料库",code:"raw_material_stock"},
+                        {name:"产品库",code:"product_stock"},
+                        {name:"备品备件库",code:"spare_parts_stock"}],
             change:0,
             pickerOptions: {
                 disabledDate(time) {
@@ -92,64 +108,45 @@
     };
     },
         created(){
-        this.getData();
+        this.queryData(this.code,this.cur_page,this.pagesize,this.valueDate);
     },
         methods: {
-            changeHandler:function(value){
-                this.$message(value)
+            handleSizeChange(val){
+                this.pagesize = val;
+                this.queryData(this.code,this.cur_page,this.pagesize,this.valueDate);
             },
-            handleEdit(row) {
-               console.log(row);
+            changeHandler:function(value){
+                let date=[];
+               for(let i=0;i<value.length;i++){
+                   date.push(value[i].format("YYYY-MM-dd"))
+               }
+                this.valueDate = date;
+                this.queryData(this.code,this.cur_page,this.pagesize,this.valueDate);
             },
         handleCurrentChange(val){
-            //页码
             this.cur_page = val;
-            this.getData();
+            this.queryData(this.code,this.cur_page,this.pagesize,this.valueDate);
         },
-        getData(){
-            let self = this;
-                var _url=self.$url+'/daily/inventory/summary/2017-11-29/HG01XY750300';
-               self.$axios.get(
-                   _url
-                  ).then((res) => {
-                });
-                var   tableData=[{
-                    date: '2016-05-02',
-                    name: '王小虎',
-                    address: '上海',
-                    isZero:1,
-                }, {
-                    date: '2016-05-04',
-                    name: '王小虎',
-                    address: '上海市',
-                    isZero:1,
-                }, {
-                    date: '2016-05-01',
-                    name: '王小虎',
-                    address: '上海市',
-                    isZero:0,
-                }, {
-                    date: '2016-05-03',
-                    name: '王小虎',
-                    address: '上海市',
-                    isZero:0,
-                }]
-                self.tableData = tableData;
-
-        },
-
         filterTag(value, row) {
             //过滤
             return row.tag === value;
         },
-            cut:function(key,value){
+            cut:function(key,value,code){
                 this.change = key;
-                this.$message.success(value)
+                this.code=code;
+                this.queryData(code,this.cur_page,this.pagesize,this.valueDate);
 
+            },
+        queryData(code,page,size,date){
+                if(code==""){}else{code=code+"/"}
+                let startDate=date[0];
+                let endDate=date[1];
+                let _url = "http://192.168.1.106:6002/exception/record/"+code+startDate+"/"+endDate+"/"+page+"/"+size;
+                console.log(_url)
             }
-
     }
     };
+
 </script>
 <style>
     .right{float: right}

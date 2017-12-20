@@ -64,6 +64,10 @@ export default new Router({
                     component: resolve => require(['../components/page/PersonGrade.vue'], resolve) ,  // vue-schart组件
                 },
                 {
+                    path: '/logistics',
+                    component: resolve => require(['../components/page/logistics/Logistics.vue'], resolve) ,  // vue-schart组件
+                },
+                {
                     path: '/police',
                     component: resolve => require(['../components/page/police/Police.vue'], resolve) ,  // vue-schart组件
                 },

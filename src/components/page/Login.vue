@@ -1,22 +1,29 @@
 <template>
-    <div class="login-wrap">
-        <div class="ms-title">全景监控系统</div>
-        <div class="ms-login">
-            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" class="demo-ruleForm">
-                <el-form-item prop="username">
-                    <el-input v-model="ruleForm.username" placeholder="username"></el-input>
-                </el-form-item>
-                <el-form-item prop="password">
-                    <el-input type="password" placeholder="password" v-model="ruleForm.password" @keyup.enter.native="submitForm('ruleForm')"></el-input>
-                </el-form-item>
-                <p v-if="bool" style="font-size:12px;line-height:18px;color:red;margin-bottom: 5px">*用户名或密码错误</p>
-                <div class="login-btn">
-                    <el-button type="primary" native-type="button" @click="submitForm('ruleForm')">登录</el-button>
-                </div>
+    <div class="login-wrap_fff">
+       <!-- <div class="ms-title">全景监控系统</div>-->
+      <el-row>
+          <el-col :span="7"style="height: 952px">
+             <el-col :span="11" :offset="6"class="login_title"></el-col>
+              <el-col :span="11":offset="6"class="login_header"></el-col>
+              <div class="ms-login">
+                  <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="6rem" class="demo-ruleForm" >
+                      <el-form-item prop="username" label="用户名:">
+                          <el-input class="input_border"v-model="ruleForm.username" placeholder="用户名"></el-input>
+                      </el-form-item>
+                     <el-form-item prop="password" label="密码:">
+                          <el-input  class="input_border"type="password"placeholder="密码" v-model="ruleForm.password" @keyup.enter.native="submitForm('ruleForm')"></el-input>
+                      </el-form-item>
+                      <p v-if="bool" style="font-size:12px;line-height:18px;color:red;margin-bottom: 5px;margin-left:22%">*用户名或密码错误</p>
+                      <div class="login-btn">
+                          <el-button style="width:70%;margin-left:22%"type="primary" native-type="button" @click="submitForm('ruleForm')">登录</el-button>
+                      </div>
 
-                <p style="font-size:12px;line-height:30px;color:#999;">Tips : 用户名：admin  密码：admin</p>
-            </el-form>
-        </div>
+                      <p style="font-size:12px;line-height:30px;color:#999;margin-left:22%">Tips : 用户名：admin  密码：admin</p>
+                  </el-form>
+              </div>
+          </el-col>
+          <el-col class="back_img" :span="17"></el-col>
+      </el-row>
     </div>
 </template>
 
@@ -31,10 +38,10 @@
                 bool:false,
                 rules: {
                     username: [
-                        { required: true, message: '请输入用户名', trigger: 'blur' }
+
                     ],
                     password: [
-                        { required: true, message: '请输入密码', trigger: 'blur' }
+
                     ]
                 }
             }
@@ -61,10 +68,45 @@
 </script>
 
 <style scoped>
-    .login-wrap{
+    .login_header{
+        height: 50px;
+        position: relative;
+        top:11%;
+        -o-background-image: url("../../../static/img/headr.png");
+        background-image: url("../../../static/img/headr.png");
+        /*background-position: center center;*/
+        background-repeat: no-repeat;
+        background-size:100% 100%;
+        -moz-background-size:100% 100%;
+    }
+    .login_title{
+        position: relative;
+        height: 100px;
+        top:10%;
+        -o-background-image: url("../../../static/img/title.png");
+        background-image: url("../../../static/img/title.png");
+        /*background-position: center center;*/
+        background-repeat: no-repeat;
+        background-size:100% 100%;
+        -moz-background-size:100% 100%;
+    }
+    .el-input__inner{border-left:0px;border-top:0px;border-right:0px;border-bottom: solid 1px #888888;}
+    .input_border{}
+    .back_img{
+        height: 952px;
+        -o-background-image: url("../../../static/img/blg.png");
+        background-image: url("../../../static/img/blg.png");
+        /*background-position: center center;*/
+        background-repeat: no-repeat;
+        background-size:100% 100%;
+        -moz-background-size:100% 100%;
+    }
+    .login-wrap_fff{
+        min-width: 1055px;
         position: relative;
         width:100%;
         height:952px;
+        background-color: #ffffff;
     }
     .ms-title{
         position: absolute;
@@ -77,15 +119,12 @@
 
     }
     .ms-login{
-        position: absolute;
-        left:50%;
-        top:50%;
+        position: relative;
+        left:5%;
+        top:25%;
         width:300px;
-        height:173px;
-        margin:-150px 0 0 -190px;
-        padding:40px;
+        padding:10px 10%;
         border-radius: 5px;
-        background: #fff;
     }
     .login-btn{
         text-align: center;
@@ -93,5 +132,11 @@
     .login-btn button{
         width:100%;
         height:36px;
+    }
+
+
+    .login-wrap_fff .ms-login input[type=text]:focus, input[type=password]:focus, textarea:focus {
+        -webkit-box-shadow: 0 0 0 1000px white inset;
+        border-bottom: 1px solid #888888;
     }
 </style>
