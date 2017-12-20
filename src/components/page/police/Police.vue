@@ -33,13 +33,13 @@
 
         </el-row>
 
-        <el-row>
+        <el-row class="pTable">
             <el-col :span="24">
                 <el-table :data="tableData" border style="width: 100%;" ref="multipleTable" >
                     <el-table-column  label="报警状态" align="center" prop="isZero">
                         <template slot-scope="scope">
-                            <el-button v-if="scope.row.isZero>0" :class="scope.row.isZero? 'bts':'btn'"@click="handleEdit(scope.row.isZero)" >已解除</el-button>
-                            <el-button v-else :class="scope.row.isZero? 'bts':'btn'"@click="handleEdit(scope.row.isZero)" >未解除</el-button>
+                            <el-col v-if="scope.row.isZero>0" :class="scope.row.isZero? 'bts':'btn'"@click="handleEdit(scope.row.isZero)" >已解除</el-col>
+                            <el-col v-else :class="scope.row.isZero? 'bts':'btn'"@click="handleEdit(scope.row.isZero)" >未解除</el-col>
                         </template>
                     </el-table-column>
                     <el-table-column prop="name" label="报警项" align="center">
@@ -148,7 +148,7 @@
     };
 
 </script>
-<style>
+<style >
     .right{float: right}
     .el-table__fixed-header-wrapper thead div,.el-table__header-wrapper thead div {
         color:rgb(255, 255, 255);
@@ -157,24 +157,14 @@
 
     .button_class{height: 3rem;border: 1px solid #888888;margin-right: 1rem;cursor: pointer;border-radius:5px ;background-color: #ffffff}
     .blues{background: #1DB5EF;color: #ffffff;border: solid 0px #ffffff}
-    .el-table .cell {
-        padding: 0;
-    }
+
     .btn{border: 1px solid #bb4b39;cursor: auto;background-color: #bb4b39;color: #ffffff;width: 100%;height: 100%}
     .bts{border: 1px solid #ffffff;cursor: auto;background-color: #ffffff;color: #000000;width: 100%;height: 100%}
     .el-table--enable-row-hover .el-table__body tr:hover>td{
 
     }
-   .btn:hover{
-        border: 1px solid #bb4b39;
-        color: #ffffff;
-      background-color: #bb4b39;
-    }
-    .bts:hover{
-        border: 1px solid #ffffff;
-        color: #000000;
-    }
-    .el-date-editor--daterange.el-input__inner{width: 250px}
+   .pTable .el-table td{padding: 0 0}
+    .pTable .el-table .cell{padding-right: 0}
+    .pTable .el-table--border td:first-child .cell{padding-left: 0;}
 
-  /*  .el-table td{padding:5px 0}*/
 </style>

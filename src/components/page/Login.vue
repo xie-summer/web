@@ -67,7 +67,7 @@
     }
 </script>
 
-<style scoped>
+<style>
     .login_header{
         height: 50px;
         position: relative;
@@ -90,7 +90,7 @@
         background-size:100% 100%;
         -moz-background-size:100% 100%;
     }
-    .el-input__inner{border-left:0px;border-top:0px;border-right:0px;border-bottom: solid 1px #888888;}
+    .ms-login .el-input__inner{border-left:0px;border-top:0px;border-right:0px;border-bottom: solid 1px #888888;}
     .input_border{}
     .back_img{
         height: 952px;

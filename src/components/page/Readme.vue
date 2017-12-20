@@ -63,12 +63,25 @@
                 </el-col>
             </div>
         </div>
-        <div class="goods" style="min-width: 1055px">
-            <el-col :span="24" class="goodsTitle"style="font-size: 2rem">生产监管</el-col>
-            <div  style="display: flex;display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%">
-
-            </div>
-        </div>
+        <el-row :span="24" class="goodsTitle"style="font-size: 2rem;">生产监管</el-row>
+            <el-row type="flex"  justify="space-between" style="min-width: 1055px;box-shadow: 5px 5px 3px #E5E5E5;margin-bottom: 3rem">
+                <el-col :span="5">
+                    <el-col :span="24" style="text-align: center;font-size: 1.8rem">磷钙矿耗</el-col>
+                    <div class="gu_1" id="gu_1" ref="gu_1" style="height: 19rem"></div>
+                </el-col>
+                <el-col :span="5">
+                    <el-col :span="24" style="text-align: center;font-size: 1.8rem">磷钙酸耗</el-col>
+                    <div class="gu_2" id="gu_2" ref="gu_2" style="height: 19rem"></div>
+                </el-col>
+                <el-col :span="5">
+                    <el-col :span="24" style="text-align: center;font-size: 1.8rem">磷钙煤耗</el-col>
+                    <div class="gu_3" id="gu_3" ref="gu_3" style="height: 19rem"></div>
+                </el-col>
+                <el-col :span="5">
+                    <el-col :span="24" style="text-align: center;font-size: 1.8rem">磷钙电耗</el-col>
+                    <div class="gu_4" id="gu_4" ref="gu_4" style="height: 20rem"></div>
+                </el-col>
+            </el-row>
         <div class="goods" style="min-width: 1055px">
             <el-col :span="24" class="goodsTitle" style="font-size: 2rem">巡检检修</el-col>
             <div style="display: flex;display: -webkit-flex;flex-direcion:row ;width: 100%; flex-wrap:wrap;">
@@ -168,7 +181,13 @@
 
 <script>
     import vTable from './BaseTable.vue';
+    let echarts=require('echarts/lib/echarts');
+    //引入仪表盘图
+    require('echarts/lib/chart/gauge');
 
+    //引入所需组件
+    require('echarts/lib/component/tooltip');
+    require('echarts/lib/component/legend');
 
     export default {
         components:{
@@ -226,6 +245,13 @@
         this.queryTable(this.value11.format("YYYY-MM-dd"),this.cur_page,this.pageSize);
         this.querynventoryDay(this.value11.format("YYYY-MM-dd"));
         this.queryDatIoValue(this.value11.format("YYYY-MM-dd"));
+
+    },
+    mounted(){
+        this.queryProduction_1(3000);
+        this.queryProduction_2(3000);
+        this.queryProduction_3(3000);
+        this.queryProduction_4(3000);
     },
    filters:{
 
@@ -245,10 +271,8 @@
         },
         queryTable(date,page,size){
             let self = this;
-            console.log(self.$axios.defaults.headers)
             let _url=self.$url+"/into/the/factory/records/"+date+"/"+page+"/"+size;
             self.$axios.get(_url).then((res)=>{
-                console.log("请求成功了")
                 this.tableData_1=res.data.retval.list;
              self.$refs.son.getData( this.tableData_1);
 
@@ -336,7 +360,319 @@
                    self.dat.dataIoPG=pg.data.retval.ratio;
                    self.dat.dataIoValuePG=pg.data.retval.recordValues;
                 }));
-        }
+        },
+        queryProduction_1(v){
+            let self = this;
+            let gu_1=echarts.init(self.$refs.gu_1);
+
+            gu_1.setOption({
+                tooltip : {
+                    formatter: "{a} <br/>{b} : {c}万"
+                },
+                series : [
+                    {
+                        name:'',
+                        type:'gauge',
+                        startAngle: 180,
+                        endAngle: 0,
+                        center : ['50%', '80%'],    // 默认全局居中
+                        radius : 130,
+                        splitNumber:1,
+                        splitLine:{
+                            show:false,
+                            length:10
+                        },
+                        min:0,
+                        max:7000,
+                        axisLine: {
+                            show:true,
+                            // 属性lineStyle控制线条样式
+                            lineStyle: {
+                                color:[[v/7000, '#3B48A8'],[4500/7000, '#C4CBFF'],[1,'#E4E4E4']],
+                                width: 30
+                            }
+                        },
+                        axisTick: {            // 坐标轴小标记
+                            splitNumber: 1,   // 每份split细分多少段
+                            length :0,        // 属性length控制线长
+                        },
+
+                        axisLabel:{
+                            show:true,
+                            formatter:function(e){
+                                return e
+                            },
+                            "distance": -39,
+                            textStyle:{
+                                color:"#000000"
+                            }
+                        },
+                        pointer: {
+                            width:0,
+
+                        },
+                        title : {
+                            show : true,
+                            offsetCenter: [0, '-45%'],       // x, y，单位px
+                            textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                                color: '#000000',
+                                fontSize: 20
+                            }
+                        },
+                        detail : {
+                            show : true,
+                            borderWidth: 0,
+                            borderColor: '#ccc',
+                            offsetCenter: [0, '-15%'],       // x, y，单位px
+                            formatter:function(e){
+                                return (e/10000).toFixed(2)+'万元'
+                            },
+                            textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                                fontSize : 20,
+                                color:'#000000'
+                            }
+                        },
+
+                        data:[{value: v, name: 'title'}]
+                    },
+
+                ],
+            });
+        },
+        queryProduction_2(v){
+            let self = this;
+            let gu_2=echarts.init(self.$refs.gu_2);
+
+            gu_2.setOption({
+                tooltip : {
+                    formatter: "{a} <br/>{b} : {c}万"
+                },
+                series : [
+                    {
+                        name:'',
+                        type:'gauge',
+                        startAngle: 180,
+                        endAngle: 0,
+                        center : ['50%', '80%'],    // 默认全局居中
+                        radius : 130,
+                        splitNumber:1,
+                        splitLine:{
+                            show:false,
+                            length:10
+                        },
+                        min:0,
+                        max:7000,
+                        axisLine: {
+                            show:true,
+                            // 属性lineStyle控制线条样式
+                            lineStyle: {
+                                color:[[v/7000, '#01ACED'],[4500/7000, '#A0E5FF'],[1,'#E4E4E4']],
+                                width: 30
+                            }
+                        },
+                        axisTick: {            // 坐标轴小标记
+                            splitNumber: 1,   // 每份split细分多少段
+                            length :0,        // 属性length控制线长
+                        },
+
+                        axisLabel:{
+                            show:true,
+                            formatter:function(e){
+                                return e
+                            },
+                            "distance": -39,
+                            textStyle:{
+                                color:"#000000"
+                            }
+                        },
+                        pointer: {
+                            width:0,
+
+                        },
+                        title : {
+                            show : true,
+                            offsetCenter: [0, '-45%'],       // x, y，单位px
+                            textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                                color: '#000000',
+                                fontSize: 20
+                            }
+                        },
+                        detail : {
+                            show : true,
+                            borderWidth: 0,
+                            borderColor: '#ccc',
+                            offsetCenter: [0, '-15%'],       // x, y，单位px
+                            formatter:function(e){
+                                return (e/10000).toFixed(2)+'万元'
+                            },
+                            textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                                fontSize : 20,
+                                color:'#000000'
+                            }
+                        },
+
+                        data:[{value: v, name: 'title'}]
+                    },
+
+                ],
+            });
+        },
+        queryProduction_3(v){
+            let self = this;
+            let gu_3=echarts.init(self.$refs.gu_3);
+
+            gu_3.setOption({
+                tooltip : {
+                    formatter: "{a} <br/>{b} : {c}万"
+                },
+                series : [
+                    {
+                        name:'',
+                        type:'gauge',
+                        startAngle: 180,
+                        endAngle: 0,
+                        center : ['50%', '80%'],    // 默认全局居中
+                        radius : 130,
+                        splitNumber:1,
+                        splitLine:{
+                            show:false,
+                            length:10
+                        },
+                        min:0,
+                        max:7000,
+                        axisLine: {
+                            show:true,
+                            // 属性lineStyle控制线条样式
+                            lineStyle: {
+                                color:[[v/7000, '#4875B4'],[4500/7000, '#A3C9FF'],[1,'#E4E4E4']],
+                                width: 30
+                            }
+                        },
+                        axisTick: {            // 坐标轴小标记
+                            splitNumber: 1,   // 每份split细分多少段
+                            length :0,        // 属性length控制线长
+                        },
+
+                        axisLabel:{
+                            show:true,
+                            formatter:function(e){
+                                return e
+                            },
+                            "distance": -39,
+                            textStyle:{
+                                color:"#000000"
+                            }
+                        },
+                        pointer: {
+                            width:0,
+
+                        },
+                        title : {
+                            show : true,
+                            offsetCenter: [0, '-45%'],       // x, y，单位px
+                            textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                                color: '#000000',
+                                fontSize: 20
+                            }
+                        },
+                        detail : {
+                            show : true,
+                            borderWidth: 0,
+                            borderColor: '#ccc',
+                            offsetCenter: [0, '-15%'],       // x, y，单位px
+                            formatter:function(e){
+                                return (e/10000).toFixed(2)+'万元'
+                            },
+                            textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                                fontSize : 20,
+                                color:'#000000'
+                            }
+                        },
+
+                        data:[{value: v, name: 'title'}]
+                    },
+
+                ],
+            });
+        },
+        queryProduction_4(v){
+            let self = this;
+            let gu_4=echarts.init(self.$refs.gu_4);
+
+            gu_4.setOption({
+                tooltip : {
+                    formatter: "{a} <br/>{b} : {c}万"
+                },
+                series : [
+                    {
+                        name:'',
+                        type:'gauge',
+                        startAngle: 180,
+                        endAngle: 0,
+                        center : ['50%', '80%'],    // 默认全局居中
+                        radius : 130,
+                        splitNumber:1,
+                        splitLine:{
+                            show:false,
+                            length:10
+                        },
+                        min:0,
+                        max:7000,
+                        axisLine: {
+                            show:true,
+                            // 属性lineStyle控制线条样式
+                            lineStyle: {
+                                color:[[v/7000, '#3B48AA'],[4500/7000, '#BBC3FF'],[1,'#E4E4E4']],
+                                width: 30
+                            }
+                        },
+                        axisTick: {            // 坐标轴小标记
+                            splitNumber: 1,   // 每份split细分多少段
+                            length :0,        // 属性length控制线长
+                        },
+
+                        axisLabel:{
+                            show:true,
+                            formatter:function(e){
+                                return e
+                            },
+                            "distance": -39,
+                            textStyle:{
+                                color:"#000000"
+                            }
+                        },
+                        pointer: {
+                            width:0,
+
+                        },
+                        title : {
+                            show : true,
+                            offsetCenter: [0, '-45%'],       // x, y，单位px
+                            textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                                color: '#000000',
+                                fontSize: 20
+                            }
+                        },
+                        detail : {
+                            show : true,
+                            borderWidth: 0,
+                            borderColor: '#ccc',
+                            offsetCenter: [0, '-15%'],       // x, y，单位px
+                            formatter:function(e){
+                                return (e/10000).toFixed(2)+'万元'
+                            },
+                            textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                                fontSize : 25,
+                                color:'#000000'
+                            }
+                        },
+
+                        data:[{value: v, name: 'title'}]
+                    },
+
+                ],
+            });
+        },
     }
     }
 </script>
