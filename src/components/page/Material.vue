@@ -181,7 +181,6 @@
                 self.$axios.get(
                         _url
                 ).then((res) => {
-
                     let data=res.data.retval;
                     if(data.length==0||data==null) return false;
                     let value=[];
@@ -192,77 +191,59 @@
                     let sum1=0;
                     let sum2=0;
                     let sum3=0;
-                    let nullStr=["","","","","","","",""];
                     for(let i of data){
                         value.push(i.value);
                         date.push(i.gatherTime.split(" ")[1]);
                     }
-
                     if(data.length<8){
                         for(let j of data){
                             sum1+=j.value;
                             value1.push(j.value)
                         }
                         this.obj.date=date;
+                        this.obj.value1=value1;
                     }else if(data.length>=8&&data.length<16){
-                        value.find(function( v,index,arr){
+                        value.find(function(v,index){
                             if(index<8){
                                 sum1+=v;
                                 value1.push(v);
-                            }else if(index>=8&&index<16){
+                            }else{
                                 sum2+=v;
                                 value2.push(v);
                             }
                         });
+                        let arr=["","","","","","","",0];
+                        value2.unshift.apply(value2,arr);
                     }else if(data.length>=16){
-                        value.find(function( v,index,arr){
+                        value.find(function( v,index){
                             if(index<8){
                                 sum1+=v;
                                 value1.push(v);
                             }else if(index>=8&&index<16){
                                 sum2+=v;
                                 value2.push(v);
+
                             }else if(index>=16){
                                 sum3+=v;
                                 value3.push(v);
-
                             }
                         });
-                        if(value.length<8){
-                            let arr=new Array(8-value1.length);
-                            value1=value1+arr+nullStr+nullStr;
-                        }else if(value.length>=8&&value.length<=16){
-                            let arr=new Array(8-value1.length);
-                            let nustr =["","","","","","","",""];
-                            nustr.length=value.length-8;
-                            value1.push(value2[0]);
-                            value2.unshift.apply(value2,nullStr)
-                        }else if(value.length>=17&&value.length<=24){
-                            let arr=new Array(8-value1.length);
-                            let nustr =["","","","","","","",""];
-                            nustr.length=value.length-16;
-                            value1.push(value2[0])
-                            value2.unshift.apply(value2,nullStr);
-                            value2.push(value3[0]);
-                            value3.unshift.apply(value3,nullStr);
-                            value3.unshift.apply(value3,nullStr);
-
-
-                        }
-                       this.obj.date=date;
-                        this.obj.data1=value1;
-                        this.obj.data2=value2;
-                        this.obj.data3=value3;
-                        this.class1.value=sum1;
-                        this.class2.value=sum2;
-                        this.class3.value=sum3;
-
+                        let arr=["","","","","","","",0];
+                        value2.unshift.apply(value2,arr);
+                        let arr2=["","","","","","","","","","","","","","","",0];
+                        value3.unshift.apply(value3,arr2);
                     }
+                    this.obj.date=date;
+                    this.obj.data1=value1;
+                    this.obj.data2=value2;
+                    this.obj.data3=value3;
+                    this.obj.class1.value=sum1;
+                    this.obj.class2.value=sum2;
+                    this.obj.class3.value=sum3;
+                    this.$refs.chartLine.createChartOne(this.obj);
+
                 });
             }
-            self.$refs.chartLine.createChartOne(this.obj)
-
-
         },
         queryMonthConsume(id,date){
             if(id=="")return false;

@@ -7,7 +7,7 @@
                 <el-col :span="1" style="height: 1px"></el-col>
                 <el-col :span="12">
                     <el-col :span="24" style="font-size: 1.2rem;line-height: 2.6rem">{{obj.class1.name}}</el-col>
-                    <el-col :span="24" style="font-size: 1.8rem;line-height: 1rem">{{obj.class1.value}}吨</el-col>
+                    <el-col :span="24" style="font-size: 1.8rem;line-height: 1rem">{{obj.class1.value |numToFixed}}吨</el-col>
                 </el-col>
 
             </div>
@@ -16,7 +16,7 @@
                 <el-col :span="1" style="height: 1px"></el-col>
                 <el-col :span="12">
                     <el-col :span="24" style="font-size: 1.2rem;line-height: 2.6rem">{{obj.class2.name}}</el-col>
-                    <el-col :span="24" style="font-size: 1.8rem;line-height: 1rem">{{obj.class2.value}}吨</el-col>
+                    <el-col :span="24" style="font-size: 1.8rem;line-height: 1rem">{{obj.class2.value |numToFixed}}吨</el-col>
                 </el-col>
             </div>
             <div style="width: 15rem">
@@ -24,7 +24,7 @@
                 <el-col :span="1" style="height: 1px"></el-col>
                 <el-col :span="12">
                     <el-col :span="24" style="font-size: 1.2rem;line-height: 2.6rem">{{obj.class3.name}}</el-col>
-                    <el-col :span="24" style="font-size: 1.8rem;line-height: 1rem">{{obj.class3.value}}吨</el-col>
+                    <el-col :span="24" style="font-size: 1.8rem;line-height: 1rem">{{obj.class3.value |numToFixed}}吨</el-col>
                 </el-col>
             </div>
 
@@ -62,9 +62,9 @@
                     borderWidth:0,
                     backgroundColor:'rgba(0,0,0,0)',
                     formatter:function(p){
-                       for(let i=0;i< p.length;i++){
-                           if(p[i].value==""){
 
+                       for(let i=0;i< p.length;i++){
+                           if(p[i].value===""){
                            }else{
                                    return '<div style="width:100px;height:50px;display: inline-block;background-color:'+p[i].color+'">'+p[i].seriesName+"："+p[i].value+'</div>'
                            }
