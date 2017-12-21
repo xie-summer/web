@@ -7,7 +7,7 @@
             </el-breadcrumb>
         </div>
         <el-row style="min-width: 1059px;margin-bottom: 3rem">
-            <el-col :span="24" class="enter">
+            <el-col :span="5" :offset="17"class="enter">
                     <el-date-picker
                         @change="(value) => changeHandler(value)"
                         placeholder="请选择时间"
