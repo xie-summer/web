@@ -15,7 +15,7 @@
             </el-col>
 
             <el-col :span="6">
-                <div style="float: right">
+                <div style="float: right" class="sizeDate">
                     <el-date-picker
                         :picker-options="pickerOptions"
                         @change="(value) => changeHandler(value)"
@@ -157,14 +157,12 @@
 
     .button_class{height: 3rem;border: 1px solid #888888;margin-right: 1rem;cursor: pointer;border-radius:5px ;background-color: #ffffff}
     .blues{background: #1DB5EF;color: #ffffff;border: solid 0px #ffffff}
-
     .btn{border: 1px solid #bb4b39;cursor: auto;background-color: #bb4b39;color: #ffffff;width: 100%;height: 100%}
     .bts{border: 1px solid #ffffff;cursor: auto;background-color: #ffffff;color: #000000;width: 100%;height: 100%}
-    .el-table--enable-row-hover .el-table__body tr:hover>td{
-
-    }
    .pTable .el-table td{padding: 0 0}
     .pTable .el-table .cell{padding-right: 0}
     .pTable .el-table--border td:first-child .cell{padding-left: 0;}
-
+     .sizeDate .el-date-editor--daterange.el-input__inner{
+        width: 22rem;
+    }
 </style>
