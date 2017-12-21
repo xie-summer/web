@@ -8,6 +8,7 @@ import Vuex  from 'vuex';
 import  Login from'./components/page/Login.vue'
 import  Icon from'./assets/icon/iconfont.js'
 import  * as custom  from './filters/stringFilters.js'
+import   * as tofixed from './filters/numberFilter.js'
 
 
 
@@ -19,6 +20,9 @@ Vue.use(ElementUI,Vuex,Icon );
 Object.keys(custom).forEach(key => {
     Vue.filter(key, custom[key])
 })
+Object.keys(tofixed).forEach(key => {
+    Vue.filter(key, tofixed[key])
+})
 axios.defaults.withCredentials = true;
 /*axios.defaults.headers['Content-Type']="application/json"
 axios.defaults.headers.common['Authorization'] = "Basic dXNlcjp1c2Vy";*/
@@ -27,8 +31,8 @@ let u2="http://panoramic.neweplatform.com:60002/manage"
 Vue.prototype.$axios = axios;
 Vue.prototype.$url=u1;
 Vue.prototype.$axios.interceptors.request.use(function (config) {
-   /*  config.headers['Content-Type'] ="application/x-www-form-urlencoded";*/
-    /*   config.headers['Authorization'] = 'Basic dXNlcjp1c2Vy'*/
+    /* config.headers['Content-Type'] ="application/x-www-form-urlencoded";
+       config.headers['Authorization'] = 'Basic dXNlcjp1c2Vy';*/
     return config;
 }, function (err) {
     return Promise.reject(err);

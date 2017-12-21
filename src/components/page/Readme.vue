@@ -65,22 +65,22 @@
         </div>
         <el-row :span="24" class="goodsTitle"style="font-size: 2rem;">生产监管</el-row>
             <el-row type="flex"  justify="space-between" style="min-width: 1055px;box-shadow: 5px 5px 3px #E5E5E5;margin-bottom: 3rem">
-                <el-col :span="5">
-                    <el-col :span="24" style="text-align: center;font-size: 1.8rem">磷钙矿耗</el-col>
-                    <div class="gu_1" id="gu_1" ref="gu_1" style="height: 19rem"></div>
-                </el-col>
-                <el-col :span="5">
-                    <el-col :span="24" style="text-align: center;font-size: 1.8rem">磷钙酸耗</el-col>
-                    <div class="gu_2" id="gu_2" ref="gu_2" style="height: 19rem"></div>
-                </el-col>
-                <el-col :span="5">
-                    <el-col :span="24" style="text-align: center;font-size: 1.8rem">磷钙煤耗</el-col>
-                    <div class="gu_3" id="gu_3" ref="gu_3" style="height: 19rem"></div>
-                </el-col>
-                <el-col :span="5">
-                    <el-col :span="24" style="text-align: center;font-size: 1.8rem">磷钙电耗</el-col>
-                    <div class="gu_4" id="gu_4" ref="gu_4" style="height: 20rem"></div>
-                </el-col>
+                <div style="width: 25rem">
+                    <el-col :span="24" style="text-align: center;font-size: 1.8rem;color: #888888">磷钙矿耗</el-col>
+                    <div class="gu_1" id="gu_1" ref="gu_1" style="height: 14rem"></div>
+                </div>
+                <div style="width: 25rem">
+                    <el-col :span="24" style="text-align: center;font-size: 1.8rem;color: #888888">磷钙酸耗</el-col>
+                    <div class="gu_2" id="gu_2" ref="gu_2" style="height: 14rem"></div>
+                </div>
+                <div style="width: 25rem">
+                    <el-col :span="24" style="text-align: center;font-size: 1.8rem;color: #888888">磷钙煤耗</el-col>
+                    <div class="gu_3" id="gu_3" ref="gu_3" style="height: 14rem"></div>
+                </div>
+                <div style="width: 25rem">
+                    <el-col :span="24" style="text-align: center;font-size: 1.8rem;color: #888888">磷钙电耗</el-col>
+                    <div class="gu_4" id="gu_4" ref="gu_4" style="height: 14rem"></div>
+                </div>
             </el-row>
         <div class="goods" style="min-width: 1055px">
             <el-col :span="24" class="goodsTitle" style="font-size: 2rem">巡检检修</el-col>
@@ -375,9 +375,9 @@
                         type:'gauge',
                         startAngle: 180,
                         endAngle: 0,
-                        center : ['50%', '80%'],    // 默认全局居中
-                        radius : 130,
-                        splitNumber:1,
+                        center : ['50%', '70%'],    // 默认全局居中
+                        radius : 100,
+                        splitNumber:70,
                         splitLine:{
                             show:false,
                             length:10
@@ -400,7 +400,9 @@
                         axisLabel:{
                             show:true,
                             formatter:function(e){
-                                return e
+                                if(e==0) return e
+                                if(e==7000) return e
+
                             },
                             "distance": -39,
                             textStyle:{
@@ -415,8 +417,8 @@
                             show : true,
                             offsetCenter: [0, '-45%'],       // x, y，单位px
                             textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
-                                color: '#000000',
-                                fontSize: 20
+                                color: '#888888',
+                                fontSize: 14
                             }
                         },
                         detail : {
@@ -453,8 +455,8 @@
                         type:'gauge',
                         startAngle: 180,
                         endAngle: 0,
-                        center : ['50%', '80%'],    // 默认全局居中
-                        radius : 130,
+                        center : ['50%', '70%'],    // 默认全局居中
+                        radius : 100,
                         splitNumber:1,
                         splitLine:{
                             show:false,
@@ -493,8 +495,8 @@
                             show : true,
                             offsetCenter: [0, '-45%'],       // x, y，单位px
                             textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
-                                color: '#000000',
-                                fontSize: 20
+                                color: '#888888',
+                                fontSize: 14
                             }
                         },
                         detail : {
@@ -531,8 +533,8 @@
                         type:'gauge',
                         startAngle: 180,
                         endAngle: 0,
-                        center : ['50%', '80%'],    // 默认全局居中
-                        radius : 130,
+                        center : ['50%', '70%'],    // 默认全局居中
+                        radius : 100,
                         splitNumber:1,
                         splitLine:{
                             show:false,
@@ -571,8 +573,8 @@
                             show : true,
                             offsetCenter: [0, '-45%'],       // x, y，单位px
                             textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
-                                color: '#000000',
-                                fontSize: 20
+                                color: '#888888',
+                                fontSize: 14
                             }
                         },
                         detail : {
@@ -609,8 +611,8 @@
                         type:'gauge',
                         startAngle: 180,
                         endAngle: 0,
-                        center : ['50%', '80%'],    // 默认全局居中
-                        radius : 130,
+                        center : ['50%', '70%'],    // 默认全局居中
+                        radius : 100,
                         splitNumber:1,
                         splitLine:{
                             show:false,
@@ -649,8 +651,8 @@
                             show : true,
                             offsetCenter: [0, '-45%'],       // x, y，单位px
                             textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
-                                color: '#000000',
-                                fontSize: 20
+                                color: '#888888',
+                                fontSize: 14
                             }
                         },
                         detail : {
