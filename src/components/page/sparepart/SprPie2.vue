@@ -7,7 +7,7 @@
             </div>
         </el-col>
         <el-col :span="16">
-            <div class="chartPs" ref="chartPs" style="height: 30rem"></div>
+            <div class="chartPs2" ref="chartPs2" style="height: 30rem"></div>
         </el-col>
     </el-row>
 
@@ -25,27 +25,37 @@
         props: ['putData'],
         data () {
         return {
-               obj:this.putData
+                obj:this.putData
         }
     },
     methods:{
         /*创建图表一*/
         initPie(putData){
-            let chartPs=echarts.init(this.$refs.chartPs);
+
+            let chartPs2=echarts.init(this.$refs.chartPs2);
             window.onresize=function(){
-                chartPs.resize();
+                chartPs2.resize();
             }
-            chartPs.setOption({
+            chartPs2.setOption({
                 tooltip: {
                     trigger: 'item',
                     formatter: function(e){
                         return e.name+":"+( e.value).toFixed(2)+"万元"
                     },
+
                 },
                 legend: {
+                   /* orient: 'vertical',
+                    x: 'right',
+                    itemWidth: 10,
+                    itemHeight: 10,
+                    align: 'left',
+*/
                     data:[],
+
                 },
                 series: [
+
                     {
                         name:'入库货值',
                         type:'pie',
@@ -55,6 +65,7 @@
                             normal: {
                                 formatter: '{b}\n{d}%'
                             },
+
                         },
                         data:putData.value
                     }
