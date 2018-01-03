@@ -7,50 +7,65 @@ import VueRouter from 'vue-router';
 import Vuex  from 'vuex';
 import  Login from'./components/page/Login.vue'
 import  Icon from'./assets/icon/iconfont.js'
-import  * as custom  from './filters/stringFilters.js'
-import   * as tofixed from './filters/numberFilter.js'
+import  * as stringFilters  from './filters/stringFilters.js'
+import   * as numberFilter from './filters/numberFilter.js'
 
 
 
 import 'element-ui/lib/theme-default/index.css';    // 默认主题
 // import '../static/css/theme-green/index.css';       // 浅绿色主题
-/*import "babel-polyfill";*/
-
+/*过滤器*/
+/* 字符串过滤*/
 Vue.use(ElementUI,Vuex,Icon );
-Object.keys(custom).forEach(key => {
-    Vue.filter(key, custom[key])
+Object.keys(stringFilters).forEach(key => {
+    Vue.filter(key, stringFilters[key])
 })
-Object.keys(tofixed).forEach(key => {
-    Vue.filter(key, tofixed[key])
+/*数字类型过滤*/
+Object.keys(numberFilter).forEach(key => {
+    Vue.filter(key, numberFilter[key])
 })
 axios.defaults.withCredentials = true;
 /*axios.defaults.headers['Content-Type']="application/json"
 axios.defaults.headers.common['Authorization'] = "Basic dXNlcjp1c2Vy";*/
-let u1 = "http://test.neweplatform.com:6002/manage";
+let u1 = "http://test.neweplatform.com:9000";
 let u2="http://panoramic.neweplatform.com:60002/manage"
 Vue.prototype.$axios = axios;
 Vue.prototype.$url=u1;
+/*请求拦截器*/
 Vue.prototype.$axios.interceptors.request.use(function (config) {
     /* config.headers['Content-Type'] ="application/x-www-form-urlencoded";
        config.headers['Authorization'] = 'Basic dXNlcjp1c2Vy';*/
     return config;
-}, function (err) {
-    return Promise.reject(err);
+}, function (err) {return Promise.reject(err);
 });
-Date.prototype.format = function(format,n) {
+/*date格式化*/
+Date.prototype.format = function(format,n,p) {
     var b=n|0;
+    var c=p|0;
+    var newTime = this;
+    if(c>0){
+        var time = this.getTime();
+        newTime = new Date(time-c * 24 * 3600 * 1000);
+    }
     var date = {
-        "YYYY+":this.getFullYear(),
-        "MM+": this.getMonth() + 1-b,
-        "dd+": this.getDate(),
-        "h+": this.getHours(),
-        "m+": this.getMinutes(),
-        "s+": this.getSeconds(),
-        "q+": Math.floor((this.getMonth() + 3) / 3),
+        "YYYY+":newTime.getFullYear(),
+        "MM+": newTime.getMonth() + 1-b,
+        "dd+": newTime.getDate(),
+        "h+": newTime.getHours(),
+        "m+": newTime.getMinutes(),
+        "s+": newTime.getSeconds(),
+        "q+": Math.floor((newTime.getMonth() + 3) / 3),
         "S+": this.getMilliseconds()
     };
-    if (/(y+)/i.test(format)) {
-        format = format.replace(RegExp.$1, (this.getFullYear() + '').substr(4 - RegExp.$1.length));
+    if(date["MM+"]==0){
+        date["MM+"]=12;date["YYYY+"]=date["YYYY+"]-1;
+        if (/(y+)/i.test(format)) {
+            format = format.replace(RegExp.$1, (this.getFullYear()-1 + '').substr(4 - RegExp.$1.length));
+        }
+    }else{
+        if (/(y+)/i.test(format)) {
+            format = format.replace(RegExp.$1, (this.getFullYear() + '').substr(4 - RegExp.$1.length));
+        }
     }
     for (var k in date) {
         if (new RegExp("(" + k + ")").test(format)) {

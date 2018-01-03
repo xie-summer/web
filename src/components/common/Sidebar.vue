@@ -68,7 +68,7 @@
                         index: 'logistics',
                         title: '在途物资',
                     },
-                    {
+                  /*  {
                         icon: 'el-icon-menu',
                         index: '2',
                         title: '人员效率监控',
@@ -78,7 +78,7 @@
                                 title: '生产人员效率'
                             }
                         ]
-                    },
+                    },*/
 
 
                     {
@@ -86,11 +86,11 @@
                         index: 'police',
                         title: '报警状态一览'
                     },
-                    {
+                  /*  {
                         icon: 'el-icon-star-off',
                         index: 'entering',
                         title: '人工录入'
-                    },
+                    },*/
                     /*{
                         icon: 'el-icon-date',
                         index: 'baseform',
