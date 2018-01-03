@@ -28,6 +28,7 @@
 </template>
 
 <script>
+    var qs = require('qs');
     export default {
         data: function(){
             return {
@@ -51,7 +52,16 @@
 
                 const self = this;
                 self.$refs[formName].validate((valid) => {
-                    if (valid&&this.ruleForm.username=="admin"&&this.ruleForm.password=="admin") {
+          /*  let data = {username:'admin',password:'admin'}
+            console.log(data)
+                    self.$axios.post("http://192.168.1.106:7000/user/login",data).then((res)=>{
+                            console.log(res)
+            }).catch((cah)=>{
+                console.log(cah)
+            });*/
+
+
+                   if (valid&&this.ruleForm.username=="admin"&&this.ruleForm.password=="admin") {
                         localStorage.setItem('ms_username',self.ruleForm.username);
                         self.$router.push('/readme');
                     } else {

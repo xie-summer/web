@@ -47,7 +47,7 @@
                       </div>
                       <div class="log_d_2">
                           <p class="log_p_1">5</p>
-                          <p class="log_p_2">超时运输时间</p>
+                          <p class="log_p_2">超时运输数量</p>
                       </div>
                   </el-col>
               </el-card>
@@ -61,7 +61,7 @@
                             </svg>
                         </div>
                         <div class="log_d_2">
-                            <p class="log_p_1">5</p>
+                            <p class="log_p_1">5/24</p>
                             <p class="log_p_2">设置用户使用率</p>
                         </div>
                     </el-col>
@@ -74,7 +74,7 @@
 
             <el-table-column prop="a" label="订单编号"  align="center"  >
             </el-table-column>
-            <el-table-column prop="b" label="收获地址"align="center"  >
+            <el-table-column prop="b" label="收货地址"align="center"  >
             </el-table-column>
             <el-table-column prop="c" label="当前位置"  align="center" >
             </el-table-column>
@@ -91,7 +91,7 @@
 
                 <el-table-column prop="a" label="订单编号"  align="center"  >
                 </el-table-column>
-                <el-table-column prop="b" label="收获地址"align="center"  >
+                <el-table-column prop="b" label="收货地址"align="center"  >
                 </el-table-column>
                 <el-table-column prop="c" label="出发时间"  align="center" >
                 </el-table-column>
