@@ -9,23 +9,20 @@
 
 <script>
     let echarts=require('echarts/lib/echarts');
-    //引入仪表盘图
     require('echarts/lib/chart/bar');
-
-    //引入所需组件
     require('echarts/lib/component/tooltip');
     require('echarts/lib/component/legend');
     export default {
 
         data () {
         return {
-            monery:300,
-            title:"本周入库总货值"
+            nameData:[],
+            valueData:[]
         }
     },
     methods:{
         /*创建图表一*/
-        initPie(){
+        initPie(nameData,valueData){
             let chartBar=echarts.init(this.$refs.chartBar);
             window.onresize=function(){
                 console.log("bar改变了")
@@ -53,13 +50,13 @@
                 },
                 yAxis: {
                     type: 'category',
-                    data: ['压力汞','压力汞','压力汞','压力汞','压力汞','压力汞','压力汞','压力汞','压力汞','压力汞']
+                    data: nameData
                 },
                 series: [
                     {
                         name: '',
                         type: 'bar',
-                        data: [2000, 1900, 1800, 1700, 1600, 1500,1400,1300,1200,1100]
+                        data: valueData
                     }
                 ],
                 color:["#1DB5EF"]
@@ -67,7 +64,7 @@
         }
     },
     mounted(){
-        this.initPie();
+        this.initPie(this.nameData,this.valueData);
     }
     }
 </script>

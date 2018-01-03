@@ -10,7 +10,7 @@
          <div class="right">
              <el-date-picker
                  @change="(value) => changeHandler(value)"
-                 v-model="value"
+                 v-model="valueDate"
                  type="date"
                  placeholder="选择日期"
                  format="yyyy-MM-dd "
@@ -58,13 +58,13 @@
             <el-col :span="11">
                 <el-col :span="24" class="title">本周各入库产品货值</el-col>
                 <el-col :span="24">
-                    <v-pie></v-pie>
+                    <v-pie ref="chartPs" :putData="putData"></v-pie>
                 </el-col>
             </el-col>
             <el-col :span="11">
                 <el-col :span="24" class="title">本周各出库产品货值</el-col>
                 <el-col :span="24">
-                    <v-pie></v-pie>
+                    <v-pies ref="chartPs2" :putData="outData"></v-pies>
                 </el-col>
             </el-col>
         </el-row>
@@ -75,7 +75,7 @@
             <el-col :span="11">
                 <el-col :span="24" class="title">消耗货值排行前十</el-col>
                 <el-col :span="24">
-                    <v-bar></v-bar>
+                    <v-bar ref="chartBar"></v-bar>
                 </el-col>
             </el-col>
             <el-col :span="11">
@@ -93,15 +93,16 @@
     import vGauge from '../OldCharts.vue';
     import vTable from './SprTable.vue';
     import vPie from './SprPie.vue';
+    import vPies from './SprPie2.vue';
    import vStr from './Sprstr.vue';
     import vBar from'./Sprbar.vue'
     export default {
         components:{
-            vGauge,vTable,vPie,vBar,vStr
+            vGauge,vTable,vPie,vBar,vStr,vPies
         },
         data: function(){
             return {
-                value: new Date(),
+                valueDate: new Date(),
                 timeDefaultShow:new Date(),
                 pickerOptions0: {
                     disabledDate(time) {
@@ -109,7 +110,7 @@
 
             }
         },
-        unit:{units:"万元",units2:"M",hig:33.1,radius:150,dist:-70},
+        unit:{units:"万元",units2:"M",hig:33.1,radius:150,dist:-70,value:0,limit:1000,floor:500,maxTool:2000},
         tableName1:[{name:"date",label:"货值排行"},
             {name:"date",label:"产品名称   "},
             {name:"date",label:"参考成本价"},
@@ -122,12 +123,31 @@
         tableName3:[{name:"date",label:"高库存量排行"},
             {name:"date",label:"产品名称   "},
             {name:"date",label:"参考成本价"},
-            {name:"date",label:"当前库存量"},]
+            {name:"date",label:"当前库存量"},],
+        putData:{value:
+                    [{value:435, name:'柴油'},
+                    {value:679, name:'高压清洗机管'},
+                    {value:848, name:'高压气管'}
+                    ],
+                title:"本周入库总货值",
+                total:0
+            },
+        outData:{value:
+            [{value:435, name:'柴油'},
+                {value:679, name:'高压清洗机管'},
+                {value:848, name:'高压气管'}
+            ],
+            title:"本周入库总货值",
+            total:0
+        },
     }
     },
     //加载完dom执行的钩子函数
     created:function(){
-
+        this.queryConsumeValue(this.valueDate.format("YYYY-MM-dd"));
+        this.queryConsumeAmong(this.valueDate.format("YYYY-MM-dd"));
+        this.queryPut(this.valueDate.format("YYYY-MM-dd"));
+        this.queryOut(this.valueDate.format("YYYY-MM-dd"));
     },
     filters:{
         formatDate(){
@@ -137,14 +157,101 @@
         }
     },
     mounted () {
-    /*  window.onresize = () => {
-        }*/
+
     },
     methods: {
         //时间组件change事件
         changeHandler:function(value){
-                console.log(value)
+            this.queryConsumeValue(value);
+            this.queryConsumeAmong(value);
+            this.queryOut(value);
+            this.queryPut(value);
         },
+        queryConsumeValue(date){
+            let self = this;
+            let _url = this.$url+"/panoramic/spare/parts/into/inventory/monthlyconsume/price/"+date;
+            self.$axios.get( _url).then((res)=>{
+                if(res.data.retval==null){}else{
+                    let nameData=[];
+                    let valueData=[];
+                    for( let obj of res.data.retval){
+                        nameData.push(obj.name);
+                        valueData.push(obj.summary);
+                    }
+                    self.$refs.chartBar.initPie(nameData,valueData)
+                }
+            });
+        },
+        queryConsumeAmong(date){
+            let self = this;
+            let _url = this.$url+"/panoramic/spare/parts/into/inventory/monthlyconsume/value/"+date;
+            self.$axios.get( _url).then((res)=>{
+                if(res.data.retval==null){}else{
+                    let nameData=[];
+                    let valueData=[];
+                    let percentageData=[];
+                    let tool=0;
+                    for( let obj of res.data.retval){
+                        nameData.push(obj.name);
+                        valueData.push(obj.summary);
+                        tool+=obj.summary;
+                    }
+                    for(let i=0;i<valueData.length;i++){
+                        percentageData.push(Number(valueData[i]/tool))
+                    }
+                    self.$refs.chartstr.initPie(percentageData,valueData,nameData,tool)
+                }
+            });
+        },
+        queryPut(date){
+            let self = this;
+            let _url = this.$url+"/panoramic/spare/parts/into/inventory/weeklysummary/in/"+date;
+            self.$axios.get( _url).then((res)=>{
+                if(res.data.retval==null){
+
+                }else{
+                    console.log(res.data.retval)
+                    let objList=[];
+                    for(let i =0;i< res.data.retval.length;i++){
+                        if(i==res.data.retval.length-1){
+                            this.putData.total = (res.data.retval[i].summary)
+                        }else{
+                            let obj={name:"",value:0};
+                            obj.name = res.data.retval[i].name;
+                            obj.value = res.data.retval[i].summary;
+                            objList.push(obj);
+                        }
+                    }
+
+                    this.putData.value=objList;
+                    self.$refs.chartPs.initPie(this.putData)
+                }
+
+            });
+        },
+        queryOut(date){
+            let self = this;
+            let _url = this.$url+"/panoramic/spare/parts/into/inventory/weeklysummary/out/"+date;
+            self.$axios.get( _url).then((res)=>{
+                if(res.data.retval==null){}else{
+                    let objList=[];
+                    for(let i =0;i< res.data.retval.length;i++){
+                        if(i==res.data.retval.length-1){
+                            this.outData.total = (res.data.retval[i].summary)
+                        }else{
+                            let obj={name:"",value:0};
+                            obj.name = res.data.retval[i].name;
+                            obj.value = res.data.retval[i].summary;
+                            objList.push(obj);
+                        }
+                    }
+
+                    this.outData.value=objList;
+                    self.$refs.chartPs2.initPie(this.outData)
+                }
+
+            });
+        }
 
 
     }

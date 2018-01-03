@@ -2,8 +2,8 @@
     <el-row>
         <el-col :span="8">
             <div style="height: 15rem;margin-top: 35%;border-right: 1px solid #888888">
-                <div class="monery">{{monery}}万元</div>
-                <div class="title_t">{{title}}</div>
+                <div class="monery">{{obj.total}}万元</div>
+                <div class="title_t">{{obj.title}}</div>
             </div>
         </el-col>
         <el-col :span="16">
@@ -22,39 +22,30 @@
     require('echarts/lib/component/tooltip');
     require('echarts/lib/component/legend');
     export default {
-
+        props: ['putData'],
         data () {
         return {
-                monery:300,
-                title:"本周入库总货值"
+               obj:this.putData
         }
     },
     methods:{
         /*创建图表一*/
-        initPie(){
+        initPie(putData){
             let chartPs=echarts.init(this.$refs.chartPs);
             window.onresize=function(){
-                console.log("pie变了")
                 chartPs.resize();
             }
             chartPs.setOption({
                 tooltip: {
                     trigger: 'item',
-                    formatter: "{a} <br/>{b}: {c} ({d}%)",
-
+                    formatter: function(e){
+                        return e.name+":"+( e.value).toFixed(2)+"万元"
+                    },
                 },
                 legend: {
-                   /* orient: 'vertical',
-                    x: 'right',
-                    itemWidth: 10,
-                    itemHeight: 10,
-                    align: 'left',
-*/
                     data:[],
-
                 },
                 series: [
-
                     {
                         name:'入库货值',
                         type:'pie',
@@ -64,21 +55,15 @@
                             normal: {
                                 formatter: '{b}\n{d}%'
                             },
-
                         },
-                        data:[
-                            {value:435, name:'柴油'},
-                            {value:679, name:'高压清洗机管'},
-                            {value:848, name:'高压气管'},
-
-                        ]
+                        data:putData.value
                     }
                 ]
             })
         }
     },
     mounted(){
-        this.initPie();
+        this.initPie(this.putData);
     }
     }
 </script>
