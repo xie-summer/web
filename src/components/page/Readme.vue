@@ -66,19 +66,19 @@
         <el-row :span="24" class="goodsTitle"style="font-size: 2rem;">生产监管</el-row>
             <el-row type="flex"  justify="space-between" style="min-width: 1055px;box-shadow: 5px 5px 3px #E5E5E5;margin-bottom: 3rem">
                 <div style="width: 25rem">
-                    <el-col :span="24" style="text-align: center;font-size: 1.8rem;color: #888888">磷钙矿耗</el-col>
+                    <el-col :span="24" style="text-align: center;font-size: 1.8rem;color: #888888">磷钙矿耗(吨/吨)</el-col>
                     <div class="gu_1" id="gu_1" ref="gu_1" style="height: 14rem"></div>
                 </div>
                 <div style="width: 25rem">
-                    <el-col :span="24" style="text-align: center;font-size: 1.8rem;color: #888888">磷钙酸耗</el-col>
+                    <el-col :span="24" style="text-align: center;font-size: 1.8rem;color: #888888">磷钙酸耗(立方米/吨)</el-col>
                     <div class="gu_2" id="gu_2" ref="gu_2" style="height: 14rem"></div>
                 </div>
                 <div style="width: 25rem">
-                    <el-col :span="24" style="text-align: center;font-size: 1.8rem;color: #888888">磷钙煤耗</el-col>
+                    <el-col :span="24" style="text-align: center;font-size: 1.8rem;color: #888888">磷钙煤耗(吨/吨)</el-col>
                     <div class="gu_3" id="gu_3" ref="gu_3" style="height: 14rem"></div>
                 </div>
                 <div style="width: 25rem">
-                    <el-col :span="24" style="text-align: center;font-size: 1.8rem;color: #888888">磷钙电耗</el-col>
+                    <el-col :span="24" style="text-align: center;font-size: 1.8rem;color: #888888">磷钙电耗(度/吨)</el-col>
                     <div class="gu_4" id="gu_4" ref="gu_4" style="height: 14rem"></div>
                 </div>
             </el-row>
@@ -222,6 +222,7 @@
         uTime:"",
         numberSize:"",
         errMsg:"",
+        production:{"ccp":0,"cpac":0,"cpc":0,"cpoc":0},
         tableData_1:[1,2],
         item:[{"name":"磷矿粉(吨)","number":85,"text":"高"},
             {"name":"硫酸(立方米)","number":85,"text":"高"},
@@ -245,13 +246,14 @@
         this.queryTable(this.value11.format("YYYY-MM-dd"),this.cur_page,this.pageSize);
         this.querynventoryDay(this.value11.format("YYYY-MM-dd"));
         this.queryDatIoValue(this.value11.format("YYYY-MM-dd"));
+        this.queryProduction(this.value11.format("YYYY-MM-dd"))
 
     },
     mounted(){
-        this.queryProduction_1(3000);
-        this.queryProduction_2(3000);
-        this.queryProduction_3(3000);
-        this.queryProduction_4(3000);
+        this.queryProduction_1(this.production.ccp);
+        this.queryProduction_2(this.production.cpac);
+        this.queryProduction_3(this.production.cpc);
+        this.queryProduction_4(this.production.cpoc);
     },
    filters:{
 
@@ -262,6 +264,8 @@
             this.queryTable(value,this.cur_page,this.pageSize);
             this.querynventoryDay(value);
             this.queryDatIoValue(value);
+            this.queryOneCall(value);
+            this.queryProduction(value)
         },
         handleCurrentChange1(val){
             this.$message.success(val)
@@ -278,9 +282,9 @@
 
             });
         },
-        queryOneCall(){
+        queryOneCall(value){
                 let self = this;
-                let _url=self.$url+"/into/the/factory/records/"+this.value11.format("YYYY-MM-dd");
+                let _url=self.$url+"/into/the/factory/records/"+value;
                 self.$axios.get(_url).then((res)=>{
                if(res.data.retval==null) return false;
                 this.uTime  = new Date(res.data.retval.outTime).format("YYYY/MM/dd");
@@ -289,9 +293,8 @@
 
 
             });
-            let _url_size=self.$url+"/into/the/factory/records/count/"+this.value11.format("YYYY-MM-dd");
+            let _url_size=self.$url+"/into/the/factory/records/count/"+value;
             self.$axios.get(_url_size).then((res)=>{
-
                 this.numberSize  = res.data.retval;
             });
 
@@ -361,6 +364,25 @@
                    self.dat.dataIoValuePG=pg.data.retval.recordValues;
                 }));
         },
+        queryProduction(date){
+            let self = this;
+            let _url=self.$url+"/production/monitoring/content/"+date;
+            self.$axios.get(_url).then((res)=>{
+                if(res.data.retval==null){
+
+                }else{
+                    this.production=res.data.retval;
+                    console.log( this.production)
+                    this.queryProduction_1(this.production.ccp);
+                    this.queryProduction_2(this.production.cpac);
+                    this.queryProduction_3(this.production.cpc);
+                    this.queryProduction_4(this.production.cpoc);
+                }
+
+
+            });
+
+        },
         queryProduction_1(v){
             let self = this;
             let gu_1=echarts.init(self.$refs.gu_1);
@@ -427,7 +449,7 @@
                             borderColor: '#ccc',
                             offsetCenter: [0, '-15%'],       // x, y，单位px
                             formatter:function(e){
-                                return (e/10000).toFixed(2)+'万元'
+                                return e
                             },
                             textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
                                 fontSize : 20,
@@ -505,7 +527,7 @@
                             borderColor: '#ccc',
                             offsetCenter: [0, '-15%'],       // x, y，单位px
                             formatter:function(e){
-                                return (e/10000).toFixed(2)+'万元'
+                                return e
                             },
                             textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
                                 fontSize : 20,
@@ -583,7 +605,7 @@
                             borderColor: '#ccc',
                             offsetCenter: [0, '-15%'],       // x, y，单位px
                             formatter:function(e){
-                                return (e/10000).toFixed(2)+'万元'
+                                return e
                             },
                             textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
                                 fontSize : 20,
@@ -661,10 +683,10 @@
                             borderColor: '#ccc',
                             offsetCenter: [0, '-15%'],       // x, y，单位px
                             formatter:function(e){
-                                return (e/10000).toFixed(2)+'万元'
+                                return e
                             },
                             textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
-                                fontSize : 25,
+                                fontSize : 20,
                                 color:'#000000'
                             }
                         },
