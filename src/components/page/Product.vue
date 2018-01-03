@@ -42,21 +42,21 @@
                                 <div class="circle" style="background-color: #3b5898"></div>
                             </div>
                             <div class="textStyle">较低</div>
-                            <div class="textStyle">1000-2000</div>
+                            <div class="textStyle">0~{{unit.floor}}</div>
                         </div>
                         <div  class="outStyle">
                             <div class="inStyle">
                                 <div class="circle"style="background-color: #00a8ec"></div>
                             </div>
                             <div class="textStyle">正常</div>
-                            <div class="textStyle">1000-2000</div>
+                            <div class="textStyle">{{unit.floor}}~{{unit.limit}}</div>
                         </div>
                         <div class="outStyle">
                             <div class="inStyle">
                                 <div class="circle"style="background-color: #bb4b39"></div>
                             </div>
                             <div class="textStyle">较高</div>
-                            <div class="textStyle">2000-3000</div>
+                            <div class="textStyle">{{unit.limit}}~20000</div>
                         </div>
                     </div>
                 </el-col>
@@ -125,7 +125,7 @@
                     deviation1:"0",
                     deviation2:"0"
                 },
-                unit:{"units":"吨","units2":"",wid:32,hig:21,radius:120,dist:-57,value:0},
+                unit:{"units":"吨","units2":"",wid:32,hig:21,radius:120,dist:-57,value:0,limit:0,floor:0,maxTool:20000},
                 publicOneData:{"num":"", "remindtext":"磷钙库存值较低","bool":false},
 
                 date:new Date(),
@@ -144,6 +144,12 @@
         this.queryClass(this.change==0?"HG01XY750510":"HG01XY750410",this.value11.format("YYYY-MM-dd"));
        this.queryGround(this.change==0?"HG01XY750510":"HG01XY750410",this.value11.format("YYYY-MM-dd"));
       this.queryMonthConsume(this.change==0?"HG01XY750510":"HG01XY750510",this.value11.format("YYYY-MM"));
+        /*物料上下限*/
+        this.queryBound(this.change==0?"HG01XY750510":"HG01XY750410",this.value11.format("YYYY-MM-dd"))
+    },
+    created:function(){
+
+
     },
     filters:{
         formatDate(){
@@ -164,6 +170,7 @@
            this.queryClass(this.change==0?"HG01XY750510":"HG01XY750410",this.value11.format("YYYY-MM-dd"));
             this.queryGround(this.change==0?"HG01XY750510":"HG01XY750410",this.value11.format("YYYY-MM-dd"));
            this.queryMonthConsume(this.change==0?"HG01XY750510":"HG01XY750510",this.value11.format("YYYY-MM"));
+            this.queryBound(this.change==0?"HG01XY750510":"HG01XY750410")
 
         },
         queryClass(id,date){
@@ -238,7 +245,15 @@
             if(id=="")return false;
             let self = this;
             let _url = self.$url+"/real/time/consumption/gather/monthly/statistics/"+date+"/"+id;
-            let _url_1 = self.$url+"/real/time/consumption/gather/monthly/statistics/"+new Date().format("YYYY-MM",1)+"/"+id;
+            let _url_1 = self.$url+"/real/time/consumption/gather/monthly/statistics/"+(function(date){
+                    var t = Date.parse(date);
+                    if (!isNaN(t)) {
+                        return new Date(Date.parse(date.replace(/-/g, "/")));
+                    } else {
+                        return new Date().format("YYYY-MM",1);
+                    }
+
+                })()+"/"+id;
             self.$axios.get(_url).then((res)=>{
                 this.curNumber.value1=(function() {
                     if (res.data.retval!=null) {
@@ -274,6 +289,18 @@
                 this.$refs.chartGauge.createChartOne(this.unit);
 
             });
+        },
+        /*物料上下限*/
+        queryBound(id){
+            let self = this;
+            let _url= self.$url+"/material/threshold/configuration/stock/"+id;
+            self.$axios.get(_url).then((res)=>{
+                this.unit.limit=res.data.retval.upperLimit;
+                this.unit.floor=res.data.retval.lowerLimit;
+                self.$refs.chartGauge.createChartOne(this.unit)
+                /*没做异常处理，除非挂服务*/
+
+            })
         }
 
 

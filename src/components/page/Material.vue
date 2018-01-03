@@ -41,21 +41,21 @@
                                 <div class="circle" style="background-color: #3b5898"></div>
                             </div>
                             <div class="textStyle">较低</div>
-                            <div class="textStyle">1000-2000</div>
+                            <div class="textStyle">0-{{unit.floor}}</div>
                         </div>
                         <div  class="outStyle">
                             <div class="inStyle">
                                 <div class="circle"style="background-color: #00a8ec"></div>
                             </div>
                             <div class="textStyle">正常</div>
-                            <div class="textStyle">1000-2000</div>
+                            <div class="textStyle">{{unit.floor}}-{{unit.limit}}</div>
                         </div>
                         <div class="outStyle">
                             <div class="inStyle">
                                 <div class="circle"style="background-color: #bb4b39"></div>
                             </div>
                             <div class="textStyle">较高</div>
-                            <div class="textStyle">2000-3000</div>
+                            <div class="textStyle">{{unit.limit}}-20000</div>
                         </div>
                     </div>
                 </el-col>
@@ -71,7 +71,6 @@
                </el-col>
         </div>
         <div style="display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%;margin-top: 3rem;box-shadow: 5px 5px 3px #E5E5E5;;min-width: 1059px">
-
             <el-col :span="24" class="solidTitle">原料质检</el-col>
             <el-col :span="8">
                 <v-percentage :per-data="perData"></v-percentage>
@@ -113,7 +112,7 @@
                 publicOneData:{ "num":"", "remindtext":"磷矿粉库存较低","bool":true},
                 perData:{"value":0,"status":"success"},
                 date:new Date(),
-                unit:{"units":"吨","units2":"",wid:32,hig:21,radius:120,dist:-57,value:0},
+                unit:{"units":"吨","units2":"",wid:32,hig:21,radius:120,dist:-57,value:0,limit:0,floor:0,maxTool:20000},
                 curNumber:{
                     "text1":"月累积消耗量",
                     "text2":"月累积出库量",
@@ -140,13 +139,18 @@
         },
         created:function(){
 
+
         },
         mounted () {
+        /*初始化*/
             this.queryClass(this.change==0?"HG01XY750000":"HG01XY750100",this.value11.format("YYYY-MM-dd"));
+        /*物料上下限*/
+        this.queryBound(this.change==0?"HG01XY750000":"HG01XY750100",this.value11.format("YYYY-MM-dd"));
             this.queryMonthConsume(this.change==0?"HG01XY750000":"",this.value11.format("YYYY-MM"));
             this.queryGround(this.id,this.value11.format("YYYY-MM-dd"));
         },
         filters:{
+            /*时间过滤*/
             formatDate(){
             let date = new Date();
             return date.format("YYYY-MM-dd");
@@ -154,26 +158,24 @@
              }
     },
     methods: {
+        /*时间选择*/
         changeHandler:function(value){
-               this.queryClass(this.change==0?"HG01XY750000":"HG01XY750100",value);
-                this.queryGround(this.id,value);
-             this.queryMonthConsume(this.change==0?"HG01XY750000":"",this.value11.format("YYYY-MM"));
+            this.queryClass(this.change==0?"HG01XY750000":"HG01XY750100",value);
+            this.queryGround(this.id,value);
+            this.queryMonthConsume(this.change==0?"HG01XY750000":"",this.value11.format("YYYY-MM"));
         },
+        /*原料切换*/
         cut:function(key,name){
-          this.publicOneData.remindtext=name+"库存较低"
+            this.publicOneData.remindtext=name+"库存较低"
             this.change = key;
-           this.queryClass(this.change==0?"HG01XY750000":"HG01XY750100",this.value11.format("YYYY-MM-dd"));
+            this.queryClass(this.change==0?"HG01XY750000":"HG01XY750100",this.value11.format("YYYY-MM-dd"));
             this.queryGround(this.id,this.value11.format("YYYY-MM-dd"));
             this.queryMonthConsume(this.change==0?"HG01XY750000":"",this.value11.format("YYYY-MM"));
 
         },
         dys:function(){
-           /* if(this.change==1){
-                console.log( this.$refs.chartLine);
-              /!* this.$refs.chartLine.createChartOne();*!/
-                return false;
-            }*/
         },
+        /*实时消耗*/
         queryClass(id,date){
             let self = this;
             if(this.change==0){
@@ -245,12 +247,21 @@
                 });
             }
         },
+        /*月累计量*/
         queryMonthConsume(id,date){
             if(id=="")return false;
             let self = this;
             let _url = self.$url+"/real/time/consumption/gather/monthly/statistics/"+date+"/"+id;
-            let _url_1 = self.$url+"/real/time/consumption/gather/monthly/statistics/"+new Date().format("YYYY-MM",1)+"/"+id;
-            self.$axios.get(_url).then((res)=>{
+            let _url_1 = self.$url+"/real/time/consumption/gather/monthly/statistics/"+(function(date){
+                        var t = Date.parse(date);
+                        if (!isNaN(t)) {
+                            return new Date(Date.parse(date.replace(/-/g, "/")));
+                        } else {
+                            return new Date().format("YYYY-MM",1);
+                        }
+
+                })()+"/"+id;
+             self.$axios.get(_url).then((res)=>{
                 this.curNumber.value1=(function() {
                     if (res.data.retval!=null) {
                         return res.data.retval.value
@@ -259,8 +270,8 @@
                     }
                 })();
 
-            });
-            self.$axios.get(_url_1).then((res)=>{
+             });
+             self.$axios.get(_url_1).then((res)=>{
                 this.curNumber.value3=(function() {
                     if (res.data.retval!=null) {
                         return res.data.retval.value
@@ -269,24 +280,46 @@
                     }
                 })();
 
-            });
+             });
         },
+        /*实时库存*/
         queryGround(id,date){
             let self = this;
             let _url = self.$url+"/daily/inventory/summary/"+date+"/"+id;
+            let _url_1  = self.$url+"/raw/materials/"+id+"/"+date;
             self.$axios.get(_url).then((res)=>{
                 this.unit.value=(function() {
                     if (res.data.retval!=null) {
                         return res.data.retval.value
                     } else {
-                        return 500
+                        return 0
                     }
                 })();
                 this.$refs.chartGauge.createChartOne(this.unit);
 
         });
+            /*库存待使用天数*/
+            self.$axios.get(_url_1).then((res)=>{
+                if(res.data.retval==null){}else{
+                   this.publicOneData.num=res.data.retval;
+                }
+
+            })
+        },
+        /*物料上下限*/
+        queryBound(id){
+            let self = this;
+            let _url= self.$url+"/material/threshold/configuration/stock/"+id;
+            self.$axios.get(_url).then((res)=>{
+                this.unit.limit=res.data.retval.upperLimit;
+                this.unit.floor=res.data.retval.lowerLimit;
+                self.$refs.chartGauge.createChartOne(this.unit)
+               /*没做异常处理，除非挂服务*/
+
+            })
         }
         }
+
 
     }
 </script>

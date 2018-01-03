@@ -1,5 +1,5 @@
 <template>
-   <el-row>
+   <el-row ref="publicNum">
            <el-col :md="24" :xs="24" :sm="24" >
                <div>
                    <div v-if="data.bool">
