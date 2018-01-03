@@ -76,7 +76,7 @@
         data:function() {
         return {
             zreo:false,
-            valueDate: [new Date().format("YYYY-MM-dd"), new Date().format("YYYY-MM-dd")],
+            valueDate: [new Date().format("YYYY-MM-dd",0,3), new Date().format("YYYY-MM-dd")],
             tableData: [{
                 date: '2016-05-02',
                 name: '王小虎',
@@ -141,8 +141,12 @@
                 if(code==""){}else{code=code+"/"}
                 let startDate=date[0];
                 let endDate=date[1];
-                let _url = "http://192.168.1.106:6002/exception/record/"+code+startDate+"/"+endDate+"/"+page+"/"+size;
+                let self = this;
+                let _url = "http://192.168.1.106:9000/exception/record/"+code+startDate+"/"+endDate+"/"+page+"/"+size;
                 console.log(_url)
+               self.$axios.get(_url).then((res)=>{
+                    console.log(res)
+                })
             }
     }
     };
