@@ -45,7 +45,7 @@
                     @current-change ="handleCurrentChange"
                     layout="total, prev, pager, next"
                     :total="totalCount"
-
+                    :page-size="pagesize"
                      :current-page="currentPage"
                 >
             </el-pagination>
@@ -55,7 +55,7 @@
 
 <script>
     export default {
-        props:["tableCon"],
+        props:["tableCon","tableTotal"],
         data() {
             return {
                 tableData: [],
@@ -64,11 +64,12 @@
                 select_cate: '',
                 select_word: '',
                 currentPage: 1,
-                totalCount: 500,
+                totalCount: this.totalCount,
                 showtf:true
             }
         },
         created(){
+        this.totalCount=this.tableTotal
             this.getData(this.tableCon);
         },
         methods: {
@@ -78,7 +79,8 @@
                 this.$emit('handleCurrentChange',{page:this.cur_page,pageSize:this.pagesize});
 
             },
-            getData(data){
+            getData(data,total){
+                this.totalCount=total;
                 this.tableData=data;
             },
 

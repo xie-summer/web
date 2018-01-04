@@ -74,7 +74,33 @@ Date.prototype.format = function(format,n,p) {
         }
     }
     return format;
-}
+},
+    String.prototype.formatDate=function(n){
+        let count=n|0;
+        var t = Date.parse(this);
+        if (!isNaN(t)) {
+            let date = new Date(Date.parse(this.replace(/-/g, "/"))).format("YYYY-MM-dd",count);
+            let arr=[];
+            arr=date.split("-");
+            return arr[0]+"-"+arr[1]+"-1"
+        } else {
+            let time = this.format("YYYY-MM",1);
+            let arr=[];
+            arr=time.split("-");
+            return arr[0]+"-"+arr[1]+"-1"
+        }
+    },
+    Date.prototype.dDate=function(n){
+        let p=n|0;
+        var dd = new Date();
+        dd.setDate(dd.getDate()+p);//获取AddDayCount天后的日期
+        var y = dd.getFullYear();
+        var m = dd.getMonth()+1;//获取当前月份的日期
+        if(m<10){m="0"+m}
+        var d = dd.getDate();
+        if(d<10){d="0"+d}
+        return y+"-"+m+"-"+d;
+    }
 let routers = new VueRouter({
     routes: [{
         path: '/login',

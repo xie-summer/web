@@ -21,12 +21,12 @@
         <div class="title">
             物资监管
         </div>
-        <div class="titleCount" style="min-width: 1055px;height: 10.5rem">
+        <div class="titleCount" style="min-width: 1055px;min-height: 10.5rem">
             <el-col :span="4"   v-for=" (i,value) in item" :key="value" style="flex-grow:1">
                 <el-col :span="23" :offset="1" class="count">
                     <el-col :span="24" class="fontCenter font1">{{i.name}}</el-col>
                     <el-col :span="24"  class="fontCenter">
-                        <svg class="icon" aria-hidden="true">
+                        <svg class="icon" aria-hidden="true" v-if="i.text=='高'|i.text=='低'">
                             <use xlink:href="#el-icon-erp-shebeibaojing"></use>
                         </svg>
                         <span style="font-size: 1.5rem" :class="i.text=='高' ? 'colorRed':'colorBlue'">{{i.text}}</span>
@@ -59,7 +59,7 @@
                     </el-col>
                 </el-col>
                 <el-col :span="14" class="goodsHeight" style="flex-grow:1">
-                    <v-table :table-con="tableData_1" ref="son" @handleCurrentChange="toShow"></v-table>
+                    <v-table :table-con="tableData_1" :table-total="totalCount1" ref="son" @handleCurrentChange="toShow"></v-table>
                 </el-col>
             </div>
         </div>
@@ -82,7 +82,7 @@
                     <div class="gu_4" id="gu_4" ref="gu_4" style="height: 14rem"></div>
                 </div>
             </el-row>
-        <div class="goods" style="min-width: 1055px">
+       <!-- <div class="goods" style="min-width: 1055px">
             <el-col :span="24" class="goodsTitle" style="font-size: 2rem">巡检检修</el-col>
             <div style="display: flex;display: -webkit-flex;flex-direcion:row ;width: 100%; flex-wrap:wrap;">
                 <el-col :span="10"  class="top"style="flex-grow:1">
@@ -110,13 +110,13 @@
                     </div>
                 </el-col>
             </div>
-        </div>
+        </div>-->
         <div class="numberVerify" style="min-width: 1055px">
             <el-col :span="24">
                 <div style="float: left;font-size: 2rem">数据校验</div>
 
                 <div class="time" >0.00-24.00</div>
-                <div class="time timeRight">{{date}}</div>
+                <div class="time timeRight">{{dateTitles}}</div>
             </el-col>
 
                 <div class="row-bg yyyyy">
@@ -209,7 +209,7 @@
                 },
                 cur_page: 1,
                 currentPage1: 1,
-                totalCount1: 500,
+                totalCount1: 0,
                 pageSize:6,
                 value11: new Date(),
                 timeDefaultShow:new Date(),
@@ -224,6 +224,7 @@
         errMsg:"",
         production:{"ccp":0,"cpac":0,"cpc":0,"cpoc":0},
         tableData_1:[1,2],
+        benchmark:[1,1,1,1],
         item:[{"name":"磷矿粉(吨)","number":85,"text":"高"},
             {"name":"硫酸(立方米)","number":85,"text":"高"},
             {"name":"石灰(吨)","number":85,"text":"低"},
@@ -238,15 +239,16 @@
             {'number':'0','text':'检修次数','color':'green',"symbol":"次"}
         ],
         tableData:[],
-        date:new Date().format("YYYY-MM-dd")
+        dateTitles:new Date().dDate(-1)
             }
         },
     created:function(){
-        this.queryOneCall();
+        this.queryOneCall(this.value11.format("YYYY-MM-dd"));
         this.queryTable(this.value11.format("YYYY-MM-dd"),this.cur_page,this.pageSize);
         this.querynventoryDay(this.value11.format("YYYY-MM-dd"));
         this.queryDatIoValue(this.value11.format("YYYY-MM-dd"));
-        this.queryProduction(this.value11.format("YYYY-MM-dd"))
+        this.queryProduction(this.value11.format("YYYY-MM-dd"));
+
 
     },
     mounted(){
@@ -278,7 +280,8 @@
             let _url=self.$url+"/into/the/factory/records/"+date+"/"+page+"/"+size;
             self.$axios.get(_url).then((res)=>{
                 this.tableData_1=res.data.retval.list;
-             self.$refs.son.getData( this.tableData_1);
+                this.totalCount1=res.data.retval.total;
+             self.$refs.son.getData( this.tableData_1,this.totalCount1);
 
             });
         },
@@ -302,10 +305,12 @@
         querynventoryDay(date){
             let self = this;
             let _url=self.$url+"/daily/inventory/summary/list/"+date;
+            /*硫酸  磷矿粉  石灰   煤炭  普钙  磷钙["HG01XY750000","HG01XY750100","HG01XY750200","HG01XY750300","HG01XY750410","HG01XY750510"];*/
             let code=[];
             let item=[];
             self.$axios.get(_url).then((res)=>{
                 let  list = res.data.retval;
+
                 let _url_1=self.$url+"/daily/inventory/summary/check/"+date;
                 for(let o of res.data.retval){
                     code.push( o.code);
@@ -316,7 +321,7 @@
                         let k=0;
                         let obj={};
                         obj.name= j.name;
-                        obj.number= j.value;
+                        obj.number= j.value+j.unit;
                         obj.text=res.data.retval[j.code];
                         item.push(obj);
                     }
@@ -339,54 +344,73 @@
         queryDatIoValue(date){
             var self = this;
             function queryLKF(){
-                return self.$axios.get(self.$url+"/real/time/consumption/gather/day/statistics/"+date+"/HG01XY75000")
+                return self.$axios.get(self.$url+"/data/verification/HG01XY75000/"+date)
             };
             function queryLG(){
-                return self.$axios.get(self.$url+"/real/time/consumption/gather/day/statistics/"+date+"/HG01XY750510")
+                return self.$axios.get(self.$url+"/data/verification/HG01XY750510/"+date)
             };
             function queryPG(){
-                return self.$axios.get(self.$url+"/real/time/consumption/gather/day/statistics/"+date+"/HG01XY750410")
+                return self.$axios.get(self.$url+"/data/verification/HG01XY75041/"+date)
             }
 
            self.$axios.all([queryLKF(), queryLG(),queryPG()])
                 .then(self.$axios.spread(function (lkf, lg,pg) {
-
-                   self.dat.valueLKF=lkf.data.retval.value;
-                   self.dat.dataIoLKF=lkf.data.retval.ratio;
-                   self.dat.dataIoValueLKF=lkf.data.retval.recordValues;
-
-                   self.dat.valueLG=lg.data.retval.value;
-                   self.dat.dataIoLG=lg.data.retval.ratio;
-                   self.dat.dataIoValueLG=lg.data.retval.recordValues;
-
-                   self.dat.valuePG=pg.data.retval.value;
-                   self.dat.dataIoPG=pg.data.retval.ratio;
-                   self.dat.dataIoValuePG=pg.data.retval.recordValues;
+                    if(lkf.data.retval==null){}else{
+                        self.dat.valueLKF=lkf.data.retval.bias;
+                        self.dat.dataIoLKF=lkf.data.retval.valueAuto;
+                        self.dat.dataIoValueLKF=lkf.data.retval.valueManual;
+                    }
+                    if(lg.data.retval==null){}else{
+                        self.dat.valueLG=lg.data.retval.bias;
+                        self.dat.dataIoLG=lg.data.retval.valueAuto;
+                        self.dat.dataIoValueLG=lg.data.retval.valueManual;
+                    }
+                    if(pg.data.retval==null){}else{
+                        self.dat.valuePG=pg.data.retval.bias;
+                        self.dat.dataIoPG=pg.data.retval.valueAuto;
+                        self.dat.dataIoValuePG=pg.data.retval.valueManual;
+                    }
                 }));
         },
         queryProduction(date){
             let self = this;
-            let _url=self.$url+"/production/monitoring/content/"+date;
+            let _url=self.$url+"/production/monitoring/content/"+new Date(Date.parse(date)-24*60*60*1000).format("YYYY-MM-dd");
+            let _url_1 = self.$url+"/material/threshold/configuration/list/benchmarking"
+            self.$axios.get(_url_1).then((res)=>{
+                let benchmarking=[];
+                for(let obj of res.data.retval){
+                    /*防止undefined,简单粗暴*/
+                    benchmarking.push( obj.upperLimit==undefined?1:obj.upperLimit);
+                }
+                this.benchmark = benchmarking;
+                /*没做异常处理，除非挂服务*/
+
+            })
             self.$axios.get(_url).then((res)=>{
                 if(res.data.retval==null){
 
                 }else{
                     this.production=res.data.retval;
-                    console.log( this.production)
                     this.queryProduction_1(this.production.ccp);
                     this.queryProduction_2(this.production.cpac);
-                    this.queryProduction_3(this.production.cpc);
-                    this.queryProduction_4(this.production.cpoc);
+                    this.queryProduction_3(this.production.cpoc);
+                    this.queryProduction_4(this.production.cpc);
                 }
 
 
             });
 
+
         },
         queryProduction_1(v){
             let self = this;
+            let a1=[v/10, '#3B48A8'];
+            let a2=[ this.benchmark[0]/10, '#C4CBFF'];
+            if(v>this.benchmark[0]){
+                a1=[ 0, '#C4CBFF'];
+                a2=[v/10, '#3B48A8'];
+            }
             let gu_1=echarts.init(self.$refs.gu_1);
-
             gu_1.setOption({
                 tooltip : {
                     formatter: "{a} <br/>{b} : {c}万"
@@ -399,18 +423,18 @@
                         endAngle: 0,
                         center : ['50%', '70%'],    // 默认全局居中
                         radius : 100,
-                        splitNumber:70,
+                        splitNumber:1,
                         splitLine:{
                             show:false,
                             length:10
                         },
                         min:0,
-                        max:7000,
+                        max:10,
                         axisLine: {
                             show:true,
                             // 属性lineStyle控制线条样式
                             lineStyle: {
-                                color:[[v/7000, '#3B48A8'],[4500/7000, '#C4CBFF'],[1,'#E4E4E4']],
+                                color:[a1,a2,[1,'#E4E4E4']],
                                 width: 30
                             }
                         },
@@ -422,8 +446,7 @@
                         axisLabel:{
                             show:true,
                             formatter:function(e){
-                                if(e==0) return e
-                                if(e==7000) return e
+                             return e
 
                             },
                             "distance": -39,
@@ -457,7 +480,7 @@
                             }
                         },
 
-                        data:[{value: v, name: 'title'}]
+                        data:[{value: v, name:'对标值'+this.benchmark[0]}]
                     },
 
                 ],
@@ -465,8 +488,13 @@
         },
         queryProduction_2(v){
             let self = this;
+            let a1=[v/10, '#01ACED'];
+            let a2=[ this.benchmark[1]/10, '#A0E5FF'];
+            if(v>this.benchmark[1]){
+                a1=[ 0, '#A0E5FF'];
+                a2=[v/10, '#01ACED'];
+            }
             let gu_2=echarts.init(self.$refs.gu_2);
-
             gu_2.setOption({
                 tooltip : {
                     formatter: "{a} <br/>{b} : {c}万"
@@ -485,12 +513,12 @@
                             length:10
                         },
                         min:0,
-                        max:7000,
+                        max:10,
                         axisLine: {
                             show:true,
                             // 属性lineStyle控制线条样式
                             lineStyle: {
-                                color:[[v/7000, '#01ACED'],[4500/7000, '#A0E5FF'],[1,'#E4E4E4']],
+                                color:[a1,a2,[1,'#E4E4E4']],
                                 width: 30
                             }
                         },
@@ -535,7 +563,7 @@
                             }
                         },
 
-                        data:[{value: v, name: 'title'}]
+                        data:[{value: v, name: '对标值'+this.benchmark[1]}]
                     },
 
                 ],
@@ -543,8 +571,13 @@
         },
         queryProduction_3(v){
             let self = this;
+            let a1=[v/10, '#4875B4'];
+            let a2=[ this.benchmark[2]/10, '#A3C9FF'];
+            if(v>this.benchmark[2]){
+                a1=[ 0, '#4875B4'];
+                a2=[v/10, '#A3C9FF'];
+            }
             let gu_3=echarts.init(self.$refs.gu_3);
-
             gu_3.setOption({
                 tooltip : {
                     formatter: "{a} <br/>{b} : {c}万"
@@ -563,12 +596,12 @@
                             length:10
                         },
                         min:0,
-                        max:7000,
+                        max:10,
                         axisLine: {
                             show:true,
                             // 属性lineStyle控制线条样式
                             lineStyle: {
-                                color:[[v/7000, '#4875B4'],[4500/7000, '#A3C9FF'],[1,'#E4E4E4']],
+                                color:[a1,a2,[1,'#E4E4E4']],
                                 width: 30
                             }
                         },
@@ -613,7 +646,7 @@
                             }
                         },
 
-                        data:[{value: v, name: 'title'}]
+                        data:[{value: v, name: '对标值'+this.benchmark[2]}]
                     },
 
                 ],
@@ -621,8 +654,13 @@
         },
         queryProduction_4(v){
             let self = this;
+            let a1=[v/10, '#3B48AA'];
+            let a2=[ this.benchmark[3]/10, '#BBC3FF'];
+            if(v>this.benchmark[3]){
+                a1=[ 0, '#BBC3FF'];
+                a2=[v/10, '#3B48AA'];
+            }
             let gu_4=echarts.init(self.$refs.gu_4);
-
             gu_4.setOption({
                 tooltip : {
                     formatter: "{a} <br/>{b} : {c}万"
@@ -641,12 +679,12 @@
                             length:10
                         },
                         min:0,
-                        max:7000,
+                        max:10,
                         axisLine: {
                             show:true,
                             // 属性lineStyle控制线条样式
                             lineStyle: {
-                                color:[[v/7000, '#3B48AA'],[4500/7000, '#BBC3FF'],[1,'#E4E4E4']],
+                                color:[a1,a2,[1,'#E4E4E4']],
                                 width: 30
                             }
                         },
@@ -691,7 +729,7 @@
                             }
                         },
 
-                        data:[{value: v, name: 'title'}]
+                        data:[{value: v, name: '对标值'+this.benchmark[3]}]
                     },
 
                 ],

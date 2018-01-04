@@ -210,7 +210,6 @@
                 if(res.data.retval==null){
 
                 }else{
-                    console.log(res.data.retval)
                     let objList=[];
                     for(let i =0;i< res.data.retval.length;i++){
                         if(i==res.data.retval.length-1){

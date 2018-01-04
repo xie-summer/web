@@ -56,7 +56,7 @@
                     {
                         name: '',
                         type: 'bar',
-                        data: valueData
+                        data: valueData.reverse()
                     }
                 ],
                 color:["#1DB5EF"]

@@ -3,44 +3,44 @@
         <el-row>
             <el-col :span="23" >
                 <div class="outTitle backs" >
-                    <div class="accTime">{{date1|formatDate}}</div>
+                    <div class="accTime">{{data.date1}}</div>
                     <el-tooltip class="item" effect="dark" content=" 提示文字" placement="top-end">
                         <svg class="icon" aria-hidden="true"style="width: 1.5rem;height: 1.5rem;float: right">
                             <use xlink:href="#el-icon-erp-wenhao"></use>
                         </svg>
                     </el-tooltip>
-                    <div class="number">{{data.deviation1}}%</div>
+                    <div class="number">{{data.deviation1|numWipe}}%</div>
                     <div class="numberText">偏差</div>
                 </div>
                 <div  class="outTitle yinying">
                     <el-col :span="12"style="border-right: 1px solid #c7c7c7">
-                        <div class="countT">{{data.value1}}吨</div>
+                        <div class="countT">{{data.value1|numWipe}}吨</div>
                         <div class="consume">{{data.text1}}</div>
                     </el-col>
                     <el-col :span="12">
-                        <div class="countT">{{data.value2}}吨</div>
+                        <div class="countT">{{data.value2|numWipe}}吨</div>
                         <div class="consume">{{data.text2}}</div>
                     </el-col>
                 </div>
             </el-col>
             <el-col :span="23"  style="margin-top: 0.5rem">
                 <div class="outTitle backs backss" >
-                    <div class="accTime">{{date2|formatDateTwo}}</div>
+                    <div class="accTime">{{data.date2}}</div>
                     <el-tooltip class="item" effect="dark" content=" 提示文字" placement="top-end">
                         <svg class="icon" aria-hidden="true"style="width: 1.5rem;height: 1.5rem;float: right">
                             <use xlink:href="#el-icon-erp-wenhao"></use>
                         </svg>
                     </el-tooltip>
-                    <div class="number">{{data.deviation2}}%</div>
+                    <div class="number">{{data.deviation2|numWipe}}%</div>
                     <div class="numberText">偏差</div>
                 </div>
                 <div  class="outTitle yinying">
                     <el-col :span="12"style="border-right: 1px solid #c7c7c7">
-                        <div class="countT">{{data.value3}}吨</div>
+                        <div class="countT">{{data.value3|numWipe}}吨</div>
                         <div class="consume">{{data.text3}}</div>
                     </el-col>
                     <el-col :span="12">
-                        <div class="countT">{{data.value4}}吨</div>
+                        <div class="countT">{{data.value4|numWipe}}吨</div>
                         <div class="consume">{{data.text4}}</div>
                     </el-col>
                 </div>
@@ -55,8 +55,6 @@
         props: ['curNum','curNumber'],
         data () {
         return {
-            date1:"",
-            date2:"",
             data:this.curNumber,
 
         }
@@ -69,23 +67,11 @@
     mounted(){
 
     },
-    filters:{
-        formatDate(){
-            let date = new Date();
-            return date.format("YYYY年MM月")
-            //此处formatDate是一个函数，将其封装在common/js/date.js里面，便于全局使用
-        },
-        formatDateTwo(){
-            let date = new Date();
-            return date.format("YYYY年MM月",1)
-            //此处formatDate是一个函数，将其封装在common/js/date.js里面，便于全局使用
-        },
 
-    }
     }
 </script>
 <style scoped>
-    .accTime{float: left;font-size: 1.6rem;color: white;height: 2.5rem;line-height: 2.5rem;padding-left: 1rem}
+    .accTime{float: left;font-size: 2rem;color: white;height: 2.5rem;line-height: 2.5rem;padding-left: 1rem}
     .el-icon-warning{float: right;font-size: 1rem;color:#01ACED}
     .number{font-size: 3.6rem;color: white;float: left;width: 100%;text-align: center}
     .numberText{color: white;font-size: 1.6rem;width: 100%;text-align: center;float: left}

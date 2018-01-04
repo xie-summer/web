@@ -79,6 +79,6 @@
     }
 </script>
 <style scoped>
-    .monery{font-size: 3rem;color:#1DB5EF;text-align: center;height: 9rem;line-height: 12rem}
+    .monery{font-size: 2.5rem;color:#1DB5EF;text-align: center;height: 9rem;line-height: 12rem}
     .title_t{font-size: 1.4rem;text-align: center;height: 4rem}
 </style>

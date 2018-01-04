@@ -71,6 +71,7 @@
                 <v-accurate :curNum="0" :curNumber="curNumber"></v-accurate>
             </el-col>
         </div>
+<!--
         <div style="display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%;margin-top: 3rem;box-shadow: 5px 5px 3px #E5E5E5;;min-width: 1055px">
 
             <el-col :span="24" class="solidTitle">产品质检</el-col>
@@ -81,6 +82,7 @@
                 <v-materialTable></v-materialTable>
             </el-col>
         </div>
+-->
     </div>
 
 </template>
@@ -123,15 +125,18 @@
                     "value3":"",
                     "value4":"",
                     deviation1:"0",
-                    deviation2:"0"
+                    deviation2:"0",
+                    date1:new Date().format("YYYY-MM"),
+                    date2:new Date().format("YYYY-MM",1)
                 },
                 unit:{"units":"吨","units2":"",wid:32,hig:21,radius:120,dist:-57,value:0,limit:0,floor:0,maxTool:20000},
                 publicOneData:{"num":"", "remindtext":"磷钙库存值较低","bool":false},
 
-                date:new Date(),
+                date:new Date().format("YYYY-MM-dd"),
                 nameData:[{"name":"磷钙"},{"name":"普钙"}],
+                nameTitle:"磷钙",
                 change:0,
-                value11: new Date(),
+                value11: new Date().format("YYYY-MM-dd"),
                 timeDefaultShow:new Date(),
                 pickerOptions0: {
                     disabledDate(time) {
@@ -141,11 +146,11 @@
     }
     },
     mounted:function(){
-        this.queryClass(this.change==0?"HG01XY750510":"HG01XY750410",this.value11.format("YYYY-MM-dd"));
-       this.queryGround(this.change==0?"HG01XY750510":"HG01XY750410",this.value11.format("YYYY-MM-dd"));
-      this.queryMonthConsume(this.change==0?"HG01XY750510":"HG01XY750510",this.value11.format("YYYY-MM"));
         /*物料上下限*/
-        this.queryBound(this.change==0?"HG01XY750510":"HG01XY750410",this.value11.format("YYYY-MM-dd"))
+        this.queryBound(this.change==0?"HG01XY750510":"HG01XY750410",this.value11)
+        this.queryClass(this.change==0?"HG01XY750510":"HG01XY750410",this.value11);
+      this.queryMonthConsume(this.change==0?"HG01XY750510":"HG01XY750510",this.formatDateTime(this.value11));
+
     },
     created:function(){
 
@@ -160,16 +165,18 @@
     },
     methods: {
         changeHandler:function(value){
+            this.curNumber.date1= this.formatDateTime(this.value11)
+            this.curNumber.date2= this.formatDateTime(this.value11,1)
             this.queryClass(this.change==0?"HG01XY750510":"HG01XY750410",value);
             this.queryGround(this.change==0?"HG01XY750510":"HG01XY750410",value);
-            this.queryMonthConsume(this.change==0?"HG01XY750510":"HG01XY750510",value);
+            this.queryMonthConsume(this.change==0?"HG01XY750510":"HG01XY750510",this.formatDateTime(value));
         },
         cut:function(key,name){
-            this.publicOneData.remindtext=name+"库存较低"
+            this.nameTitle=name;
             this.change = key;
-           this.queryClass(this.change==0?"HG01XY750510":"HG01XY750410",this.value11.format("YYYY-MM-dd"));
-            this.queryGround(this.change==0?"HG01XY750510":"HG01XY750410",this.value11.format("YYYY-MM-dd"));
-           this.queryMonthConsume(this.change==0?"HG01XY750510":"HG01XY750510",this.value11.format("YYYY-MM"));
+           this.queryClass(this.change==0?"HG01XY750510":"HG01XY750410",this.value11);
+            this.queryGround(this.change==0?"HG01XY750510":"HG01XY750410",this.value11);
+           this.queryMonthConsume(this.change==0?"HG01XY750510":"HG01XY750410",this.formatDateTime(this.value11));
             this.queryBound(this.change==0?"HG01XY750510":"HG01XY750410")
 
         },
@@ -180,6 +187,7 @@
                     _url
                 ).then((res) => {
                 let data=res.data.retval;
+                if(data==null||data==undefined) return;
                 if(data.length==0||data==null) return false;
                 let value=[];
                 let value1=[];
@@ -241,37 +249,32 @@
                     this.$refs.chartLine.createChartOne(this.obj);
                 });
         },
-       queryMonthConsume(id,date){
+        queryMonthConsume(id,date){
             if(id=="")return false;
             let self = this;
-            let _url = self.$url+"/real/time/consumption/gather/monthly/statistics/"+date+"/"+id;
-            let _url_1 = self.$url+"/real/time/consumption/gather/monthly/statistics/"+(function(date){
-                    var t = Date.parse(date);
-                    if (!isNaN(t)) {
-                        return new Date(Date.parse(date.replace(/-/g, "/")));
-                    } else {
-                        return new Date().format("YYYY-MM",1);
-                    }
-
-                })()+"/"+id;
+            let _url = self.$url+"/data/verification/thismonthbios/"+id+"/"+date.formatDate();
+            let _url_1 = self.$url+"/data/verification/thismonthbios/"+id+"/"+date.formatDate(1);
             self.$axios.get(_url).then((res)=>{
-                this.curNumber.value1=(function() {
-                    if (res.data.retval!=null) {
-                        return res.data.retval.value
-                    } else {
-                        return 0
-                    }
-                })();
+
+                if (res.data.retval!=null) {
+                    this.curNumber.deviation1=res.data.retval.bias;
+                    this.curNumber.value1=res.data.retval.valueAuto;
+                    this.curNumber.value2=res.data.retval.valueManual;
+                } else {
+                    return 0;
+                }
+
 
             });
             self.$axios.get(_url_1).then((res)=>{
-                this.curNumber.value3=(function() {
-                    if (res.data.retval!=null) {
-                        return res.data.retval.value
-                    } else {
-                        return 0
-                    }
-                })();
+                if (res.data.retval!=null) {
+                    this.curNumber.deviation2=res.data.retval.bias;
+                    this.curNumber.value3=res.data.retval.valueAuto;
+                    this.curNumber.value4=res.data.retval.valueManual;
+                } else {
+                    return 0
+                }
+
 
             });
         },
@@ -281,8 +284,19 @@
             self.$axios.get(_url).then((res)=>{
                 this.unit.value=(function() {
                     if (res.data.retval!=null) {
+                        if(res.data.retval.value<self.unit.floor){
+                            self.publicOneData.remindtext=  self.nameTitle+"库存较低"
+                        }
+                        if(res.data.retval.value>=self.unit.floor&&res.data.retval.value<=self.unit.limit){
+                            self.publicOneData.remindtext=  self.nameTitle+"库存正常"
+                        }
+                        if(res.data.retval.value>self.unit.limit){
+                            self.publicOneData.remindtext=  self.nameTitle+"库存较高"
+                        }
                         return res.data.retval.value
                     } else {
+                        self.publicOneData.remindtext=  self.nameTitle+"库存较低"
+                        console.log("实时库存数据异常")
                         return 0
                     }
                 })();
@@ -297,10 +311,19 @@
             self.$axios.get(_url).then((res)=>{
                 this.unit.limit=res.data.retval.upperLimit;
                 this.unit.floor=res.data.retval.lowerLimit;
-                self.$refs.chartGauge.createChartOne(this.unit)
+                self.$refs.chartGauge.createChartOne(this.unit);
+                this.queryGround(this.change==0?"HG01XY750510":"HG01XY750410",this.value11);
                 /*没做异常处理，除非挂服务*/
 
             })
+        },
+        formatDateTime(date,n){
+            let count=n|0;
+            let time = Date.parse(date);
+            let dates = new Date(Date.parse(date.replace(/-/g, "/"))).format("YYYY-MM",count);
+            let arr=[];
+            arr=dates.split("-");
+            return arr[0]+"-"+arr[1]
         }
 
 
