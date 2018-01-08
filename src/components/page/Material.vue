@@ -7,7 +7,7 @@
             </el-breadcrumb>
         </div>
         <div class="select_time" style="min-width: 1059px">
-            <button class="button_class" :class="{blue:change==key}"@click="cut(key,item.name)" v-for=" (item,key) in nameData " :key="key" style="width: 8rem">{{item.name}}</button>
+            <button class="button_class" :class="{blue:change==key}"@click="cut(key,item.name,item.code)" v-for=" (item,key) in nameData " :key="key" style="width: 8rem">{{item.name}}</button>
             <div class="right">
                 <el-date-picker
                     @change="(value) => changeHandler(value)"
@@ -22,8 +22,8 @@
                 </el-date-picker>
             </div>
         </div>
-        <div style="display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%;box-shadow: 5px 5px 3px #E5E5E5;;min-width: 1059px">
-            <el-col :span="24" class="bigTitle">实时库存</el-col>
+        <div style="display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%;box-shadow: 5px 5px 3px #E5E5E5;;min-width: 1059px;background-color: #ffffff">
+            <el-col :span="24" class="bigTitle stairFontColor">当日库存量</el-col>
             <el-col :span="10" style="border-right: solid 1px #c7c7c7">
                 <el-col :span="24" style="flex-flow: 1">
                     <v-pone :public-data="publicOneData"></v-pone>
@@ -61,8 +61,16 @@
                 </el-col>
             </el-col>
         </div>
-        <div  style="display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%;margin-top: 3rem;box-shadow: 5px 5px 3px #E5E5E5;;min-width: 1059px;height: 40rem">
-            <el-col :span="24"  class="solidTitle">实时消耗</el-col>
+       <div style="box-shadow: 5px 5px 3px #E5E5E5;;min-width: 1059px;">
+           <el-row class="bigTitle gauge stairFontColor">当日入库量</el-row>
+                   <v-table ref="putTableOne" @handleCurrentChange="toShow" :table-name="putTableName":output-table="putTableData":outputData="putData":type="put"></v-table>
+       </div>
+        <div style="box-shadow: 5px 5px 3px #E5E5E5;;min-width: 1059px;">
+            <el-row class="bigTitle gauge stairFontColor">当日出库量</el-row>
+            <v-table ref="putTableTwo" @handleCurrentChange="toShow" :table-name="outTableName":output-table="outTableData":outputData="outData" :type="out"></v-table>
+        </div>
+        <div  style="display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%;margin-top: 3rem;box-shadow: 5px 5px 3px #E5E5E5;;min-width: 1059px;height: 40rem;background-color: #ffffff">
+            <el-col :span="24"  class="solidTitle stairFontColor">实时消耗(按小时)</el-col>
                <el-col :span="14" >
                    <v-line :child-msg="obj" ref="chartLine"></v-line>
                </el-col>
@@ -84,7 +92,7 @@
     </div>
 
 </template>
-
+<!--ref="putTable" @handleCurrentChange="toShow"-->
 <script>
     import vPone from './PublicOne.vue';
     import vGauge from './OldCharts.vue';
@@ -92,9 +100,10 @@
     import vAccurate from './accurate.vue';
     import vPercentage from './percentage.vue';
     import vMaterialTable from './MaterialTable.vue';
+    import vTable from'./materAndProduct/OutPutTable.vue'
     export default {
         components:{
-            vPone,vGauge,vLine,vAccurate,vPercentage,vMaterialTable
+            vPone,vGauge,vLine,vAccurate,vPercentage,vMaterialTable,vTable
         },
 
         data: function(){
@@ -129,10 +138,25 @@
                     date1:new Date().format("YYYY-MM"),
                     date2:new Date().format("YYYY-MM",1)
                 },
+                outTableName:[{label:"出库时间",name:"inOutTime"},
+                            {label:"出库量(吨)",name:"value"},
+                            {label:"库管员",name:"personLiable"},
+                            {label:"购货单位",name:"inOutCompany"}],
+                putTableName:[{label:"入库时间",name:"inOutTime"},
+                            {label:"入库量(吨)",name:"value"},
+                            {label:"部门主管",name:"personLiable"},
+                            {label:"入库部门",name:"inOutCompany"}],
+               outTableData:[],
+                putTableData:[],
+                outData:{data:125,time:"11:26:15"},
+                putData:{data:300,time:"12:48:58"},
+                out:0,
+                put:1,
                 id:"HG01XY750000",
                 nameTitle:"磷矿粉",
-                nameData:[{"name":"磷矿粉"},{"name":"硫酸"}],
+                nameData:[{"name":"磷矿粉",code:"HG01XY750000"},{"name":"硫酸",code:"HG01XY750100"}],
                 change:0,
+                code:"HG01XY750000",
                 value11: new Date().format("YYYY-MM-dd"),
                 timeDefaultShow:new Date(),
                 pickerOptions0: {
@@ -147,9 +171,10 @@
         mounted () {
         /*物料上下限*/
             this.queryBound(this.change==0?"HG01XY750000":"HG01XY750100",this.value11);
-
             this.queryClass(this.change==0?"HG01XY750000":"HG01XY750100",this.value11);
             this.queryMonthConsume(this.change==0?"HG01XY750000":"",this.formatDateTime(this.value11));/*yue*/
+            this.queryPut(this.change==0?"HG01XY750000":"HG01XY750100",0,this.value11,1,5);
+            this.queryPut(this.change==0?"HG01XY750000":"HG01XY750100",1,this.value11,1,5);
 
         },
         filters:{
@@ -168,9 +193,14 @@
             this.queryClass(this.change==0?"HG01XY750000":"HG01XY750100",value);
             this.queryGround(this.change==0?"HG01XY750000":"HG01XY750100",value);
             this.queryMonthConsume(this.change==0?"HG01XY750000":"HG01XY750100",this.formatDateTime(value));/*yue*/
+            this.queryPut(this.code,0,this.value11,1,5);
+            this.queryPut(this.code,1,this.value11,1,5);
         },
         /*原料切换*/
-        cut:function(key,name){
+        cut:function(key,name,code){
+            this.queryPut(code,0,this.value11,1,5);
+            this.queryPut(code,1,this.value11,1,5);
+            this.code=code;
            this.nameTitle = name;
             this.change = key;
             this.queryClass(this.change==0?"HG01XY750000":"HG01XY750100",this.value11);
@@ -188,8 +218,17 @@
                         _url
                 ).then((res) => {
                     let data=res.data.retval;
-                if(data==null||data==undefined) return;
-                    if(data.length==0||data==null) return false;
+                if(data==null||data==undefined) {
+                    this.obj={
+                        "date":['0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23',],
+                            "data1":[],
+                            "data2":[],
+                            "data3":[],
+                            "class1":{"name":"晚班消耗量","value":""},
+                            "class2":{"name":"早班消耗量","value":""},
+                            "class3":{"name":"中班消耗量","value":""}
+                    }
+                }
                     let value=[];
                     let value1=[];
                     let value2=[];
@@ -219,7 +258,7 @@
                                 value2.push(v);
                             }
                         });
-                        let arr=["","","","","","","",0];
+                        let arr=["","","","","","","",value1[value1.length-1]];
                         value2.unshift.apply(value2,arr);
                     }else if(data.length>=16){
                         value.find(function( v,index){
@@ -235,9 +274,9 @@
                                 value3.push(v);
                             }
                         });
-                        let arr=["","","","","","","",0];
+                        let arr=["","","","","","","",value1[value1.length-1]];
                         value2.unshift.apply(value2,arr);
-                        let arr2=["","","","","","","","","","","","","","","",0];
+                        let arr2=["","","","","","","","","","","","","","","",value2[value2.length-1]];
                         value3.unshift.apply(value3,arr2);
                     }
                     this.obj.date=date;
@@ -286,12 +325,10 @@
         queryGround(id,date){
             let self = this;
             let _url = self.$url+"/daily/inventory/summary/"+date+"/"+id;
-            console.log(_url);
             let _url_1  = self.$url+"/raw/materials/"+id+"/"+date;
             self.$axios.get(_url).then((res)=>{
                 this.unit.value=(function() {
                     if (res.data.retval!=null) {
-                        console.log(res.data.retval);
                         if(res.data.retval.value<self.unit.floor){
                             self.publicOneData.remindtext=  self.nameTitle+"库存较低"
                         }
@@ -338,7 +375,44 @@
             let arr=[];
             arr=dates.split("-");
             return arr[0]+"-"+arr[1]
-        }
+        },
+        /*table数据*/
+        toShow(msg){
+            /*tabel分页事件*/
+            let page = msg.page;
+            let size = msg.pageSize;
+            let type = msg.type;
+            this.queryPut(this.code,type,this.value11,page,size);
+
+        },
+        /*出入库信息*/
+        queryPut(code,type,date,page,size){
+            let self=this;
+            let _url=this.$url+"/material/into/inventory/"+code+"/"+type+"/"+date+"/"+page+"/"+size;
+            self.$axios.get(_url).then((res)=>{
+                let list = res.data.retval.list;
+               if(list==null||list==undefined||list.length==0){
+                   if(type==1){
+                       this.putTableData=[];
+                       self.$refs.putTableOne.getData(  this.putTableData,this.putTableName,0,this.putData);
+                   }
+                   if(type==0){
+                       this.outTableData=[];
+                       self.$refs.putTableOne.getData(  this.outTableData,this.outTableName,0,this.outData);
+                   }
+               }else{
+                   for(let obj of list){
+                       obj.inOutTime = new Date(obj.inOutTime).format("hh:mm:ss")
+                   }
+                   if(type==1){
+                       this.putData={data:0,time:"00:00:01"};
+                       self.$refs.putTableOne.getData( list,this.putTableName,res.data.retval.total,this.putData);}
+                   if(type==0){
+                       this.outData={data:0,time:"00:10:00"}
+                       self.$refs.putTableTwo.getData( list,this.outTableName,res.data.retval.total,this.outData);}
+               }
+            })
+        },
         },
 
 
@@ -347,10 +421,11 @@
     }
 </script>
 
-<style scoped>
-    .bigTitle{font-size: 2.4rem;height: 3rem;}
+<style >
+    .bigTitle{font-size: 2rem;height: 3rem;background-color: #ffffff}
+    .gauge{margin-top: 3rem}
     .title{font-size: 2rem;color: #000000;padding-left: 2rem}
-    .solidTitle{font-size: 2.4rem;height: 3rem;}
+    .solidTitle{font-size: 2rem;height: 3rem;}
     .select_time{margin-bottom: 3rem;height: 3rem}
     .right{float:right}
     .button_class{height: 3rem;background-color:#ffffff;border: 1px solid #888888;margin-right: 1rem;cursor: pointer}

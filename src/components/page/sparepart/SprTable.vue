@@ -25,7 +25,7 @@
 </script>
 
 <style >
-    .el-table__fixed-header-wrapper thead div,.el-table__header-wrapper thead div {
+   .table .el-table__header-wrapper thead div {
         color:rgb(255, 255, 255);
         background-color:rgb(1, 172, 237)
     }

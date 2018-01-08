@@ -18,34 +18,41 @@
                 >
             </el-date-picker>
         </div>
-        <div class="title">
+        <div class=" stairFontColor newTitle" style="margin-top: 3rem" >
             物资监管
         </div>
-        <div class="titleCount" style="min-width: 1055px;min-height: 10.5rem">
-            <el-col :span="4"   v-for=" (i,value) in item" :key="value" style="flex-grow:1">
-                <el-col :span="23" :offset="1" class="count">
+        <el-row :span="24" class="goodsTitle secondFontColor" style="min-width: 1055px;box-shadow: 5px 0px 3px #E5E5E5;background-color: #ffffff;height: 4rem">库存量监控</el-row>
+        <el-row type="flex" justify="space-between" style="min-width: 1055px;min-height: 10.5rem;margin-bottom: 3rem;box-shadow: 5px 5px 3px #E5E5E5;background-color: #ffffff"v-if="isGoods">
+            <el-col :span="4"   v-for=" (i,value) in item" :key="value"  >
+                <el-col :span="24"  class="count">
                     <el-col :span="24" class="fontCenter font1">{{i.name}}</el-col>
-                    <el-col :span="24"  class="fontCenter">
+                    <el-col :span="24"  class="fontCenter" style="padding-left: 1rem">
                         <svg class="icon" aria-hidden="true" v-if="i.text=='高'|i.text=='低'">
                             <use xlink:href="#el-icon-erp-shebeibaojing"></use>
+                        </svg>
+                        <svg class="icon" aria-hidden="true" v-if="i.text=='正常'">
+                            <use xlink:href="#el-icon-erp-206"></use>
                         </svg>
                         <span style="font-size: 1.5rem" :class="i.text=='高' ? 'colorRed':'colorBlue'">{{i.text}}</span>
                     </el-col>
                     <el-col :span="24" class="fontCenter font2">{{i.number}}</el-col>
                 </el-col>
             </el-col>
-        </div>
+        </el-row>
+        <el-row  class="titleCount" style="min-width: 1055px;min-height: 8rem;background-color: #ffffff;" v-else>
+            <img src="../../../static/img/wushuju.png" class="imgCenter"/>
+        </el-row>
         <div class="goods" style="min-width: 1055px">
-            <el-col :span="24" class="goodsTitle">出厂监控</el-col>
+            <el-col :span="24" class="goodsTitle secondFontColor">出厂监控</el-col>
             <div  style="display: flex;display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%">
                 <el-col :span="10" class="goodsHeight" style="flex-grow:1">
                     <el-col :span="12">
                         <div class="numberHint">{{numberSize}}</div>
                         <div class="titleHint">今日异常出库次数</div>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :span="12"v-if="isAbnormal">
                         <div class="timeTitle">最近一次异常出库</div>
-                        <ul class="li">
+                        <ul class="li" >
                             <li>
                                 <span>抓拍时间：</span><span>{{uTime}}</span>
                             </li>
@@ -56,6 +63,12 @@
                                 <span>出库状态：</span><span>{{errMsg}}</span>
                             </li>
                         </ul>
+
+                    </el-col>
+                    <el-col :span="12"v-else class="imgCenter">
+                        <el-col :span="24" style="height: 8rem"></el-col>
+                        <img src="../../../static/img/yichang.png" />
+                        <el-col :span="24":offset="0" style="height: 4rem;line-height: 4rem;font-size: 2rem">无异常</el-col>
                     </el-col>
                 </el-col>
                 <el-col :span="14" class="goodsHeight" style="flex-grow:1">
@@ -63,14 +76,15 @@
                 </el-col>
             </div>
         </div>
-        <el-row :span="24" class="goodsTitle"style="font-size: 2rem;">生产监管</el-row>
-            <el-row type="flex"  justify="space-between" style="min-width: 1055px;box-shadow: 5px 5px 3px #E5E5E5;margin-bottom: 3rem">
+        <el-row :span="24" class="title stairFontColor newTitle">生产监管</el-row>
+        <el-row :span="24" class="goodsTitle secondFontColor"style="font-size: 1.8rem;box-shadow: 5px 0px 3px #E5E5E5;background-color: #ffffff;height: 4rem">单耗监控</el-row>
+        <el-row type="flex"  justify="space-between" style="min-width: 1055px;box-shadow: 5px 5px 3px #E5E5E5;margin-bottom: 3rem;background-color: #ffffff">
                 <div style="width: 25rem">
                     <el-col :span="24" style="text-align: center;font-size: 1.8rem;color: #888888">磷钙矿耗(吨/吨)</el-col>
                     <div class="gu_1" id="gu_1" ref="gu_1" style="height: 14rem"></div>
                 </div>
                 <div style="width: 25rem">
-                    <el-col :span="24" style="text-align: center;font-size: 1.8rem;color: #888888">磷钙酸耗(立方米/吨)</el-col>
+                    <el-col :span="24" style="text-align: center;font-size: 1.8rem;color: #888888">磷钙酸耗(千立方米/吨)</el-col>
                     <div class="gu_2" id="gu_2" ref="gu_2" style="height: 14rem"></div>
                 </div>
                 <div style="width: 25rem">
@@ -82,39 +96,9 @@
                     <div class="gu_4" id="gu_4" ref="gu_4" style="height: 14rem"></div>
                 </div>
             </el-row>
-       <!-- <div class="goods" style="min-width: 1055px">
-            <el-col :span="24" class="goodsTitle" style="font-size: 2rem">巡检检修</el-col>
-            <div style="display: flex;display: -webkit-flex;flex-direcion:row ;width: 100%; flex-wrap:wrap;">
-                <el-col :span="10"  class="top"style="flex-grow:1">
-                    <div style="width: 50%;display: inline-block;flex-grow:1;float: left" class="noticeBoard" v-for=" (i,index) in items" >
-                        <div class="noticeBoardNumber":class='i.color'>{{i.number}}<span style="font-size: 2rem">{{i.symbol}}</span></div>
-                        <div class="noticeBoardText">{{i.text}}</div>
-                    </div>
-                </el-col>
-                <el-col :span="14" class="tableColor"style="flex-grow:1">
-                    <el-table :data="tableData" border style="width: 100%;" height=282>
-                        <el-table-column prop="date" label="检修工段"  align="center" >
-                        </el-table-column>
-                        <el-table-column prop="name" label="检修设备" align="center" >
-                        </el-table-column>
-                    </el-table>
-                    <div class="pagination">
-                        <el-pagination
-                            @current-change ="handleCurrentChange1"
-                            layout="total, prev, pager, next"
-                            :total="totalCount1"
-                            :current-page="currentPage1"
-                            :page-size="pageSize"
-                            >
-                        </el-pagination>
-                    </div>
-                </el-col>
-            </div>
-        </div>-->
         <div class="numberVerify" style="min-width: 1055px">
             <el-col :span="24">
-                <div style="float: left;font-size: 2rem">数据校验</div>
-
+                <div style="float: left;" class="stairFontColor newTitle">数据校验</div>
                 <div class="time" >0.00-24.00</div>
                 <div class="time timeRight">{{dateTitles}}</div>
             </el-col>
@@ -210,7 +194,7 @@
                 cur_page: 1,
                 currentPage1: 1,
                 totalCount1: 0,
-                pageSize:6,
+                pageSize:5,
                 value11: new Date(),
                 timeDefaultShow:new Date(),
                 pickerOptions0: {
@@ -238,8 +222,10 @@
             {'number':'0','text':'巡检作业项数','color':'green',"symbol":"次"},
             {'number':'0','text':'检修次数','color':'green',"symbol":"次"}
         ],
+        isGoods:true,
+        isAbnormal:true,
         tableData:[],
-        dateTitles:new Date().dDate(-1)
+        dateTitles:new Date().dDate()
             }
         },
     created:function(){
@@ -262,6 +248,7 @@
     },
     methods: {
         changeHandler:function(value){
+            this.dateTitles=value;
             this.date=value;
             this.queryTable(value,this.cur_page,this.pageSize);
             this.querynventoryDay(value);
@@ -289,16 +276,22 @@
                 let self = this;
                 let _url=self.$url+"/into/the/factory/records/"+value;
                 self.$axios.get(_url).then((res)=>{
-               if(res.data.retval==null) return false;
-                this.uTime  = new Date(res.data.retval.outTime).format("YYYY/MM/dd");
-                this.numberPlate  = res.data.retval.numberPlate;
-                this.errMsg = res.data.retval.errMsg;
+               if(res.data.retval==null){
+                  this.isAbnormal=false;
+               }else{
+                   this.isAbnormal=true;
+                   this.uTime  = new Date(res.data.retval.outTime).format("YYYY/MM/dd");
+                   this.numberPlate  = res.data.retval.numberPlate;
+                   this.errMsg = res.data.retval.errMsg;
+               }
+
 
 
             });
             let _url_size=self.$url+"/into/the/factory/records/count/"+value;
             self.$axios.get(_url_size).then((res)=>{
-                this.numberSize  = res.data.retval;
+                if(res.data.retval==null){  this.numberSize=0}else{  this.numberSize  = res.data.retval;}
+
             });
 
         },
@@ -310,22 +303,31 @@
             let item=[];
             self.$axios.get(_url).then((res)=>{
                 let  list = res.data.retval;
-
-                let _url_1=self.$url+"/daily/inventory/summary/check/"+date;
-                for(let o of res.data.retval){
-                    code.push( o.code);
-                }
-                self.$axios.get(_url_1,{params: {codeList: code}}).then((res)=>{
-                   let arr=[];
-                    for(let j  of list){
-                        let k=0;
-                        let obj={};
-                        obj.name= j.name;
-                        obj.number= j.value+j.unit;
-                        obj.text=res.data.retval[j.code];
-                        item.push(obj);
+                if(list==null||list==undefined||list.length==0){
+                        this.isGoods=false;
+                }else{
+                    this.isGoods=true;
+                    let _url_1=self.$url+"/daily/inventory/summary/check/"+date;
+                    for(let o of res.data.retval){
+                        code.push( o.code);
                     }
-                });
+                    self.$axios.get(_url_1,{params: {codeList: code}}).then((res)=>{
+                        if(res.data.retval==null||res.data.retval==undefined){
+
+                        }else{
+                            let arr=[];
+                            for(let j  of list){
+                                let k=0;
+                                let obj={};
+                                obj.name= j.name;
+                                obj.number= j.value+j.unit;
+                                obj.text=res.data.retval[j.code];
+                                item.push(obj);
+                            }
+                        }
+                    });
+                }
+
             });
             this.item=item;
 
@@ -342,6 +344,7 @@
             this.queryTable(date, this.cur_page,this.pageSize);
         },
         queryDatIoValue(date){
+           /* let date="2018-01-03";*/
             var self = this;
             function queryLKF(){
                 return self.$axios.get(self.$url+"/data/verification/HG01XY75000/"+date)
@@ -356,18 +359,18 @@
            self.$axios.all([queryLKF(), queryLG(),queryPG()])
                 .then(self.$axios.spread(function (lkf, lg,pg) {
                     if(lkf.data.retval==null){}else{
-                        self.dat.valueLKF=lkf.data.retval.bias;
-                        self.dat.dataIoLKF=lkf.data.retval.valueAuto;
+                        self.dat.dataIoLKF=lkf.data.retval.bias;
+                        self.dat.valueLKF=lkf.data.retval.valueAuto;
                         self.dat.dataIoValueLKF=lkf.data.retval.valueManual;
                     }
                     if(lg.data.retval==null){}else{
-                        self.dat.valueLG=lg.data.retval.bias;
-                        self.dat.dataIoLG=lg.data.retval.valueAuto;
+                        self.dat.dataIoLG=lg.data.retval.bias;
+                        self.dat.valueLG=lg.data.retval.valueAuto;
                         self.dat.dataIoValueLG=lg.data.retval.valueManual;
                     }
                     if(pg.data.retval==null){}else{
-                        self.dat.valuePG=pg.data.retval.bias;
-                        self.dat.dataIoPG=pg.data.retval.valueAuto;
+                        self.dat.dataIoPG=pg.data.retval.bias;
+                        self.dat.valuePG=pg.data.retval.valueAuto;
                         self.dat.dataIoValuePG=pg.data.retval.valueManual;
                     }
                 }));
@@ -391,9 +394,9 @@
 
                 }else{
                     this.production=res.data.retval;
-                    this.queryProduction_1(this.production.ccp);
+                    this.queryProduction_1(this.production.cpoc);
                     this.queryProduction_2(this.production.cpac);
-                    this.queryProduction_3(this.production.cpoc);
+                    this.queryProduction_3(this.production.ccp);
                     this.queryProduction_4(this.production.cpc);
                 }
 
@@ -404,11 +407,11 @@
         },
         queryProduction_1(v){
             let self = this;
-            let a1=[v/10, '#3B48A8'];
-            let a2=[ this.benchmark[0]/10, '#C4CBFF'];
+            let a1=[v/3, '#3B48A8'];
+            let a2=[ this.benchmark[0]/3, '#C4CBFF'];
             if(v>this.benchmark[0]){
                 a1=[ 0, '#C4CBFF'];
-                a2=[v/10, '#3B48A8'];
+                a2=[v/3, '#3B48A8'];
             }
             let gu_1=echarts.init(self.$refs.gu_1);
             gu_1.setOption({
@@ -429,7 +432,7 @@
                             length:10
                         },
                         min:0,
-                        max:10,
+                        max:3,
                         axisLine: {
                             show:true,
                             // 属性lineStyle控制线条样式
@@ -488,11 +491,11 @@
         },
         queryProduction_2(v){
             let self = this;
-            let a1=[v/10, '#01ACED'];
-            let a2=[ this.benchmark[1]/10, '#A0E5FF'];
+            let a1=[v/3, '#01ACED'];
+            let a2=[ this.benchmark[1]/3, '#A0E5FF'];
             if(v>this.benchmark[1]){
                 a1=[ 0, '#A0E5FF'];
-                a2=[v/10, '#01ACED'];
+                a2=[v/3, '#01ACED'];
             }
             let gu_2=echarts.init(self.$refs.gu_2);
             gu_2.setOption({
@@ -513,7 +516,7 @@
                             length:10
                         },
                         min:0,
-                        max:10,
+                        max:3,
                         axisLine: {
                             show:true,
                             // 属性lineStyle控制线条样式
@@ -571,11 +574,11 @@
         },
         queryProduction_3(v){
             let self = this;
-            let a1=[v/10, '#4875B4'];
-            let a2=[ this.benchmark[2]/10, '#A3C9FF'];
+            let a1=[v/1, '#4875B4'];
+            let a2=[ this.benchmark[2]/1, '#A3C9FF'];
             if(v>this.benchmark[2]){
                 a1=[ 0, '#4875B4'];
-                a2=[v/10, '#A3C9FF'];
+                a2=[v/1, '#A3C9FF'];
             }
             let gu_3=echarts.init(self.$refs.gu_3);
             gu_3.setOption({
@@ -596,7 +599,7 @@
                             length:10
                         },
                         min:0,
-                        max:10,
+                        max:1,
                         axisLine: {
                             show:true,
                             // 属性lineStyle控制线条样式
@@ -654,11 +657,11 @@
         },
         queryProduction_4(v){
             let self = this;
-            let a1=[v/10, '#3B48AA'];
-            let a2=[ this.benchmark[3]/10, '#BBC3FF'];
+            let a1=[v/60, '#3B48AA'];
+            let a2=[ this.benchmark[3]/60, '#BBC3FF'];
             if(v>this.benchmark[3]){
                 a1=[ 0, '#BBC3FF'];
-                a2=[v/10, '#3B48AA'];
+                a2=[v/60, '#3B48AA'];
             }
             let gu_4=echarts.init(self.$refs.gu_4);
             gu_4.setOption({
@@ -679,7 +682,7 @@
                             length:10
                         },
                         min:0,
-                        max:10,
+                        max:60,
                         axisLine: {
                             show:true,
                             // 属性lineStyle控制线条样式
@@ -742,8 +745,8 @@
 <style>
 
    .right{float:right}
-   .titleCount{display: flex;display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;box-shadow: 5px 5px 3px #E5E5E5;margin-bottom: 2rem;justify-content:space-between}
-    .title{margin-top: 4.5rem;font-size: 2rem;height: 4rem;line-height: 4rem}
+   .titleCount{display: flex;display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;box-shadow: 3px 3px 1px #E5E5E5;margin-bottom: 2rem;justify-content:space-between}
+  /*  .title{margin-top: 2.5rem;font-size: 2rem;height: 4rem;line-height: 4rem;}*/
     .count{background-color: #ffffff;height:10.5rem}
     .fontCenter{text-align: center;}
     .font1{font-size: 1.8rem}
@@ -790,5 +793,6 @@
         -webkit-justify-content: center;
         flex-wrap:wrap;justify-content:space-between;
     }
-
+    .imgCenter{text-align:center;vertical-align:middles;height: 11rem}
+    .newTitle{height: 5rem;line-height: 5rem;font-size: 2rem}
 </style>

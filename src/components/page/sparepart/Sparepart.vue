@@ -23,8 +23,7 @@
      </el-row>
      <el-row style="margin-bottom: 2rem;min-width: 1055px;background: #ffffff;box-shadow: 2px 5px 2px #E5E5E5;"type="flex"justify="space-around" >
             <el-col :span="11">
-                <el-col :span="24"style="font-size: 2.4rem;background: #ffffff;width: 90%;padding-left: 2rem">货值总览</el-col>
-
+                <el-col :span="24"style="font-size: 2rem;" class="stairFontColor"> 货值总览</el-col>
                 <div style="width: 100%;height:33.1rem;">
                     <v-gauge :unit="unit"></v-gauge>
                 </div>
@@ -33,18 +32,18 @@
                 <v-table :child-table="tableName1" ></v-table>
             </el-col>
      </el-row>
+      <el-row class="subordinateTitle stairFontColor">库存量监控</el-row>
      <el-row style="background: #ffffff;box-shadow: 2px 5px 2px #E5E5E5;min-width: 1055px">
-          <el-col :span="24" class="subordinateTitle">库存量监控</el-col>
       </el-row>
-     <el-row class="outCont"type="flex"justify="space-around">
+        <el-row class="outCont"type="flex"justify="space-around">
             <el-col :span="11">
-                   <el-col :span="24" class="title"">低库存列表</el-col>
+                   <el-col :span="24" class="title secondFontColor">低库存列表</el-col>
                    <el-col :span="24">
                        <v-table :child-table="tableName2"></v-table>
                    </el-col>
             </el-col>
             <el-col :span="11">
-                <el-col :span="24" class="title">高库存列表</el-col>
+                <el-col :span="24" class="title secondFontColor">高库存列表</el-col>
                 <el-col :span="24">
                     <v-table :child-table="tableName3"></v-table>
                 </el-col>
@@ -52,34 +51,34 @@
 
     </el-row>
      <el-row style="min-width: 1055px">
-            <el-col :span="24" class="subordinateTitle">出入库总览</el-col>
+            <el-col :span="24" class="subordinateTitle stairFontColor">出入库总览</el-col>
         </el-row>
      <el-row class="outCont"type="flex"justify="space-around">
             <el-col :span="11">
-                <el-col :span="24" class="title">本周各入库产品货值</el-col>
+                <el-col :span="24" class="title secondFontColor">本周各入库产品货值</el-col>
                 <el-col :span="24">
                     <v-pie ref="chartPs" :putData="putData"></v-pie>
                 </el-col>
             </el-col>
             <el-col :span="11">
-                <el-col :span="24" class="title">本周各出库产品货值</el-col>
+                <el-col :span="24" class="title secondFontColor">本周各出库产品货值</el-col>
                 <el-col :span="24">
                     <v-pies ref="chartPs2" :putData="outData"></v-pies>
                 </el-col>
             </el-col>
         </el-row>
         <el-row style="min-width: 1055px">
-            <el-col :span="24" class="subordinateTitle">月消耗总览</el-col>
+            <el-col :span="24" class="subordinateTitle stairFontColor">月消耗总览</el-col>
         </el-row>
         <el-row class="outCont"type="flex"justify="space-around">
             <el-col :span="11">
-                <el-col :span="24" class="title">消耗货值排行前十</el-col>
+                <el-col :span="24" class="title  secondFontColor">消耗货值排行前十</el-col>
                 <el-col :span="24">
                     <v-bar ref="chartBar"></v-bar>
                 </el-col>
             </el-col>
             <el-col :span="11">
-                <el-col :span="24" class="title">消耗量排行前5</el-col>
+                <el-col :span="24" class="title secondFontColor">消耗量排行前5</el-col>
                 <el-col :span="24">
                   <v-str ref="chartstr"></v-str>
                 </el-col>
@@ -261,5 +260,5 @@
     .right{float: right;height: 3rem}
     .outCont{margin-bottom: 2rem;background: #ffffff;box-shadow: 2px 5px 2px #E5E5E5;min-width: 1055px}
     .title{font-size: 1.8rem;padding-left: 2rem;height: 3rem;line-height: 3rem}
-    .subordinateTitle{font-size: 2.4rem;padding-left: 2rem;height: 5rem;line-height: 5rem}
+    .subordinateTitle{font-size: 2rem;height: 5rem;line-height: 5rem}
 </style>

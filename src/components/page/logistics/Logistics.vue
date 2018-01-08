@@ -68,11 +68,11 @@
                 </el-card>
             </el-col>
         </el-row>
-        <el-row style="margin-top: 4rem">
+        <el-row style="margin-top: 4rem"class="table ">
          <el-col :span="24" class="log_title">在途货物列表</el-col>
         <el-table :data="tableData" border style="width: 100%;margin-top: 1rem;" ref="multipleTable"height=390 >
 
-            <el-table-column prop="a" label="订单编号"  align="center"  >
+            <el-table-column prop="a" label="订单编号"  align="center" >
             </el-table-column>
             <el-table-column prop="b" label="收货地址"align="center"  >
             </el-table-column>
@@ -85,7 +85,7 @@
 
         </el-table>
     </el-row>
-        <el-row style="margin-top: 4rem">
+        <el-row style="margin-top: 4rem" class="table ">
             <el-col :span="24" class="log_title">货运完成列表</el-col>
             <el-table :data="tableData_two" border style="width: 100%;margin-top: 1rem;" ref="multipleTable"height=390 >
 
@@ -139,10 +139,11 @@
     .log_p_1{height: 3rem;line-height: 3rem;text-align: center;font-size: 3rem}
     .log_p_2{height: 3rem;line-height: 2rem;font-size: 1.5rem}
     .log_svg{width: 5rem; height: 5rem;}
-    .log_title{font-size: 2.4rem}
-    .el-table__fixed-header-wrapper thead div,.el-table__header-wrapper thead div {
+    .log_title{font-size: 2rem;height: 5rem;line-height: 5rem}
+    .el-table td{height: 36px;padding: 5px 0}
+    .log_height{height: 16rem;}
+    .table .el-table__header-wrapper thead div {
         color:rgb(255, 255, 255);
         background-color:rgb(1, 172, 237)
-    }.el-table td{height: 36px;padding: 5px 0}
-    .log_height{height: 16rem;}
+    }
 </style>

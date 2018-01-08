@@ -5,8 +5,8 @@
                 <div class="outTitle backs" >
                     <div class="accTime">{{data.date1}}</div>
                     <el-tooltip class="item" effect="dark" content=" 提示文字" placement="top-end">
-                        <svg class="icon" aria-hidden="true"style="width: 1.5rem;height: 1.5rem;float: right">
-                            <use xlink:href="#el-icon-erp-wenhao"></use>
+                        <svg class="icon" aria-hidden="true"style="width: 1.5rem;height: 1.5rem;float: right;color: #ffffff">
+                            <use xlink:href="#el-icon-erp-wenhao1"></use>
                         </svg>
                     </el-tooltip>
                     <div class="number">{{data.deviation1|numWipe}}%</div>
@@ -28,7 +28,7 @@
                     <div class="accTime">{{data.date2}}</div>
                     <el-tooltip class="item" effect="dark" content=" 提示文字" placement="top-end">
                         <svg class="icon" aria-hidden="true"style="width: 1.5rem;height: 1.5rem;float: right">
-                            <use xlink:href="#el-icon-erp-wenhao"></use>
+                            <use xlink:href="#el-icon-erp-wenhao1"></use>
                         </svg>
                     </el-tooltip>
                     <div class="number">{{data.deviation2|numWipe}}%</div>

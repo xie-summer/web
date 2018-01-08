@@ -130,3 +130,27 @@ a{text-decoration: none}
 }
 
 input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill { -webkit-box-shadow:0 0 0 1000px #ffffff inset;}
+.el-menu-item:focus, .el-menu-item:hover {
+    background-color: #92b6dd;
+}
+.el-menu{
+    background-color: #494545;
+}
+.el-submenu__title{
+    color: #e8ebf2;
+}
+.el-menu-item{
+    color:#ffffff
+}
+.el-submenu__title:hover{
+    background-color: #92b6dd;
+}
+.stairFontColor{
+   color: #303133
+}
+.secondFontColor{
+    color:#606266
+}
+.threeFontColor{
+    color:#909399
+}

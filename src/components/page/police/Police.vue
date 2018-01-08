@@ -10,11 +10,11 @@
 
 
         <el-row type="flex"justify="space-between" style="margin-bottom: 2rem">
-            <el-col :span="18">
+        <!--    <el-col :span="18">
                 <button class="button_class" :class="{blues:change==key}"@click="cut(key,item.name,item.code)" v-for=" (item,key) in nameData " :key="key" style="width: 8rem">{{item.name}}</button>
-            </el-col>
+            </el-col>-->
 
-            <el-col :span="6">
+            <el-col :span="6":offset="18">
                 <div style="float: right" class="sizeDate">
                     <el-date-picker
                         :picker-options="pickerOptions"
@@ -92,13 +92,8 @@
             pagesize:10,
             totalCount: 50,
             code:"",
-            nameData:[  {name:"全部",code:""},
-                        {name:"出库监控",code:"in_or_out_exception_record"},
-                        {name:"生产监管",code:""},
-                        {name:"数据校验",code:"data_validation"},
-                        {name:"原料库",code:"raw_material_stock"},
-                        {name:"产品库",code:"product_stock"},
-                        {name:"备品备件库",code:"spare_parts_stock"}],
+           /* nameData:[  {name:"全部",code:""},
+                        ],*/
             change:0,
             pickerOptions: {
                 disabledDate(time) {

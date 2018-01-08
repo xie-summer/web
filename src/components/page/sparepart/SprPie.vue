@@ -2,7 +2,7 @@
     <el-row>
         <el-col :span="8">
             <div style="height: 15rem;margin-top: 35%;border-right: 1px solid #888888">
-                <div class="monery">{{obj.total}}万元</div>
+                <div class="monery">{{obj.total}}元</div>
                 <div class="title_t">{{obj.title}}</div>
             </div>
         </el-col>
@@ -39,7 +39,7 @@
                 tooltip: {
                     trigger: 'item',
                     formatter: function(e){
-                        return e.name+":"+( e.value).toFixed(2)+"万元"
+                        return e.name+":"+( e.value).toFixed(2)+"元"
                     },
                 },
                 legend: {

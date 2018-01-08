@@ -69,6 +69,10 @@
                         },
 
                         splitNumber:4,
+                        pointer : {
+                            width : 5,
+                            length:'50%'
+                        },
                         startAngle:180,
                         endAngle:0,
                         min:0,

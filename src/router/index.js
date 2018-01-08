@@ -78,7 +78,7 @@ export default new Router({
                 {
                     path: '/pefficiency',
                     component: resolve => require(['../components/page/pefficiency/Pefficiency.vue'], resolve) ,  // vue-schart组件
-                }
+                },
             ]
         },
         {

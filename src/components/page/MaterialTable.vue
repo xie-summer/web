@@ -48,7 +48,7 @@
         return {
             tableData: [],
             cur_page: 1,
-            pagesize:2,
+            pagesize:5,
             /* multipleSelection: [],*/
             select_cate: '',
             select_word: '',

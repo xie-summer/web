@@ -10,7 +10,7 @@
                     </el-submenu>
                 </template>
                 <template v-else>
-                    <el-menu-item :index="item.index":text-color="color">
+                    <el-menu-item :index="item.index":text-color="color" @click="show(item.title)">
                         <i :class="item.icon"></i>{{ item.title }}
                     </el-menu-item>
                 </template>
@@ -62,11 +62,20 @@
                                 title: '备品备件库'
                             }
                         ]
+                    },{
+                        icon: 'el-icon-menu',
+                        index: '',
+                        title: '生产监管',
                     },
                     {
                         icon: 'el-icon-menu',
                         index: 'logistics',
                         title: '在途物资',
+                    },
+                    {
+                        icon: 'el-icon-menu',
+                        index: '',
+                        title: '资金监管',
                     },
                   /*  {
                         icon: 'el-icon-menu',
@@ -142,6 +151,12 @@
         computed:{
             onRoutes(){
                 return this.$route.path.replace('/','');
+            }
+        },
+        methods:{
+            show(name){
+               if(name=="资金监管"){window.open("http://flowasset.newefactory.com")}
+                if(name=="生产监管"){window.open("http://www.newefactory.com ")}
             }
         }
     }

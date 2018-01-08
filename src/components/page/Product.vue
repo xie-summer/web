@@ -7,7 +7,7 @@
             </el-breadcrumb>
         </div>
         <div class="select_time">
-            <button class="button_class" :class="{blue:change==key}"@click="cut(key,item.name)" v-for=" (item,key) in nameData " :key="key" style="width: 8rem">{{item.name}}</button>
+            <button class="button_class" :class="{blue:change==key}"@click="cut(key,item.name,item.code)" v-for=" (item,key) in nameData " :key="key" style="width: 8rem">{{item.name}}</button>
             <div class="right">
                 <el-date-picker
                     @change="(value) => changeHandler(value)"
@@ -22,8 +22,8 @@
                 </el-date-picker>
             </div>
         </div>
-        <div style="display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%;box-shadow: 5px 5px 3px #E5E5E5;min-width: 1055px">
-            <el-col :span="24"  class="bigTitle">实时库存</el-col>
+        <div style="display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%;box-shadow: 5px 5px 3px #E5E5E5;min-width: 1055px;background-color: #ffffff">
+            <el-col :span="24"  class="bigTitle stairFontColor">当日库存量</el-col>
             <el-col :span="10" style="border-right: solid 1px #c7c7c7">
 
                 <el-col :span="24"  style="flex-flow: 1">
@@ -62,8 +62,16 @@
                 </el-col>
             </el-col>
         </div>
-        <div  style="display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%;margin-top: 3rem;box-shadow: 5px 5px 3px #E5E5E5;;min-width: 1055px">
-            <el-col :span="24"  class="solidTitle">实时下线</el-col>
+        <div style="box-shadow: 5px 5px 3px #E5E5E5;;min-width: 1059px;">
+            <el-row class="bigTitle gauge stairFontColor">当日入库量</el-row>
+            <v-table ref="putTableOne" @handleCurrentChange="toShow" :table-name="putTableName":output-table="putTableData":outputData="putData":type="put"></v-table>
+        </div>
+        <div style="box-shadow: 5px 5px 3px #E5E5E5;;min-width: 1059px;">
+            <el-row class="bigTitle gauge stairFontColor">当日出库量</el-row>
+            <v-table ref="putTableTwo" @handleCurrentChange="toShow" :table-name="outTableName":output-table="outTableData":outputData="outData":type="out"></v-table>
+        </div>
+        <div  style="display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%;margin-top: 3rem;box-shadow: 5px 5px 3px #E5E5E5;;min-width: 1055px;background-color: #ffffff">
+            <el-col :span="24"  class="solidTitle stairFontColor">实时下线(按小时)</el-col>
             <el-col :span="14" >
                 <v-line :child-msg="obj" ref="chartLine"></v-line>
             </el-col>
@@ -94,11 +102,12 @@
     import vAccurate from './accurate.vue';
     import vPercentage from './percentage.vue';
     import vMaterialTable from './MaterialTable.vue';
+    import vTable from'./materAndProduct/OutPutTable.vue'
 
 
     export default {
         components:{
-            vPone,vGauge,vLine,vAccurate,vPercentage,vMaterialTable
+            vPone,vGauge,vLine,vAccurate,vPercentage,vMaterialTable,vTable
         },
 
         data: function(){
@@ -129,13 +138,28 @@
                     date1:new Date().format("YYYY-MM"),
                     date2:new Date().format("YYYY-MM",1)
                 },
+                outTableName:[{label:"出库时间",name:"inOutTime"},
+                    {label:"出库量(吨)",name:"value"},
+                    {label:"库管员",name:"personLiable"},
+                    {label:"购货单位",name:"inOutCompany"}],
+                putTableName:[{label:"入库时间",name:"inOutTime"},
+                    {label:"入库量(吨)",name:"value"},
+                    {label:"部门主管",name:"personLiable"},
+                    {label:"入库部门",name:"inOutCompany"}],
+                outTableData:[],
+                putTableData:[],
+                outData:{data:125,time:"11:26:15"},
+                putData:{data:300,time:"12:48:58"},
                 unit:{"units":"吨","units2":"",wid:32,hig:21,radius:120,dist:-57,value:0,limit:0,floor:0,maxTool:20000},
                 publicOneData:{"num":"", "remindtext":"磷钙库存值较低","bool":false},
 
                 date:new Date().format("YYYY-MM-dd"),
-                nameData:[{"name":"磷钙"},{"name":"普钙"}],
+                nameData:[{"name":"磷钙",code:"HG01XY750510"},{"name":"普钙",code:"HG01XY750410"}],
                 nameTitle:"磷钙",
                 change:0,
+                code:"HG01XY750510",
+                out:0,
+                put:1,
                 value11: new Date().format("YYYY-MM-dd"),
                 timeDefaultShow:new Date(),
                 pickerOptions0: {
@@ -150,6 +174,8 @@
         this.queryBound(this.change==0?"HG01XY750510":"HG01XY750410",this.value11)
         this.queryClass(this.change==0?"HG01XY750510":"HG01XY750410",this.value11);
       this.queryMonthConsume(this.change==0?"HG01XY750510":"HG01XY750510",this.formatDateTime(this.value11));
+        this.queryPut(this.code,0,this.value11,1,5);
+        this.queryPut(this.code,1,this.value11,1,5);
 
     },
     created:function(){
@@ -170,14 +196,19 @@
             this.queryClass(this.change==0?"HG01XY750510":"HG01XY750410",value);
             this.queryGround(this.change==0?"HG01XY750510":"HG01XY750410",value);
             this.queryMonthConsume(this.change==0?"HG01XY750510":"HG01XY750510",this.formatDateTime(value));
+            this.queryPut(this.code,0,value,1,5);
+            this.queryPut(this.code,1,value,1,5);
         },
-        cut:function(key,name){
+        cut:function(key,name,code){
+            this.code=code;
             this.nameTitle=name;
             this.change = key;
            this.queryClass(this.change==0?"HG01XY750510":"HG01XY750410",this.value11);
             this.queryGround(this.change==0?"HG01XY750510":"HG01XY750410",this.value11);
            this.queryMonthConsume(this.change==0?"HG01XY750510":"HG01XY750410",this.formatDateTime(this.value11));
-            this.queryBound(this.change==0?"HG01XY750510":"HG01XY750410")
+            this.queryBound(this.change==0?"HG01XY750510":"HG01XY750410");
+            this.queryPut(code,0,this.value11,1,5);
+            this.queryPut(code,1,this.value11,1,5);
 
         },
         queryClass(id,date){
@@ -187,8 +218,17 @@
                     _url
                 ).then((res) => {
                 let data=res.data.retval;
-                if(data==null||data==undefined) return;
-                if(data.length==0||data==null) return false;
+                if(data==null||data==undefined){
+                    this.obj={
+                        "date":['0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23',],
+                        "data1":[],
+                        "data2":[],
+                        "data3":[],
+                        "class1":{"name":"晚班消耗量","value":""},
+                        "class2":{"name":"早班消耗量","value":""},
+                        "class3":{"name":"中班消耗量","value":""}
+                    }
+                };
                 let value=[];
                 let value1=[];
                 let value2=[];
@@ -218,7 +258,7 @@
                                 value2.push(v);
                             }
                         });
-                    let arr=["","","","","","","",0];
+                    let arr=["","","","","","","",value1[value1.length-1]];
                     value2.unshift.apply(value2,arr);
                 }else if(data.length>=16){
                     value.find(function( v,index){
@@ -233,9 +273,9 @@
                             value3.push(v);
                         }
                     });
-                    let arr=["","","","","","","",0];
+                    let arr=["","","","","","","",value1[value1.length-1]];
                     value2.unshift.apply(value2,arr);
-                    let arr2=["","","","","","","","","","","","","","","",0];
+                    let arr2=["","","","","","","","","","","","","","","",value2[value2.length-1]];
                     value3.unshift.apply(value3,arr2);
 
                 }
@@ -324,7 +364,44 @@
             let arr=[];
             arr=dates.split("-");
             return arr[0]+"-"+arr[1]
-        }
+        },
+        /*table数据*/
+        toShow(msg){
+            /*tabel分页事件*/
+            let page = msg.page;
+            let size = msg.pageSize;
+            let type = msg.type;
+            this.queryPut(this.code,type,this.value11,page,size);
+
+        },
+        /*出入库信息*/
+        queryPut(code,type,date,page,size){
+            let self=this;
+            let _url=this.$url+"/material/into/inventory/"+code+"/"+type+"/"+date+"/"+page+"/"+size;
+            self.$axios.get(_url).then((res)=>{
+                let list = res.data.retval.list;
+                if(list==null||list==undefined||list.length==0){
+                        if(type==1){
+                            this.putTableData=[];
+                            self.$refs.putTableOne.getData(  this.putTableData,this.putTableName,0,this.putData);
+                        }
+                    if(type==0){
+                        this.outTableData=[];
+                        self.$refs.putTableOne.getData(  this.outTableData,this.outTableName,0,this.outData);
+                    }
+                }else{
+                    for(let obj of list){
+                        obj.inOutTime = new Date(obj.inOutTime).format("hh:mm:ss")
+                    }
+                    if(type==1){
+                        this.putData={data:0,time:"00:00:01"};
+                        self.$refs.putTableOne.getData( list,this.putTableName,res.data.retval.total,this.putData);}
+                    if(type==0){
+                        this.outData={data:0,time:"00:10:00"}
+                        self.$refs.putTableTwo.getData( list,this.outTableName,res.data.retval.total,this.outData);}
+                }
+            })
+        },
 
 
     }
@@ -333,9 +410,9 @@
 </script>
 
 <style scoped>
-    .bigTitle{font-size: 2.4rem;height: 3rem;}
+    .bigTitle{font-size: 2rem;height: 3rem;background-color: #ffffff}
     .title{font-size: 2rem;color: #000000;padding-left: 2rem}
-    .solidTitle{font-size: 2.4rem;height: 3rem;}
+    .solidTitle{font-size: 2rem;height: 3rem;}
     .select_time{margin-bottom: 3rem;height: 3rem}
     .right{float:right}
     .button_class{height: 3rem;background-color:#ffffff;border: 1px solid #888888;margin-right: 1rem;cursor: pointer}
