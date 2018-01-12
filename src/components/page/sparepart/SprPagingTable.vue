@@ -1,0 +1,57 @@
+<template>
+    <div class="table">
+        <el-table class="putTable":data="tableData" ref="mulTable" border style="width: 100%;"  height=286 >
+            <el-table-column v-for=" (i,value) in item" key="value":prop="i.name" :label="i.label" align="center" >
+            </el-table-column>
+        </el-table>
+        <div class="pagination">
+            <el-pagination
+                @current-change ="handleCurrentChange"
+                layout="total, prev, pager, next"
+                :total="totalCount"
+                :page-size="pagesize"
+                :current-page="currentPage"
+                >
+            </el-pagination>
+        </div>
+    </div>
+</template>
+<script>
+    export default {
+        props: ["pagingData","nameData","type"],
+        data(){
+            return{
+                tableData:[],
+                pagesize:5,
+                currentPage:1,
+                totalCount:0,
+                item:[],
+                types:""
+
+            }
+    },
+    methods:{
+        handleCurrentChange(val){
+            this.cur_page=val;
+            this.$emit('handleCurrentChange', {page: this.cur_page, pageSize: this.pagesize,type:this.types});
+        },
+        setData(data,total,list,type){
+            this.tableData=data;
+            this.totalCount=total;
+            this.item=list;
+            this.types=type;
+        }
+    },
+    created(){
+            this.setData(this.pagingData,this.totalCount,this.nameData,this.type);
+    }
+    }
+</script>
+<style>
+  /*  .table .el-table__header-wrapper thead div {
+        color:rgb(255, 255, 255);
+        background-color:rgb(1, 172, 237)
+    }*/
+  .table .el-table thead{color: #00A8EC}
+    .el-table td{height: 36px}
+</style>

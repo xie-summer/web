@@ -1,7 +1,10 @@
 <template>
     <el-row>
-        <el-col :span="24">
+        <el-col :span="24" v-if="isShow">
             <div class="chartBar" ref="chartBar" style="height: 30rem"></div>
+        </el-col>
+        <el-col :span="24" v-else class="imgCenter" style="height: 30rem;padding-top: 5rem">
+            <img src="../../../../static/img/wushuju.png"/>
         </el-col>
     </el-row>
 
@@ -17,50 +20,53 @@
         data () {
         return {
             nameData:[],
-            valueData:[]
+            valueData:[],
+            isShow:true
         }
     },
     methods:{
         /*创建图表一*/
-        initPie(nameData,valueData){
-            let chartBar=echarts.init(this.$refs.chartBar);
-            window.onresize=function(){
-                console.log("bar改变了")
-                chartBar.resize();
+        initPie(nameData,valueData,show){
+            if(show==0){
+                this.isShow=false;
+            }else{
+                this.isShow=true;
+                let chartBar=echarts.init(this.$refs.chartBar);
+                chartBar.setOption({
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            type: 'shadow'
+                        }
+                    },
+                    legend: {
+                        data: []
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    xAxis: {
+                        type: 'value',
+                        boundaryGap: [0, 0.01]
+                    },
+                    yAxis: {
+                        type: 'category',
+                        data: nameData.reverse()
+                    },
+                    series: [
+                        {
+                            name: '',
+                            type: 'bar',
+                            data: valueData.reverse()
+                        }
+                    ],
+                    color:["#1DB5EF"]
+                })
             }
-            chartBar.setOption({
-                tooltip: {
-                    trigger: 'axis',
-                    axisPointer: {
-                        type: 'shadow'
-                    }
-                },
-                legend: {
-                    data: []
-                },
-                grid: {
-                    left: '3%',
-                    right: '4%',
-                    bottom: '3%',
-                    containLabel: true
-                },
-                xAxis: {
-                    type: 'value',
-                    boundaryGap: [0, 0.01]
-                },
-                yAxis: {
-                    type: 'category',
-                    data: nameData
-                },
-                series: [
-                    {
-                        name: '',
-                        type: 'bar',
-                        data: valueData.reverse()
-                    }
-                ],
-                color:["#1DB5EF"]
-            })
+
         }
     },
     mounted(){
@@ -69,4 +75,5 @@
     }
 </script>
 <style scoped>
+    .imgCenter{text-align:center;vertical-align:middle;height: 25rem;}
 </style>

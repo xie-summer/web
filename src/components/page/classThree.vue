@@ -99,19 +99,19 @@
                 ],
                 series : [
                     {
-                        name:'晚班',
+                        name:'早班',
                         type:'line',
                         areaStyle: {normal: {}},
                         data:obj.data1
                     },
                     {
-                        name:'早班',
+                        name:'中班',
                         type:'line',
                         areaStyle: {normal: {}},
                         data:obj.data2
                     },
                     {
-                        name:'中班',
+                        name:'晚班',
                         type:'line',
                         areaStyle: {normal: {}},
                         data:obj.data3

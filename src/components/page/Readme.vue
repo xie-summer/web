@@ -76,15 +76,19 @@
                 </el-col>
             </div>
         </div>
-        <el-row :span="24" class="title stairFontColor newTitle">生产监管</el-row>
-        <el-row :span="24" class="goodsTitle secondFontColor"style="font-size: 1.8rem;box-shadow: 5px 0px 3px #E5E5E5;background-color: #ffffff;height: 4rem">单耗监控</el-row>
+        <el-row :span="24" class="title stairFontColor newTitle" style="min-width: 1055px;">生产监管</el-row>
+        <el-row :span="24"style="font-size: 1.8rem;box-shadow: 5px 0px 0px #E5E5E5;background-color: #ffffff;height:4rem;min-width: 1055px;">
+            <div style="float: left;" class="secondFontColor goodsTitle"> 单耗监控</div>
+            <div  style="float: right;font-size: 1.8rem;color:#a29999" >0.00-24.00</div>
+            <div style="float: right;margin-right: 1rem;font-size: 1.8rem;color:#a29999">{{dateTitles}}</div>
+           </el-row>
         <el-row type="flex"  justify="space-between" style="min-width: 1055px;box-shadow: 5px 5px 3px #E5E5E5;margin-bottom: 3rem;background-color: #ffffff">
                 <div style="width: 25rem">
                     <el-col :span="24" style="text-align: center;font-size: 1.8rem;color: #888888">磷钙矿耗(吨/吨)</el-col>
                     <div class="gu_1" id="gu_1" ref="gu_1" style="height: 14rem"></div>
                 </div>
                 <div style="width: 25rem">
-                    <el-col :span="24" style="text-align: center;font-size: 1.8rem;color: #888888">磷钙酸耗(千立方米/吨)</el-col>
+                    <el-col :span="24" style="text-align: center;font-size: 1.8rem;color: #888888">磷钙酸耗(吨/吨)</el-col>
                     <div class="gu_2" id="gu_2" ref="gu_2" style="height: 14rem"></div>
                 </div>
                 <div style="width: 25rem">
@@ -92,7 +96,7 @@
                     <div class="gu_3" id="gu_3" ref="gu_3" style="height: 14rem"></div>
                 </div>
                 <div style="width: 25rem">
-                    <el-col :span="24" style="text-align: center;font-size: 1.8rem;color: #888888">磷钙电耗(度/吨)</el-col>
+                    <el-col :span="24" style="text-align: center;font-size: 1.8rem;color: #888888">普钙电耗(度/吨)</el-col>
                     <div class="gu_4" id="gu_4" ref="gu_4" style="height: 14rem"></div>
                 </div>
             </el-row>
@@ -123,7 +127,7 @@
                     </el-col>
                     <el-col :span="7" class="backgroundVerify">
                         <el-col :span="12" >
-                            <el-col :span="24" style="height:5rem;font-size: 1.4rem;padding-left: 1rem;padding-top: 0.5rem">磷钙（吨）</el-col>
+                            <el-col :span="24" style="height:5rem;font-size: 1.4rem;padding-left: 1rem;padding-top: 0.5rem">磷钙产量（吨）</el-col>
                             <el-col :span="24" style="height:6rem;font-size: 2.4rem;text-align: center;line-height:6rem;border-right:solid 1px #c7c7c7">{{dat.valueLG}}</el-col>
                             <el-col :span="24" style="height:5rem;font-size: 1.6rem;text-align: center">计量</el-col>
                         </el-col>
@@ -140,7 +144,7 @@
                     </el-col>
                     <el-col :span="7" class="backgroundVerify">
                         <el-col :span="12" >
-                            <el-col :span="24" style="height:5rem;font-size: 1.4rem;padding-left: 1rem;padding-top: 0.5rem">普钙（吨）</el-col>
+                            <el-col :span="24" style="height:5rem;font-size: 1.4rem;padding-left: 1rem;padding-top: 0.5rem">普钙产量（吨）</el-col>
                             <el-col :span="24" style="height:6rem;font-size: 2.4rem;text-align: center;line-height:6rem;border-right:solid 1px #c7c7c7">{{dat.valuePG}}</el-col>
                             <el-col :span="24" style="height:5rem;font-size: 1.6rem;text-align: center">计量</el-col>
                         </el-col>
@@ -225,7 +229,7 @@
         isGoods:true,
         isAbnormal:true,
         tableData:[],
-        dateTitles:new Date().dDate()
+        dateTitles:new Date().dDate(-1)
             }
         },
     created:function(){
@@ -248,7 +252,7 @@
     },
     methods: {
         changeHandler:function(value){
-            this.dateTitles=value;
+            this.dateTitles=new Date(Date.parse(value)-1000*60*60*24).format("YYYY-MM-dd");
             this.date=value;
             this.queryTable(value,this.cur_page,this.pageSize);
             this.querynventoryDay(value);
@@ -303,20 +307,45 @@
             let item=[];
             self.$axios.get(_url).then((res)=>{
                 let  list = res.data.retval;
+                let newList=[];
                 if(list==null||list==undefined||list.length==0){
                         this.isGoods=false;
                 }else{
                     this.isGoods=true;
                     let _url_1=self.$url+"/daily/inventory/summary/check/"+date;
+                    let a="", b="", c="", d="", e="",f="";
                     for(let o of res.data.retval){
-                        code.push( o.code);
+                        if(o.code=="HG01XY750000"){if(a== o.code){}else{a= o.code;newList.push(o)}};
+
+                    }
+                    for(let o of res.data.retval){
+                        if(o.code=="HG01XY750100"){if(b== o.code){}else{a= o.code;newList.push(o)}};
+
+                    }
+                    for(let o of res.data.retval){
+                        if(o.code=="HG01XY750300"){if(c== o.code){}else{a= o.code;newList.push(o)}};
+
+                    }
+                    for(let o of res.data.retval){
+                        if(o.code=="HG01XY750200"){if(d== o.code){}else{a= o.code;newList.push(o)}};
+
+                    }
+                    for(let o of res.data.retval){
+                        if(o.code=="HG01XY750510"){if(e== o.code){}else{a= o.code;newList.push(o)}};
+
+                    }
+                    for(let o of res.data.retval){
+                        if(o.code=="HG01XY750410"){if(f== o.code){}else{a= o.code;newList.push(o)}};
+                    }
+                    for( let p of newList){
+                        code.push( p.code);
                     }
                     self.$axios.get(_url_1,{params: {codeList: code}}).then((res)=>{
                         if(res.data.retval==null||res.data.retval==undefined){
 
                         }else{
                             let arr=[];
-                            for(let j  of list){
+                            for(let j  of newList){
                                 let k=0;
                                 let obj={};
                                 obj.name= j.name;
@@ -345,30 +374,43 @@
         },
         queryDatIoValue(date){
            /* let date="2018-01-03";*/
+            let d = new Date(Date.parse(date)-1000*60*60*24).format("YYYY-MM-dd")
             var self = this;
             function queryLKF(){
-                return self.$axios.get(self.$url+"/data/verification/HG01XY75000/"+date)
+                return self.$axios.get(self.$url+"/data/verification/HG01XY75000/"+d)
             };
             function queryLG(){
-                return self.$axios.get(self.$url+"/data/verification/HG01XY750510/"+date)
+                return self.$axios.get(self.$url+"/data/verification/HG01XY750510/"+d)
             };
             function queryPG(){
-                return self.$axios.get(self.$url+"/data/verification/HG01XY75041/"+date)
+                return self.$axios.get(self.$url+"/data/verification/HG01XY75041/"+d)
             }
 
            self.$axios.all([queryLKF(), queryLG(),queryPG()])
                 .then(self.$axios.spread(function (lkf, lg,pg) {
-                    if(lkf.data.retval==null){}else{
+                    if(lkf.data.retval==null){
+                        self.dat.dataIoLKF=0;
+                        self.dat.valueLKF=0;
+                        self.dat.dataIoValueLKF=0;
+                    }else{
                         self.dat.dataIoLKF=lkf.data.retval.bias;
                         self.dat.valueLKF=lkf.data.retval.valueAuto;
                         self.dat.dataIoValueLKF=lkf.data.retval.valueManual;
                     }
-                    if(lg.data.retval==null){}else{
+                    if(lg.data.retval==null){
+                        self.dat.dataIoLG=0;
+                        self.dat.valueLG=0;
+                        self.dat.dataIoValueLG=0;
+                    }else{
                         self.dat.dataIoLG=lg.data.retval.bias;
                         self.dat.valueLG=lg.data.retval.valueAuto;
-                        self.dat.dataIoValueLG=lg.data.retval.valueManual;
+                        self.dat.dataIoValueLGs=lg.data.retval.valueManual;
                     }
-                    if(pg.data.retval==null){}else{
+                    if(pg.data.retval==null){
+                        self.dat.dataIoPG=0;
+                        self.dat.valuePG=0;
+                        self.dat.dataIoValuePG=0;
+                    }else{
                         self.dat.dataIoPG=pg.data.retval.bias;
                         self.dat.valuePG=pg.data.retval.valueAuto;
                         self.dat.dataIoValuePG=pg.data.retval.valueManual;
@@ -391,13 +433,17 @@
             })
             self.$axios.get(_url).then((res)=>{
                 if(res.data.retval==null){
-
+                    this.queryProduction_1(0);
+                    this.queryProduction_2(0);
+                    this.queryProduction_3(0);
+                    this.queryProduction_4(0);
                 }else{
                     this.production=res.data.retval;
-                    this.queryProduction_1(this.production.cpoc);
-                    this.queryProduction_2(this.production.cpac);
-                    this.queryProduction_3(this.production.ccp);
-                    this.queryProduction_4(this.production.cpc);
+                    console.log(this.production.cpoc);
+                    this.queryProduction_1(this.production.cpoc==undefined?0:this.production.cpoc);
+                    this.queryProduction_2(this.production.cpac==undefined?0:this.production.cpac);
+                    this.queryProduction_3(this.production.ccp==undefined?0:this.production.ccp);
+                    this.queryProduction_4(this.production.cpc==undefined?0:this.production.cpc);
                 }
 
 
@@ -407,11 +453,11 @@
         },
         queryProduction_1(v){
             let self = this;
-            let a1=[v/3, '#3B48A8'];
-            let a2=[ this.benchmark[0]/3, '#C4CBFF'];
+            let a1=[v/2, '#3B48A8'];
+            let a2=[ this.benchmark[0]/2, '#C4CBFF'];
             if(v>this.benchmark[0]){
                 a1=[ 0, '#C4CBFF'];
-                a2=[v/3, '#3B48A8'];
+                a2=[v/2, '#3B48A8'];
             }
             let gu_1=echarts.init(self.$refs.gu_1);
             gu_1.setOption({
@@ -432,7 +478,7 @@
                             length:10
                         },
                         min:0,
-                        max:3,
+                        max:2,
                         axisLine: {
                             show:true,
                             // 属性lineStyle控制线条样式
@@ -452,7 +498,7 @@
                              return e
 
                             },
-                            "distance": -39,
+                            "distance": -30,
                             textStyle:{
                                 color:"#000000"
                             }
@@ -491,11 +537,11 @@
         },
         queryProduction_2(v){
             let self = this;
-            let a1=[v/3, '#01ACED'];
-            let a2=[ this.benchmark[1]/3, '#A0E5FF'];
+            let a1=[v/1.3, '#01ACED'];
+            let a2=[ this.benchmark[1]/1.3, '#A0E5FF'];
             if(v>this.benchmark[1]){
                 a1=[ 0, '#A0E5FF'];
-                a2=[v/3, '#01ACED'];
+                a2=[v/1.3, '#01ACED'];
             }
             let gu_2=echarts.init(self.$refs.gu_2);
             gu_2.setOption({
@@ -516,7 +562,7 @@
                             length:10
                         },
                         min:0,
-                        max:3,
+                        max:1.3,
                         axisLine: {
                             show:true,
                             // 属性lineStyle控制线条样式
@@ -535,7 +581,7 @@
                             formatter:function(e){
                                 return e
                             },
-                            "distance": -39,
+                            "distance": -30,
                             textStyle:{
                                 color:"#000000"
                             }
@@ -574,11 +620,11 @@
         },
         queryProduction_3(v){
             let self = this;
-            let a1=[v/1, '#4875B4'];
-            let a2=[ this.benchmark[2]/1, '#A3C9FF'];
+            let a1=[v/0.06, '#4875B4'];
+            let a2=[ this.benchmark[2]/0.06, '#A3C9FF'];
             if(v>this.benchmark[2]){
                 a1=[ 0, '#4875B4'];
-                a2=[v/1, '#A3C9FF'];
+                a2=[v/0.06, '#A3C9FF'];
             }
             let gu_3=echarts.init(self.$refs.gu_3);
             gu_3.setOption({
@@ -599,7 +645,7 @@
                             length:10
                         },
                         min:0,
-                        max:1,
+                        max:0.06,
                         axisLine: {
                             show:true,
                             // 属性lineStyle控制线条样式
@@ -618,7 +664,7 @@
                             formatter:function(e){
                                 return e
                             },
-                            "distance": -39,
+                            "distance": -30,
                             textStyle:{
                                 color:"#000000"
                             }
@@ -657,11 +703,11 @@
         },
         queryProduction_4(v){
             let self = this;
-            let a1=[v/60, '#3B48AA'];
-            let a2=[ this.benchmark[3]/60, '#BBC3FF'];
+            let a1=[v/80, '#3B48AA'];
+            let a2=[ this.benchmark[3]/80, '#BBC3FF'];
             if(v>this.benchmark[3]){
                 a1=[ 0, '#BBC3FF'];
-                a2=[v/60, '#3B48AA'];
+                a2=[v/80, '#3B48AA'];
             }
             let gu_4=echarts.init(self.$refs.gu_4);
             gu_4.setOption({
@@ -682,7 +728,7 @@
                             length:10
                         },
                         min:0,
-                        max:60,
+                        max:80,
                         axisLine: {
                             show:true,
                             // 属性lineStyle控制线条样式
@@ -701,10 +747,10 @@
                             formatter:function(e){
                                 return e
                             },
-                            "distance": -39,
+                           "distance":-30,
                             textStyle:{
                                 color:"#000000"
-                            }
+                            },
                         },
                         pointer: {
                             width:0,

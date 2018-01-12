@@ -33,7 +33,7 @@
 
         </el-row>
 
-        <el-row class="pTable">
+        <el-row class="pTable putTitle">
             <el-col :span="24">
                 <el-table :data="tableData" border style="width: 100%;" ref="multipleTable" >
                     <el-table-column  label="报警状态" align="center" prop="isZero">
@@ -149,11 +149,7 @@
 </script>
 <style >
     .right{float: right}
-    .el-table__fixed-header-wrapper thead div,.el-table__header-wrapper thead div {
-        color:rgb(255, 255, 255);
-        background-color:rgb(1, 172, 237)
-    }
-
+    .putTitle .el-table thead{color: #00A8EC}
     .button_class{height: 3rem;border: 1px solid #888888;margin-right: 1rem;cursor: pointer;border-radius:5px ;background-color: #ffffff}
     .blues{background: #1DB5EF;color: #ffffff;border: solid 0px #ffffff}
     .btn{border: 1px solid #bb4b39;cursor: auto;background-color: #bb4b39;color: #ffffff;width: 100%;height: 100%}

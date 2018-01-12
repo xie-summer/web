@@ -116,13 +116,13 @@
                 title:'库存状态',
                 perData:{"value":0,"status":"success"},
                 obj:{
-                    "date":['0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23',],
+                    "date":['8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','1','2','3','4','5','6','7'],
                     "data1":[],
                     "data2":[],
                     "data3":[],
-                    "class1":{"name":"晚班产量","value":""},
-                    "class2":{"name":"早班产量","value":""},
-                    "class3":{"name":"中班产量","value":""}
+                    "class1":{"name":"早班产量","value":""},
+                    "class2":{"name":"中班产量","value":""},
+                    "class3":{"name":"晚班产量","value":""}
                 },
                 curNumber:{
                     "text1":"月累积产量",
@@ -148,9 +148,9 @@
                     {label:"入库部门",name:"inOutCompany"}],
                 outTableData:[],
                 putTableData:[],
-                outData:{data:125,time:"11:26:15"},
-                putData:{data:300,time:"12:48:58"},
-                unit:{"units":"吨","units2":"",wid:32,hig:21,radius:120,dist:-57,value:0,limit:0,floor:0,maxTool:20000},
+                outData:{data:0,time:"00:00:00"},
+                putData:{data:0,time:"00:00:00"},
+                unit:{"units":"吨","units2":"",wid:32,hig:21,radius:120,dist:-57,value:0,limit:0,floor:0},
                 publicOneData:{"num":"", "remindtext":"磷钙库存值较低","bool":false},
 
                 date:new Date().format("YYYY-MM-dd"),
@@ -233,20 +233,17 @@
                 let value1=[];
                 let value2=[];
                 let value3=[];
-                let date=[];
                 let sum1=0;
                 let sum2=0;
                 let sum3=0;
                 for(let i of data){
                     value.push(i.value);
-                    date.push(i.gatherTime.split(" ")[1]);
                 }
                 if(data.length<8){
                     for(let j of data){
                         sum1+=j.value;
                         value1.push(j.value)
                     }
-                    this.obj.date=date;
                     this.obj.value1=value1;
                 }else if(data.length>=8&&data.length<16){
                         value.find(function(v,index){
@@ -279,7 +276,6 @@
                     value3.unshift.apply(value3,arr2);
 
                 }
-                    this.obj.date=date;
                     this.obj.data1=value1;
                     this.obj.data2=value2;
                     this.obj.data3=value3;
@@ -378,26 +374,39 @@
         queryPut(code,type,date,page,size){
             let self=this;
             let _url=this.$url+"/material/into/inventory/"+code+"/"+type+"/"+date+"/"+page+"/"+size;
+            let _url1 = this.$url+"/material/into/inventory/summary/"+code+"/"+type+"/"+date
             self.$axios.get(_url).then((res)=>{
                 let list = res.data.retval.list;
                 if(list==null||list==undefined||list.length==0){
                         if(type==1){
                             this.putTableData=[];
+                            this.putData.data=0;
+                            this.putData.time="00:00:00";
                             self.$refs.putTableOne.getData(  this.putTableData,this.putTableName,0,this.putData);
                         }
                     if(type==0){
                         this.outTableData=[];
-                        self.$refs.putTableOne.getData(  this.outTableData,this.outTableName,0,this.outData);
+                        this.outData.data=0;
+                        this.outData.time="00:00:00";
+                        self.$refs.putTableTwo.getData(  this.outTableData,this.outTableName,0,this.outData);
                     }
                 }else{
+                    self.$axios.get(_url1).then((res)=>{
+                        let sumData = res.data.retval;
+                        console.log(sumData)
+                        if(sumData==null||sumData==undefined){
+
+                        }else{
+                            if(type==1){this.putData.data=sumData.value;this.putData.time=new Date(sumData.utime).format("hh:mm:ss")}
+                            if(type==0){this.outData.data=sumData.value;this.outData.time=new Date(sumData.utime).format("hh:mm:ss")}
+                        }
+                    })
                     for(let obj of list){
                         obj.inOutTime = new Date(obj.inOutTime).format("hh:mm:ss")
                     }
                     if(type==1){
-                        this.putData={data:0,time:"00:00:01"};
                         self.$refs.putTableOne.getData( list,this.putTableName,res.data.retval.total,this.putData);}
                     if(type==0){
-                        this.outData={data:0,time:"00:10:00"}
                         self.$refs.putTableTwo.getData( list,this.outTableName,res.data.retval.total,this.outData);}
                 }
             })

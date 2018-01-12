@@ -42,11 +42,11 @@
                         center : ['50%', '60%'],    // 默认全局居中
                         radius : ls.radius,
                         detail: {formatter:'{value}'},
-                        data: [{value: ls.value, name: ''}],
+                        data: [{value: ls.value, name: ls.title}],
                         axisLine:{
                             show:true,
                             lineStyle: {
-                                color:[[ls.floor/ls.maxTool, '#3b5898'],[ls.limit/ls.maxTool, '#00a8ec'],[1,'#bb4b39']],
+                                color:[[ls.floor/(ls.floor+ls.limit), '#3b5898'],[ls.limit/(ls.floor+ls.limit), '#00a8ec'],[1,'#bb4b39']],
                                 width: 30
                             }
                         },
@@ -54,32 +54,40 @@
                             show:false,
                         },
                         axisTick: {
-                            splitNumber: 1,
+                                splitNumber:1,
                             length :0,
                         },
                         axisLabel:{
                                 show:true,
                                 formatter:function(e){
-                                    if(e==0) return e+ls.units2;
-                                    if(e==ls.floor) return e+ls.units2;
-                                    if(e==ls.limit) return e+ls.units2;
-                                    if(e==ls.maxTool) return e+ls.units2;
+                                    if(e==0){ return e+ls.units2;}
+                                    if(e==ls.limit) {return e+ls.units2};
+                                    if(e==ls.floor) {return e+ls.units2;}
+                                    if(e==(ls.floor+ls.limit)) return e+ls.units2;
                                 },
                             "distance": ls.dist,
                         },
 
-                        splitNumber:4,
+                        splitNumber:(ls.floor+ls.limit)/100,
                         pointer : {
                             width : 5,
                             length:'50%'
                         },
+                        title : {
+                            show : true,
+                            offsetCenter: [0, '30%'],
+                            textStyle: {
+                                fontSize:15,
+                                color: '#303133',
+                            }
+                        },
                         startAngle:180,
                         endAngle:0,
                         min:0,
-                        max:ls.maxTool,
+                        max:ls.floor+ls.limit,
                         detail : {
                             show : true,
-                            offsetCenter: [0, '25%'],
+                            offsetCenter: [0, '15%'],
                             formatter:function(e){
                                 return e+ls.units
                             },
