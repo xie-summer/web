@@ -23,6 +23,7 @@
     methods:{
         /*创建图表一*/
         createChartOne(ls){
+            console.log(ls)
            let chartOne=echarts.init(this.$refs.chartGauge);
             window.onresize=function(){
                 chartOne.resize();
@@ -46,7 +47,7 @@
                         axisLine:{
                             show:true,
                             lineStyle: {
-                                color:[[ls.floor/(ls.floor+ls.limit), '#3b5898'],[ls.limit/(ls.floor+ls.limit), '#00a8ec'],[1,'#bb4b39']],
+                                color:[[ls.floor/ls.tool, '#3b5898'],[ls.limit/ls.tool, '#00a8ec'],[1,'#bb4b39']],
                                 width: 30
                             }
                         },
@@ -60,15 +61,16 @@
                         axisLabel:{
                                 show:true,
                                 formatter:function(e){
+                                    console.log(e)
                                     if(e==0){ return e+ls.units2;}
                                     if(e==ls.limit) {return e+ls.units2};
                                     if(e==ls.floor) {return e+ls.units2;}
-                                    if(e==(ls.floor+ls.limit)) return e+ls.units2;
+                                    if(e==ls.tool) return e+ls.units2;
                                 },
                             "distance": ls.dist,
                         },
 
-                        splitNumber:(ls.floor+ls.limit)/100,
+                        splitNumber:ls.tool/100,
                         pointer : {
                             width : 5,
                             length:'50%'
@@ -84,7 +86,7 @@
                         startAngle:180,
                         endAngle:0,
                         min:0,
-                        max:ls.floor+ls.limit,
+                        max:ls.tool,
                         detail : {
                             show : true,
                             offsetCenter: [0, '15%'],

@@ -21,7 +21,7 @@
              </el-date-picker>
          </div>
      </el-row>
-     <el-row style="margin-bottom: 2rem;min-width: 1055px;background: #ffffff;box-shadow: 2px 5px 2px #E5E5E5;"type="flex"justify="space-around" >
+     <el-row style="margin-bottom: 2rem;min-width: 1055px;background: #ffffff;box-shadow: 0px 3px 0px #E5E5E5;"type="flex"justify="space-around" >
             <el-col :span="11">
                 <el-col :span="24"style="font-size: 2rem;" class="stairFontColor"> 货值总览</el-col>
                 <div style="width: 100%;height:33.1rem;">
@@ -391,7 +391,7 @@
 </script>
 <style scoped>
     .right{float: right;height: 3rem}
-    .outCont{margin-bottom: 2rem;background: #ffffff;box-shadow: 2px 5px 2px #E5E5E5;min-width: 1055px}
+    .outCont{margin-bottom: 2rem;background: #ffffff;box-shadow: 0px 3px 0px #E5E5E5;min-width: 1055px}
     .title{font-size: 1.8rem;padding-left: 2rem;height: 3rem;line-height: 3rem}
     .subordinateTitle{font-size: 2rem;height: 5rem;line-height: 5rem}
 </style>

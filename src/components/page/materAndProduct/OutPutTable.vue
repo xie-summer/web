@@ -5,7 +5,7 @@
             <el-col :span="12" :offset="6" style="color:#00A8EC;font-size: 1.5rem;height: 3rem;line-height: 7rem">更新时间: {{data.time}}</el-col>
         </el-col>
         <el-col :span="18" style="background-color: #ffffff" class="putTitle">
-            <el-table class="putTable":data="tableData" ref="mulTable" border style="width: 100%;"  height=286 >
+            <el-table class="putTable":data="tableData" ref="mulTable" border style="width: 100%;"  height=286 stripe>
                 <el-table-column v-for=" (i,value) in item" key="value":prop="i.name" :label="i.label" align="center" >
                 </el-table-column>
             </el-table>

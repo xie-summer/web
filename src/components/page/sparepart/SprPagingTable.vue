@@ -1,6 +1,6 @@
 <template>
     <div class="table">
-        <el-table class="putTable":data="tableData" ref="mulTable" border style="width: 100%;"  height=286 >
+        <el-table class="putTable":data="tableData" ref="mulTable" border style="width: 100%;"  height=286 stripe>
             <el-table-column v-for=" (i,value) in item" key="value":prop="i.name" :label="i.label" align="center" >
             </el-table-column>
         </el-table>

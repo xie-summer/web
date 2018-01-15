@@ -22,7 +22,7 @@
                 </el-date-picker>
             </div>
         </div>
-        <div style="display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%;box-shadow: 5px 5px 3px #E5E5E5;min-width: 1055px;background-color: #ffffff">
+        <div style="display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%;box-shadow: 0px 3px 0px #E5E5E5;min-width: 1055px;background-color: #ffffff">
             <el-col :span="24"  class="bigTitle stairFontColor">当日库存量</el-col>
             <el-col :span="10" style="border-right: solid 1px #c7c7c7">
 
@@ -56,21 +56,21 @@
                                 <div class="circle"style="background-color: #bb4b39"></div>
                             </div>
                             <div class="textStyle">较高</div>
-                            <div class="textStyle">{{unit.limit}}~20000</div>
+                            <div class="textStyle">{{unit.limit}}~{{unit.tool}}</div>
                         </div>
                     </div>
                 </el-col>
             </el-col>
         </div>
-        <div style="box-shadow: 5px 5px 3px #E5E5E5;;min-width: 1059px;">
+        <div style="box-shadow: 0px 3px 0px #E5E5E5;;min-width: 1059px;">
             <el-row class="bigTitle gauge stairFontColor">当日入库量</el-row>
             <v-table ref="putTableOne" @handleCurrentChange="toShow" :table-name="putTableName":output-table="putTableData":outputData="putData":type="put"></v-table>
         </div>
-        <div style="box-shadow: 5px 5px 3px #E5E5E5;;min-width: 1059px;">
+        <div style="box-shadow: 0px 3px 0px #E5E5E5;;min-width: 1059px;">
             <el-row class="bigTitle gauge stairFontColor">当日出库量</el-row>
             <v-table ref="putTableTwo" @handleCurrentChange="toShow" :table-name="outTableName":output-table="outTableData":outputData="outData":type="out"></v-table>
         </div>
-        <div  style="display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%;margin-top: 3rem;box-shadow: 5px 5px 3px #E5E5E5;;min-width: 1055px;background-color: #ffffff">
+        <div  style="display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%;margin-top: 3rem;box-shadow: 0px 3px 0px #E5E5E5;;min-width: 1055px;background-color: #ffffff">
             <el-col :span="24"  class="solidTitle stairFontColor">实时下线(按小时)</el-col>
             <el-col :span="14" >
                 <v-line :child-msg="obj" ref="chartLine"></v-line>
@@ -150,7 +150,7 @@
                 putTableData:[],
                 outData:{data:0,time:"00:00:00"},
                 putData:{data:0,time:"00:00:00"},
-                unit:{"units":"吨","units2":"",wid:32,hig:21,radius:120,dist:-57,value:0,limit:0,floor:0},
+                unit:{"units":"吨","units2":"",wid:32,hig:21,radius:120,dist:-57,value:0,limit:0,floor:0,tool:20000},
                 publicOneData:{"num":"", "remindtext":"磷钙库存值较低","bool":false},
 
                 date:new Date().format("YYYY-MM-dd"),
@@ -203,6 +203,12 @@
             this.code=code;
             this.nameTitle=name;
             this.change = key;
+            if(key==0){
+                this.unit.tool=20000;
+            }else{
+                this.unit.tool=2000;
+            }
+            this.$refs.chartGauge.createChartOne(this.unit);
            this.queryClass(this.change==0?"HG01XY750510":"HG01XY750410",this.value11);
             this.queryGround(this.change==0?"HG01XY750510":"HG01XY750410",this.value11);
            this.queryMonthConsume(this.change==0?"HG01XY750510":"HG01XY750410",this.formatDateTime(this.value11));

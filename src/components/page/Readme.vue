@@ -21,8 +21,8 @@
         <div class=" stairFontColor newTitle" style="margin-top: 3rem" >
             物资监管
         </div>
-        <el-row :span="24" class="goodsTitle secondFontColor" style="min-width: 1055px;box-shadow: 5px 0px 3px #E5E5E5;background-color: #ffffff;height: 4rem">库存量监控</el-row>
-        <el-row type="flex" justify="space-between" style="min-width: 1055px;min-height: 10.5rem;margin-bottom: 3rem;box-shadow: 5px 5px 3px #E5E5E5;background-color: #ffffff"v-if="isGoods">
+        <el-row :span="24" class="goodsTitle secondFontColor" style="min-width: 1055px;box-shadow: 0px 3px 0px #E5E5E5;background-color: #ffffff;height: 4rem">库存量监控</el-row>
+        <el-row type="flex" justify="space-between" style="min-width: 1055px;min-height: 10.5rem;margin-bottom: 3rem;box-shadow: 0px 3px 0px #E5E5E5;background-color: #ffffff"v-if="isGoods">
             <el-col :span="4"   v-for=" (i,value) in item" :key="value"  >
                 <el-col :span="24"  class="count">
                     <el-col :span="24" class="fontCenter font1">{{i.name}}</el-col>
@@ -33,7 +33,7 @@
                         <svg class="icon" aria-hidden="true" v-if="i.text=='正常'">
                             <use xlink:href="#el-icon-erp-206"></use>
                         </svg>
-                        <span style="font-size: 1.5rem" :class="i.text=='高' ? 'colorRed':'colorBlue'">{{i.text}}</span>
+                        <span style="font-size: 1.5rem" :class="i.text=='高'||i.text=='低' ? 'colorRed':'colorBlue'">{{i.text}}</span>
                     </el-col>
                     <el-col :span="24" class="fontCenter font2">{{i.number}}</el-col>
                 </el-col>
@@ -77,12 +77,12 @@
             </div>
         </div>
         <el-row :span="24" class="title stairFontColor newTitle" style="min-width: 1055px;">生产监管</el-row>
-        <el-row :span="24"style="font-size: 1.8rem;box-shadow: 5px 0px 0px #E5E5E5;background-color: #ffffff;height:4rem;min-width: 1055px;">
+        <el-row :span="24"style="font-size: 1.8rem;box-shadow: 0px 3px 0px #E5E5E5;background-color: #ffffff;height:4rem;min-width: 1055px;">
             <div style="float: left;" class="secondFontColor goodsTitle"> 单耗监控</div>
             <div  style="float: right;font-size: 1.8rem;color:#a29999" >0.00-24.00</div>
             <div style="float: right;margin-right: 1rem;font-size: 1.8rem;color:#a29999">{{dateTitles}}</div>
            </el-row>
-        <el-row type="flex"  justify="space-between" style="min-width: 1055px;box-shadow: 5px 5px 3px #E5E5E5;margin-bottom: 3rem;background-color: #ffffff">
+        <el-row type="flex"  justify="space-between" style="min-width: 1055px;box-shadow: 0px 3px 0px #E5E5E5;margin-bottom: 3rem;background-color: #ffffff">
                 <div style="width: 25rem">
                     <el-col :span="24" style="text-align: center;font-size: 1.8rem;color: #888888">磷钙矿耗(吨/吨)</el-col>
                     <div class="gu_1" id="gu_1" ref="gu_1" style="height: 14rem"></div>
@@ -791,18 +791,18 @@
 <style>
 
    .right{float:right}
-   .titleCount{display: flex;display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;box-shadow: 3px 3px 1px #E5E5E5;margin-bottom: 2rem;justify-content:space-between}
+   .titleCount{display: flex;display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;box-shadow: 0px 3px 0px #E5E5E5;margin-bottom: 2rem;justify-content:space-between}
   /*  .title{margin-top: 2.5rem;font-size: 2rem;height: 4rem;line-height: 4rem;}*/
     .count{background-color: #ffffff;height:10.5rem}
     .fontCenter{text-align: center;}
-    .font1{font-size: 1.8rem}
-    .font2{font-size: 2.1rem}
+    .font1{font-size: 1.8rem;color:#cbcbcb}
+    .font2{font-size: 2.1rem;color:#414141}
 
-    .goods{background-color: #ffffff;box-shadow: 5px 5px 3px #E5E5E5;margin-bottom: 3rem}
+    .goods{background-color: #ffffff;box-shadow: 0px 3px 0px #E5E5E5;margin-bottom: 3rem}
     .goodsTitle{font-size: 1.8rem;padding-left:2rem}
     .goodsHeight {height: 27.8rem}
 
-    .numberHint{height:15.4rem;color: red;font-size: 4.8rem;text-align: center;line-height: 23rem}
+    .numberHint{height:15.4rem;color: #bb4b39;font-size: 4.8rem;text-align: center;line-height: 23rem}
     .titleHint{text-align: center;font-size: 1.8rem}
     .timeTitle{height: 5rem;line-height: 15rem;font-size: 1.8rem}
     .li{margin-top: 5rem}
@@ -813,15 +813,15 @@
     .noticeBoardNumber{font-size: 3.6rem;text-align: center}
     .noticeBoardText{font-size: 1.8rem;text-align: center;color:#888888}
    .row-bg {  padding: 10px 0; width: 100%}
-   .backgroundVerify {  background: #ffffff; box-shadow: 5px 5px 3px #E5E5E5; }
+   .backgroundVerify {  background: #ffffff; box-shadow: 0px 3px 0px #E5E5E5; }
     .red{color:red}
     .blue{color:#0082e6}
     .yellow{color: yellow}
     .green{color: green}
     .numberVerify .time{float: right;font-size: 1.8rem;color:#a29999}
     .numberVerify .timeRight{margin-right: 1rem}
-    .colorRed{color: red}
-    .colorBlue{color: blue}
+    .colorRed{color: #bb4b39}
+    .colorBlue{color: #00a8ec}
     .yyyyy{
         display: -moz-box;
         display: -webkit-box;

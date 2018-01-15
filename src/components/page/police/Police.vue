@@ -35,7 +35,7 @@
 
         <el-row class="pTable putTitle">
             <el-col :span="24">
-                <el-table :data="tableData" border style="width: 100%;" ref="multipleTable" >
+                <el-table :data="tableData" border style="width: 100%;" ref="multipleTable" stripe>
                     <el-table-column  label="报警状态" align="center" prop="isZero">
                         <template slot-scope="scope">
                             <el-col v-if="scope.row.isZero>0" :class="scope.row.isZero? 'bts':'btn'"@click="handleEdit(scope.row.isZero)" >已解除</el-col>

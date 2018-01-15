@@ -22,7 +22,7 @@
                 </el-date-picker>
             </div>
         </div>
-        <div style="display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%;box-shadow: 5px 5px 3px #E5E5E5;;min-width: 1059px;background-color: #ffffff">
+        <div style="display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%;box-shadow: 0px 3px 0px #E5E5E5;;min-width: 1059px;background-color: #ffffff">
             <el-col :span="24" class="bigTitle stairFontColor">当日库存量</el-col>
             <el-col :span="10" style="border-right: solid 1px #c7c7c7">
                 <el-col :span="24" style="flex-flow: 1">
@@ -55,21 +55,21 @@
                                 <div class="circle"style="background-color: #bb4b39"></div>
                             </div>
                             <div class="textStyle">较高</div>
-                            <div class="textStyle">{{unit.limit}}-20000</div>
+                            <div class="textStyle">{{unit.limit}}-{{unit.tool}}</div>
                         </div>
                     </div>
                 </el-col>
             </el-col>
         </div>
-       <div style="box-shadow: 5px 5px 3px #E5E5E5;;min-width: 1059px;">
+       <div style="box-shadow: 0px 3px 0px #E5E5E5;;min-width: 1059px;">
            <el-row class="bigTitle gauge stairFontColor">当日入库量</el-row>
                    <v-table ref="putTableOne" @handleCurrentChange="toShow" :table-name="putTableName":output-table="putTableData":outputData="putData":type="put"></v-table>
        </div>
-        <div style="box-shadow: 5px 5px 3px #E5E5E5;;min-width: 1059px;">
+        <div style="box-shadow: 0px 3px 0px #E5E5E5;;min-width: 1059px;">
             <el-row class="bigTitle gauge stairFontColor">当日出库量</el-row>
             <v-table ref="putTableTwo" @handleCurrentChange="toShow" :table-name="outTableName":output-table="outTableData":outputData="outData" :type="out"></v-table>
         </div>
-        <div  style="display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%;margin-top: 3rem;box-shadow: 5px 5px 3px #E5E5E5;;min-width: 1059px;height: 40rem;background-color: #ffffff">
+        <div  style="display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%;margin-top: 3rem;box-shadow: 0px 3px 0px #E5E5E5;;min-width: 1059px;height: 40rem;background-color: #ffffff">
             <el-col :span="24"  class="solidTitle stairFontColor">实时消耗(按小时)</el-col>
                <el-col :span="14" >
                    <v-line :child-msg="obj" ref="chartLine"></v-line>
@@ -123,7 +123,8 @@
                 publicOneData:{ "num":"", "remindtext":"磷矿粉库存较低","bool":true},
                 perData:{"value":0,"status":"success"},
                 date:new Date(),
-                unit:{"units":"吨","units2":"",wid:32,hig:21,radius:120,dist:-57,value:0,limit:0,floor:0},
+                unit:{"units":"吨","units2":"",wid:32,hig:21,radius:120,dist:-57,value:0,limit:0,floor:0,tool:20000},
+
                 curNumber:{
                     "text1":"月累积消耗量",
                     "text2":"月累积出库量",
@@ -198,11 +199,20 @@
         },
         /*原料切换*/
         cut:function(key,name,code){
+            if(key==0){
+                this.unit.tool=20000;
+                this.$refs.chartGauge.createChartOne(this.unit);
+            }else{
+                this.unit.tool=4000;
+                this.$refs.chartGauge.createChartOne(this.unit);
+            }
+
             this.queryPut(code,0,this.value11,1,5);
             this.queryPut(code,1,this.value11,1,5);
             this.code=code;
            this.nameTitle = name;
             this.change = key;
+            this.queryBound(key==0?"HG01XY750000":"HG01XY750100");
             this.queryClass(this.change==0?"HG01XY750000":"HG01XY750100",this.value11);
             this.queryGround(this.change==0?"HG01XY750000":"HG01XY750100",this.value11);
             this.queryMonthConsume(this.change==0?"HG01XY750000":"HG01XY750100",this.formatDateTime(this.value11));
@@ -346,7 +356,6 @@
         });
             /*库存待使用天数*/
             self.$axios.get(_url_1).then((res)=>{
-                console.log(res)
                 if(res.data.retval==null){
                     this.publicOneData.num=0;
                 }else{
@@ -363,7 +372,7 @@
                 this.unit.limit=res.data.retval.upperLimit;
                 this.unit.floor=res.data.retval.lowerLimit;
                 self.$refs.chartGauge.createChartOne(this.unit);
-                this.queryGround(this.change==0?"HG01XY750000":"HG01XY750100",this.value11);
+                this.queryGround(id,this.value11);
                /*没做异常处理，除非挂服务*/
 
             })
@@ -436,7 +445,6 @@
 <style >
     .bigTitle{font-size: 2rem;height: 3rem;background-color: #ffffff}
     .gauge{margin-top: 3rem}
-    .title{font-size: 2rem;color: #000000;padding-left: 2rem}
     .solidTitle{font-size: 2rem;height: 3rem;}
     .select_time{margin-bottom: 3rem;height: 3rem}
     .right{float:right}

@@ -1,7 +1,7 @@
 <template>
     <div class="table">
 
-        <el-table :data="tableDatas" border style="width: 100%;" ref="multipleTable"size="mini" :border="zreo" :strip="zreo"height="405">
+        <el-table :data="tableDatas" border style="width: 100%;" ref="multipleTable"size="mini" :border="zreo" :strip="zreo"height="405" :stripe="ys">
            <el-table-column type="index" width="95" :label="title"align="center"></el-table-column>
             <el-table-column v-for=" (i,value) in item" key="value":prop="i.name" :label="i.label" align="center" sortable>
             </el-table-column>
@@ -15,6 +15,7 @@
         props: ['childTable','tableData','numName'],
         data() {
         return {
+            ys:true,
             zreo:true,
             item:[],
             zro:true,

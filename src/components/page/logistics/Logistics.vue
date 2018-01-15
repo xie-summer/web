@@ -70,7 +70,7 @@
         </el-row>
         <el-row style="margin-top: 4rem"class="putTitle ">
          <el-col :span="24" class="log_title">在途货物列表</el-col>
-        <el-table :data="tableData" border style="width: 100%;margin-top: 1rem;" ref="multipleTable"height=390 >
+        <el-table :data="tableData" border style="width: 100%;margin-top: 1rem;" ref="multipleTable"height=390 stripe>
 
             <el-table-column prop="a" label="订单编号"  align="center" >
             </el-table-column>
@@ -87,7 +87,7 @@
     </el-row>
         <el-row style="margin-top: 4rem" class="putTitle ">
             <el-col :span="24" class="log_title">货运完成列表</el-col>
-            <el-table :data="tableData_two" border style="width: 100%;margin-top: 1rem;" ref="multipleTable"height=390 >
+            <el-table :data="tableData_two" border style="width: 100%;margin-top: 1rem;" ref="multipleTable"height=390 stripe>
 
                 <el-table-column prop="a" label="订单编号"  align="center"  >
                 </el-table-column>

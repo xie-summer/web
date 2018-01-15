@@ -1,6 +1,6 @@
 <template>
     <div class="header">
-        <div class="logo">全景监控管理系统</div>
+        <div class="logo">企业全景监控系统</div>
         <div class="user-info">
             <el-dropdown trigger="click" @command="handleCommand">
                 <span class="el-dropdown-link">
@@ -42,6 +42,7 @@
         position: relative;
         box-sizing: border-box;
         width: 100%;
+
         height: 70px;
         font-size: 22px;
         line-height: 70px;
@@ -49,10 +50,12 @@
     }
     .header .logo{
         float: left;
-        width:250px;
+        width:249px;
         text-align: center;
+        background-color: #494545;
     }
     .user-info {
+        width:249px;
         float: right;
         padding-right: 50px;
         font-size: 16px;
@@ -62,7 +65,7 @@
         position: relative;
         display: inline-block;
         padding-left: 50px;
-        color: #fff;
+        color: #414141;
         cursor: pointer;
         vertical-align: middle;
     }
