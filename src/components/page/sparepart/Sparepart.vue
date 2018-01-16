@@ -6,7 +6,7 @@
                 <el-breadcrumb-item>备品备件库</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
-     <el-row style="margin-bottom: 2rem;min-width: 1055px">
+     <el-row style="margin-bottom: 2rem;min-width: 1019px">
          <div class="right">
              <el-date-picker
                  @change="(value) => changeHandler(value)"
@@ -21,14 +21,14 @@
              </el-date-picker>
          </div>
      </el-row>
-     <el-row style="margin-bottom: 2rem;min-width: 1055px;background: #ffffff;box-shadow: 0px 3px 0px #E5E5E5;"type="flex"justify="space-around" >
+     <el-row style="margin-bottom: 2rem;min-width: 1019px;background: #ffffff;box-shadow: 0px 3px 0px #E5E5E5;"type="flex"justify="space-around" >
             <el-col :span="11">
                 <el-col :span="24"style="font-size: 2rem;" class="stairFontColor"> 货值总览</el-col>
                 <div style="width: 100%;height:33.1rem;">
                     <v-gauge :unit="unit" ref="chartGauge"></v-gauge>
                 </div>
             </el-col>
-            <el-col :span="11">
+            <el-col :span="13">
                 <v-table :child-table="tableName1" :table-data="tableData1":num-name="name1"ref="multipleTable" ></v-table>
             </el-col>
      </el-row>
@@ -64,7 +64,7 @@
             </el-col>
 
     </el-row>
-     <el-row style="min-width: 1055px">
+     <el-row style="min-width: 1019px">
             <el-col :span="24" class="subordinateTitle stairFontColor">出入库总览</el-col>
         </el-row>
      <el-row class="outCont"type="flex"justify="space-around">
@@ -81,7 +81,7 @@
                 </el-col>
             </el-col>
         </el-row>
-        <el-row style="min-width: 1055px">
+        <el-row style="min-width: 1019px">
             <el-col :span="24" class="subordinateTitle stairFontColor">月消耗总览</el-col>
         </el-row>
         <el-row class="outCont"type="flex"justify="space-around">
@@ -124,7 +124,7 @@
 
             }
         },
-        unit:{units:"万元",units2:"M",hig:33.1,radius:150,dist:-63,value:0,limit:1000,floor:500,maxTool:2000,title:"备品备件总货值"},
+        unit:{units:"万元",units2:"M",hig:33.1,radius:150,dist:-63,value:0,limit:1000,floor:500,tool:2000,title:"备品备件总货值"},
         tableName1:[{name:"name",label:"产品名称"},
             {name:"referencePrice",label:"参考成本价"},
             {name:"inventory",label:"当前库存量"},
@@ -132,10 +132,12 @@
         tableName2:[
             {name:"name",label:"产品名称   "},
             {name:"referencePrice",label:"参考成本价"},
+            {name:"unit",label:"单位"},
             {name:"inventory",label:"当前库存量"},],
         tableName3:[
             {name:"name",label:"产品名称   "},
             {name:"referencePrice",label:"参考成本价"},
+            {name:"unit",label:"单位"},
             {name:"inventory",label:"当前库存量"},],
         putData:{value:
                     [{value:0, name:''},
@@ -161,8 +163,8 @@
         name1:"货值排行",
         name2:"低库存量排行",
         name3:"高库存量排行",
-        putTableName:[{name:"inOutTime",label:"入库时间"},{name:"name",label:"产品名称"},{name:"value",label:"入库量"},{name:"amountPrice",label:"入库货值(元)"}],
-        outTableName:[{name:"inOutTime",label:"出库时间"},{name:"name",label:"产品名称"},{name:"value",label:"出库量"},{name:"amountPrice",label:"出库货值(元)"}],
+        putTableName:[{name:"inOutTime",label:"入库时间"},{name:"name",label:"产品名称"},{name:"unit",label:"单位"},{name:"value",label:"入库量"},{name:"amountPrice",label:"入库货值(元)"}],
+        outTableName:[{name:"inOutTime",label:"出库时间"},{name:"name",label:"产品名称"},{name:"unit",label:"单位"},{name:"value",label:"出库量"},{name:"amountPrice",label:"出库货值(元)"}],
         putTableData:[],
         outTableData:[],
         putType:1,
@@ -240,7 +242,6 @@
             self.$axios.get(url).then((res)=>{
                 let data = res.data.retval;
                 if(data==null||data==undefined){
-
                 }else{
                     self.$refs.multipleTableHeight.getData(data,self.tableName3,self.name3);
                 }
@@ -325,7 +326,6 @@
             let self = this;
             let _url = this.$url+"/panoramic/spare/parts/into/inventory/weeklysummary/in/"+date;
             self.$axios.get( _url).then((res)=>{
-
                 if(res.data.retval==null){
                     this.put = false;
                     self.$refs.chartPs.initPie(this.putData,this.put)
@@ -391,7 +391,7 @@
 </script>
 <style scoped>
     .right{float: right;height: 3rem}
-    .outCont{margin-bottom: 2rem;background: #ffffff;box-shadow: 0px 3px 0px #E5E5E5;min-width: 1055px}
+    .outCont{margin-bottom: 2rem;background: #ffffff;box-shadow: 0px 3px 0px #E5E5E5;min-width: 1019px}
     .title{font-size: 1.8rem;padding-left: 2rem;height: 3rem;line-height: 3rem}
     .subordinateTitle{font-size: 2rem;height: 5rem;line-height: 5rem}
 </style>

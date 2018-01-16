@@ -2,7 +2,7 @@
     <el-row type="flex" justify="space-between" ref="putTable">
         <el-col :span="6" style="background-color:#ffffff">
             <el-col :span="12" :offset="7" style="color:#00A8EC;font-size: 3.5rem;height: 20rem;line-height: 24rem">{{data.data}}吨</el-col>
-            <el-col :span="12" :offset="6" style="color:#00A8EC;font-size: 1.5rem;height: 3rem;line-height: 7rem">更新时间: {{data.time}}</el-col>
+            <el-col :span="12" :offset="6" style="color:#00A8EC; "class="mUpDateTime">更新时间: {{data.time}}</el-col>
         </el-col>
         <el-col :span="18" style="background-color: #ffffff" class="putTitle">
             <el-table class="putTable":data="tableData" ref="mulTable" border style="width: 100%;"  height=286 stripe>

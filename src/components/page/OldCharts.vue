@@ -23,7 +23,6 @@
     methods:{
         /*创建图表一*/
         createChartOne(ls){
-            console.log(ls)
            let chartOne=echarts.init(this.$refs.chartGauge);
             window.onresize=function(){
                 chartOne.resize();
@@ -61,7 +60,6 @@
                         axisLabel:{
                                 show:true,
                                 formatter:function(e){
-                                    console.log(e)
                                     if(e==0){ return e+ls.units2;}
                                     if(e==ls.limit) {return e+ls.units2};
                                     if(e==ls.floor) {return e+ls.units2;}

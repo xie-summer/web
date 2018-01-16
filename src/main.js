@@ -33,8 +33,8 @@ Vue.prototype.$axios = axios;
 Vue.prototype.$url=u1;
 /*请求拦截器*/
 Vue.prototype.$axios.interceptors.request.use(function (config) {
-    /* config.headers['Content-Type'] ="application/x-www-form-urlencoded";
-       config.headers['Authorization'] = 'Basic dXNlcjp1c2Vy';*/
+    config.headers['Content-Type'] ="application/x-www-form-urlencoded"
+       /*config.headers['Authorization'] = 'Basic dXNlcjp1c2Vy';*/
     return config;
 }, function (err) {return Promise.reject(err);
 });

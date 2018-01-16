@@ -21,8 +21,8 @@
         <div class=" stairFontColor newTitle" style="margin-top: 3rem" >
             物资监管
         </div>
-        <el-row :span="24" class="goodsTitle secondFontColor" style="min-width: 1055px;box-shadow: 0px 3px 0px #E5E5E5;background-color: #ffffff;height: 4rem">库存量监控</el-row>
-        <el-row type="flex" justify="space-between" style="min-width: 1055px;min-height: 10.5rem;margin-bottom: 3rem;box-shadow: 0px 3px 0px #E5E5E5;background-color: #ffffff"v-if="isGoods">
+        <el-row :span="24" class="goodsTitle secondFontColor" style="min-width: 1019px;box-shadow: 0px 3px 0px #E5E5E5;background-color: #ffffff;height: 4rem">库存量监控</el-row>
+        <el-row type="flex" justify="space-between" style="min-width: 1019px;min-height: 10.5rem;margin-bottom: 3rem;box-shadow: 0px 3px 0px #E5E5E5;background-color: #ffffff"v-if="isGoods">
             <el-col :span="4"   v-for=" (i,value) in item" :key="value"  >
                 <el-col :span="24"  class="count">
                     <el-col :span="24" class="fontCenter font1">{{i.name}}</el-col>
@@ -39,10 +39,10 @@
                 </el-col>
             </el-col>
         </el-row>
-        <el-row  class="titleCount" style="min-width: 1055px;min-height: 8rem;background-color: #ffffff;" v-else>
+        <el-row  class="titleCount" style="min-width: 1019px;min-height: 8rem;background-color: #ffffff;" v-else>
             <img src="../../../static/img/wushuju.png" class="imgCenter"/>
         </el-row>
-        <div class="goods" style="min-width: 1055px">
+        <div class="goods" style="min-width: 1019px">
             <el-col :span="24" class="goodsTitle secondFontColor">出厂监控</el-col>
             <div  style="display: flex;display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%">
                 <el-col :span="10" class="goodsHeight" style="flex-grow:1">
@@ -76,13 +76,15 @@
                 </el-col>
             </div>
         </div>
-        <el-row :span="24" class="title stairFontColor newTitle" style="min-width: 1055px;">生产监管</el-row>
-        <el-row :span="24"style="font-size: 1.8rem;box-shadow: 0px 3px 0px #E5E5E5;background-color: #ffffff;height:4rem;min-width: 1055px;">
-            <div style="float: left;" class="secondFontColor goodsTitle"> 单耗监控</div>
+        <el-row :span="24"style="height:5rem;min-width: 1019px;line-height: 5rem">
+            <div style="float: left;" class="title stairFontColor newTitle"> 生产监管</div>
             <div  style="float: right;font-size: 1.8rem;color:#a29999" >0.00-24.00</div>
             <div style="float: right;margin-right: 1rem;font-size: 1.8rem;color:#a29999">{{dateTitles}}</div>
+        </el-row>
+        <el-row :span="24"style="font-size: 1.8rem;box-shadow: 0px 3px 0px #E5E5E5;background-color: #ffffff;height:4rem;min-width: 1019px;">
+            <div style="float: left;" class="secondFontColor goodsTitle"> 单耗监控</div>
            </el-row>
-        <el-row type="flex"  justify="space-between" style="min-width: 1055px;box-shadow: 0px 3px 0px #E5E5E5;margin-bottom: 3rem;background-color: #ffffff">
+        <el-row type="flex"  justify="space-between" style="min-width: 1019px;box-shadow: 0px 3px 0px #E5E5E5;margin-bottom: 3rem;background-color: #ffffff">
                 <div style="width: 25rem">
                     <el-col :span="24" style="text-align: center;font-size: 1.8rem;color: #888888">磷钙矿耗(吨/吨)</el-col>
                     <div class="gu_1" id="gu_1" ref="gu_1" style="height: 14rem"></div>
@@ -100,7 +102,7 @@
                     <div class="gu_4" id="gu_4" ref="gu_4" style="height: 14rem"></div>
                 </div>
             </el-row>
-        <div class="numberVerify" style="min-width: 1055px">
+        <div class="numberVerify" style="min-width: 1019px">
             <el-col :span="24">
                 <div style="float: left;" class="stairFontColor newTitle">数据校验</div>
                 <div class="time" >0.00-24.00</div>

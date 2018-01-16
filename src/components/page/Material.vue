@@ -6,7 +6,7 @@
                 <el-breadcrumb-item>原料库</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
-        <div class="select_time" style="min-width: 1059px">
+        <div class="select_time" style="min-width: 1019px">
             <button class="button_class" :class="{blue:change==key}"@click="cut(key,item.name,item.code)" v-for=" (item,key) in nameData " :key="key" style="width: 8rem">{{item.name}}</button>
             <div class="right">
                 <el-date-picker
@@ -22,7 +22,7 @@
                 </el-date-picker>
             </div>
         </div>
-        <div style="display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%;box-shadow: 0px 3px 0px #E5E5E5;;min-width: 1059px;background-color: #ffffff">
+        <div style="display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%;box-shadow: 0px 3px 0px #E5E5E5;;min-width: 1019px;background-color: #ffffff">
             <el-col :span="24" class="bigTitle stairFontColor">当日库存量</el-col>
             <el-col :span="10" style="border-right: solid 1px #c7c7c7">
                 <el-col :span="24" style="flex-flow: 1">
@@ -61,15 +61,15 @@
                 </el-col>
             </el-col>
         </div>
-       <div style="box-shadow: 0px 3px 0px #E5E5E5;;min-width: 1059px;">
+       <div style="box-shadow: 0px 3px 0px #E5E5E5;;min-width: 1019px;">
            <el-row class="bigTitle gauge stairFontColor">当日入库量</el-row>
                    <v-table ref="putTableOne" @handleCurrentChange="toShow" :table-name="putTableName":output-table="putTableData":outputData="putData":type="put"></v-table>
        </div>
-        <div style="box-shadow: 0px 3px 0px #E5E5E5;;min-width: 1059px;">
+        <div style="box-shadow: 0px 3px 0px #E5E5E5;;min-width: 1019px;">
             <el-row class="bigTitle gauge stairFontColor">当日出库量</el-row>
             <v-table ref="putTableTwo" @handleCurrentChange="toShow" :table-name="outTableName":output-table="outTableData":outputData="outData" :type="out"></v-table>
         </div>
-        <div  style="display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%;margin-top: 3rem;box-shadow: 0px 3px 0px #E5E5E5;;min-width: 1059px;height: 40rem;background-color: #ffffff">
+        <div  style="display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%;margin-top: 3rem;box-shadow: 0px 3px 0px #E5E5E5;;min-width: 1019px;height: 40rem;background-color: #ffffff">
             <el-col :span="24"  class="solidTitle stairFontColor">实时消耗(按小时)</el-col>
                <el-col :span="14" >
                    <v-line :child-msg="obj" ref="chartLine"></v-line>
@@ -454,4 +454,8 @@
     .outStyle{width: 100%;height: 2rem;display: inline-block;margin-bottom: 1rem}
     .inStyle{width: 1.2rem;height: 1.2rem;display: inline-block}
     .circle{height: 100%;box-sizing: border-box;border-radius: 50%;-webkit-border-radius:50%}
+    .mUpDateTime{font-size: 1.5rem;height: 3rem;line-height: 7rem}
+    @media screen and (max-width: 1368px){
+        .mUpDateTime{font-size: 1.2rem;height: 2rem;line-height: 11rem}
+    }
 </style>

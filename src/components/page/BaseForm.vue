@@ -45,7 +45,8 @@
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="文本框">
-                    <el-input type="textarea" v-model="form.desc"></el-input>
+                    <el-input type="textarea" v-model="form.desc" rows="10" maxlength="200"@input="descInput"></el-input>
+                    <span>{{form.remnant}}/200</span>
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="onSubmit">提交</el-button>
@@ -69,11 +70,16 @@
                     delivery: true,
                     type: ['步步高'],
                     resource: '小天才',
-                    desc: ''
+                    desc: '',
+                    remnant:0,
                 }
             }
         },
         methods: {
+            descInput(){
+            let val = this.form.desc.length;
+            this.form.remnant=val;
+    },
             onSubmit() {
                 this.$message.success('提交成功！');
             },

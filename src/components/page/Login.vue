@@ -52,15 +52,6 @@
 
                 const self = this;
                 self.$refs[formName].validate((valid) => {
-          /*  let data = {username:'admin',password:'admin'}
-            console.log(data)
-                    self.$axios.post("http://192.168.1.106:7000/user/login",data).then((res)=>{
-                            console.log(res)
-            }).catch((cah)=>{
-                console.log(cah)
-            });*/
-
-
                    if (valid&&this.ruleForm.username=="admin"&&this.ruleForm.password=="admin") {
                         localStorage.setItem('ms_username',self.ruleForm.username);
                         self.$router.push('/readme');

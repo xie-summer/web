@@ -74,9 +74,9 @@
 
 <style >
 
-   /* .erji .el-table__header-wrapper thead div {
+    .tableP .el-table__header-wrapper thead div {
         color:rgb(255, 255, 255);
         background-color:rgb(1, 172, 237)
-    }*/
-    .tableP  .el-table thead{color: #00A8EC}
+    }
+
 </style>
