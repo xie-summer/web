@@ -441,7 +441,6 @@
                     this.queryProduction_4(0);
                 }else{
                     this.production=res.data.retval;
-                    console.log(this.production.cpoc);
                     this.queryProduction_1(this.production.cpoc==undefined?0:this.production.cpoc);
                     this.queryProduction_2(this.production.cpac==undefined?0:this.production.cpac);
                     this.queryProduction_3(this.production.ccp==undefined?0:this.production.ccp);
@@ -475,6 +474,7 @@
                         center : ['50%', '70%'],    // 默认全局居中
                         radius : 100,
                         splitNumber:1,
+
                         splitLine:{
                             show:false,
                             length:10
@@ -497,10 +497,10 @@
                         axisLabel:{
                             show:true,
                             formatter:function(e){
-                             return e
+                             return "\n"+"\n"+e
 
                             },
-                            "distance": -30,
+                            "distance": 0,
                             textStyle:{
                                 color:"#000000"
                             }
@@ -581,9 +581,9 @@
                         axisLabel:{
                             show:true,
                             formatter:function(e){
-                                return e
+                                return "\n"+"\n"+e
                             },
-                            "distance": -30,
+                            "distance": -5,
                             textStyle:{
                                 color:"#000000"
                             }
@@ -664,9 +664,9 @@
                         axisLabel:{
                             show:true,
                             formatter:function(e){
-                                return e
+                                return "\n"+"\n"+e
                             },
-                            "distance": -30,
+                            "distance": -8,
                             textStyle:{
                                 color:"#000000"
                             }
@@ -747,9 +747,9 @@
                         axisLabel:{
                             show:true,
                             formatter:function(e){
-                                return e
+                                return "\n"+"\n"+e
                             },
-                           "distance":-30,
+                           "distance":-5,
                             textStyle:{
                                 color:"#000000"
                             },
@@ -817,7 +817,7 @@
    .row-bg {  padding: 10px 0; width: 100%}
    .backgroundVerify {  background: #ffffff; box-shadow: 0px 3px 0px #E5E5E5; }
     .red{color:red}
-    .blue{color:#0082e6}
+    /*.blue{color:#0082e6}*/
     .yellow{color: yellow}
     .green{color: green}
     .numberVerify .time{float: right;font-size: 1.8rem;color:#a29999}

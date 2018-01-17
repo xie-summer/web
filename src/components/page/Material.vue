@@ -124,7 +124,7 @@
                 publicOneData:{ "num":"", "remindtext":"磷矿粉库存较低","bool":true},
                 perData:{"value":0,"status":"success"},
                 date:new Date(),
-                unit:{"units":"吨","units2":"",wid:32,hig:21,radius:120,dist:-57,value:0,limit:0,floor:0,tool:20000},
+                unit:{"units":"吨","units2":"",wid:32,hig:21,radius:120,dist:-40,value:0,limit:0,floor:0,tool:20000},
 
             /*    curNumber:{
                     "text1":"月累积消耗量",
@@ -461,10 +461,5 @@
     .outStyle{width: 100%;height: 2rem;display: inline-block;margin-bottom: 1rem}
     .inStyle{width: 1.2rem;height: 1.2rem;display: inline-block}
     .circle{height: 100%;box-sizing: border-box;border-radius: 50%;-webkit-border-radius:50%}
-    .mUpDateTime{font-size: 1.5rem;height: 3rem;line-height: 7rem}
-    .mediaMd{font-size: 1.6rem;line-height: 1rem}
-    @media screen and (max-width: 1368px){
-        .mUpDateTime{font-size: 1.2rem;height: 2rem;line-height: 11rem}
-        .mediaMd{font-size: 1.3rem;line-height: 1rem}
-    }
+
 </style>

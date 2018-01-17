@@ -150,7 +150,7 @@
                 putTableData:[],
                 outData:{data:0,time:"00:00:00"},
                 putData:{data:0,time:"00:00:00"},
-                unit:{"units":"吨","units2":"",wid:32,hig:21,radius:120,dist:-57,value:0,limit:0,floor:0,tool:20000},
+                unit:{"units":"吨","units2":"",wid:32,hig:21,radius:120,dist:-40,value:0,limit:0,floor:0,tool:20000},
                 publicOneData:{"num":"", "remindtext":"磷钙库存值较低","bool":false},
 
                 date:new Date().format("YYYY-MM-dd"),
@@ -230,9 +230,9 @@
                         "data1":[],
                         "data2":[],
                         "data3":[],
-                        "class1":{"name":"晚班消耗量","value":""},
-                        "class2":{"name":"早班消耗量","value":""},
-                        "class3":{"name":"中班消耗量","value":""}
+                        "class1":{"name":"晚班消耗量","value":"",unit:""},
+                        "class2":{"name":"早班消耗量","value":"",unit:""},
+                        "class3":{"name":"中班消耗量","value":"",unit:""}
                     }
                 };
                 let value=[];
@@ -288,6 +288,9 @@
                     this.obj.class1.value=sum1;
                     this.obj.class2.value=sum2;
                     this.obj.class3.value=sum3;
+                if(id=="HG01XY750510"){this.obj.class1.unit="吨";this.obj.class2.unit="吨";this.obj.class3.unit="吨";}else{
+                    this.obj.class1.unit="吨";this.obj.class2.unit="吨";this.obj.class3.unit="吨";
+                }
                     this.$refs.chartLine.createChartOne(this.obj);
                 });
         },
@@ -399,7 +402,6 @@
                 }else{
                     self.$axios.get(_url1).then((res)=>{
                         let sumData = res.data.retval;
-                        console.log(sumData)
                         if(sumData==null||sumData==undefined){
 
                         }else{

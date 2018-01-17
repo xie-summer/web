@@ -33,7 +33,7 @@
             </el-col>
      </el-row>
         <el-row class="subordinateTitle stairFontColor">当日入出库量</el-row>
-        <el-row class="outCont"type="flex"justify="space-around">
+        <el-row class="outCont"type="flex"justify="space-between">
             <el-col :span="11">
                 <el-col :span="24" class="title secondFontColor">入库列表</el-col>
                 <el-col :span="24">
@@ -49,7 +49,7 @@
 
         </el-row>
       <el-row class="subordinateTitle stairFontColor">库存量监控</el-row>
-        <el-row class="outCont"type="flex"justify="space-around">
+        <el-row class="outCont"type="flex"justify="space-between">
             <el-col :span="11">
                    <el-col :span="24" class="title secondFontColor">低库存列表</el-col>
                    <el-col :span="24">
@@ -86,7 +86,7 @@
         </el-row>
         <el-row class="outCont"type="flex"justify="space-between">
             <el-col :span="11">
-                <el-col :span="24" class="title  secondFontColor">消耗货值排行前十</el-col>
+                <el-col :span="24" class="title  secondFontColor">消耗货值排行前5</el-col>
                 <el-col :span="24">
                     <v-bar ref="chartBar"></v-bar>
                 </el-col>
@@ -124,7 +124,7 @@
 
             }
         },
-        unit:{units:"万元",units2:"M",hig:33.1,radius:150,dist:-63,value:0,limit:1000,floor:500,tool:2000,title:"备品备件总货值"},
+        unit:{units:"万元",units2:"M",hig:33.1,radius:150,dist:-40,value:0,limit:1000,floor:500,tool:2000,title:"备品备件总货值"},
         tableName1:[{name:"name",label:"产品名称"},
             {name:"referencePrice",label:"参考成本价"},
             {name:"inventory",label:"当前库存量"},
@@ -392,6 +392,6 @@
 <style scoped>
     .right{float: right;height: 3rem}
     .outCont{margin-bottom: 2rem;background: #ffffff;box-shadow: 0px 3px 0px #E5E5E5;min-width: 1019px}
-    .title{font-size: 1.8rem;padding-left: 2rem;height: 3rem;line-height: 3rem}
+    .title{font-size: 1.8rem;padding-left: 0.5rem;height: 3rem;line-height: 3rem}
     .subordinateTitle{font-size: 2rem;height: 5rem;line-height: 5rem}
 </style>

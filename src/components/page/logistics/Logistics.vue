@@ -14,7 +14,7 @@
                         placeholder="请选择时间"
                         v-model="valueDate"
                         align="left"
-                        :editable="zreo"
+                        :editable="zero"
                         :picker-options="pickerOptions"
                         >
                     </el-date-picker>
@@ -27,7 +27,7 @@
                   <el-col :span="18" :offset="6" style="padding-top:5rem">
                       <div class="log_d_1">
                           <svg class="icon log_svg" aria-hidden="true" >
-                              <use xlink:href="#el-icon-erp-num"></use>
+                              <use xlink:href="#el-icon-erp-kucunshuliang"></use>
                           </svg>
                       </div>
                       <div class="log_d_2">
@@ -62,7 +62,7 @@
                         </div>
                         <div class="log_d_2">
                             <p class="log_p_1">5/24</p>
-                            <p class="log_p_2">设置用户使用率</p>
+                            <p class="log_p_2">设备用户使用率</p>
                         </div>
                     </el-col>
                 </el-card>
@@ -82,7 +82,16 @@
             </el-table-column>
             <el-table-column prop="e" label="在途天数" align="center" >
             </el-table-column>
-
+            <div class="pagination">
+                <el-pagination
+                    @current-change ="handleCurrentChange"
+                    layout="total, prev, pager, next"
+                    :total="totalCount"
+                    :page-size="pageSize"
+                    :current-page="currentPage"
+                    >
+                </el-pagination>
+            </div>
         </el-table>
     </el-row>
         <el-row style="margin-top: 4rem" class="putTitle ">
@@ -102,6 +111,16 @@
                 <el-table-column prop="f" label="延时天数" align="center" >
                 </el-table-column>
             </el-table>
+            <div class="pagination">
+                <el-pagination
+                    @current-change ="handleCurrentChange"
+                    layout="total, prev, pager, next"
+                    :total="totalCount"
+                    :page-size="pageSize"
+                    :current-page="currentPage"
+                    >
+                </el-pagination>
+            </div>
         </el-row>
 
     </div>
@@ -111,10 +130,13 @@
     export default {
         data(){
         return {
-            tableData:[{a:1,b:1,c:1,d:1,e:1}],
-            tableData_two:[{a:1,b:1,c:1,d:1,e:1,f:1}],
-            valueDate:new Date(),
-            zreo:false,
+            tableData:[],
+            tableData_two:[],
+            valueDate:new Date().format("YYYY-MM-dd"),
+            zero:false,
+            totalCount:0,
+            pageSize:5,
+            currentPage:1,
             pickerOptions: {
                 disabledDate(time) {
             return time.getTime() > Date.now();
@@ -126,7 +148,9 @@
     mounted(){},
 
     methods: {
+        handleCurrentChange(val){
 
+        }
 
             }
 

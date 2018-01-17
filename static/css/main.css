@@ -155,3 +155,11 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill { -we
     color:#909399
 }
 .el-table__row,.el-table__row--striped {background-color: #eff3f8!important}
+.el-table th{padding: 0}
+
+.mUpDateTime{font-size: 1.5rem;height: 3rem;line-height: 7rem}
+.mediaMd{font-size: 1.6rem;line-height: 1rem}
+@media screen and (max-width: 1368px){
+    .mUpDateTime{font-size: 1.2rem;height: 2rem;line-height: 11rem}
+    .mediaMd{font-size: 1.3rem;line-height: 1rem}
+}

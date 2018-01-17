@@ -51,6 +51,7 @@
                             }
                         },
                         splitLine:{
+                            length:10,
                             show:false,
                         },
                         axisTick: {
@@ -60,10 +61,10 @@
                         axisLabel:{
                                 show:true,
                                 formatter:function(e){
-                                    if(e==0){ return e+ls.units2;}
-                                    if(e==ls.limit) {return e+ls.units2};
-                                    if(e==ls.floor) {return e+ls.units2;}
-                                    if(e==ls.tool) return e+ls.units2;
+                                    if(e==0){ return "\n"+"\n"+e+ls.units2;}
+                                    if(e==ls.limit) {return e+ls.units2+"\n"+"\n"};
+                                    if(e==ls.floor) {return e+ls.units2+"\n"+"\n";}
+                                    if(e==ls.tool) return "\n"+"\n"+e+ls.units2;
                                 },
                             "distance": ls.dist,
                         },

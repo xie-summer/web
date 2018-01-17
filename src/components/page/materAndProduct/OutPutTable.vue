@@ -58,5 +58,6 @@
     </script>
     <style >
         .putTitle .el-table thead{color: #00A8EC}
+
     </style>
 

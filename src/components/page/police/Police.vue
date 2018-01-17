@@ -210,7 +210,6 @@
                 },
                 handleEdit(row,level){
                     this.info = level;
-                console.log(this.info)
                     this.dialogFormVisible = true
                 },
                 /*获取责任人*/
@@ -243,14 +242,28 @@
                     let self = this;
                     let _url = "http://192.168.1.106:5000/riskapi/finishbymanual"
                     let obj={Responsiblecontent:"",Responsiblename:"",id:""};
-                    obj.Responsiblecontent=formValue.desc;
-                    obj.Responsiblename=this.info.receiverName;
-                    obj.id=1
+                    obj.responsiblecontent=formValue.desc;
+                    obj.responsiblename=this.info.receiverName;
+                    obj.id=this.info.id;
                 self.$axios.post(_url,
                     qs.stringify(obj)
                     ).then((res)=>{
-                    console.log(res)
+                    if(res.data.retval==true){
+                        this.$message({
+                            type: 'success',
+                            message: '提交成功'
+                        });
+                    }else{
+                        this.$message({
+                            type: 'warning',
+                            message: '提交失败'
+                        });
+                    }
+                    this.form.desc="";
+                    this.form.remnant=0;
                 }).catch((e)=>{
+                    this.form.desc="";
+                    this.form.remnant=0;
                     this.$message.error("网络错误");
                 });
                     this.dialogFormVisible=false;
@@ -263,6 +276,8 @@
                 isConfirm(){
                     this.innerVisible=false;
                     this.dialogFormVisible=false;
+                    this.form.desc="";
+                    this.form.remnant=0;
                 },
                 /*取消 取消事件*/
                 isCancel(){
