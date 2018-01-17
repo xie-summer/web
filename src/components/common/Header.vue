@@ -55,9 +55,8 @@
         background-color: #494545;
     }
     .user-info {
-        width:249px;
+        width:164px;
         float: right;
-        padding-right: 50px;
         font-size: 16px;
         color: #fff;
     }

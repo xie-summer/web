@@ -28,16 +28,16 @@
                 chartOne.resize();
             }
             chartOne.setOption({
-                tooltip : {
+              /*  tooltip : {
                     formatter: "{a} <br/>{b} : {c}"
-                },
+                },*/
                 grid:{
                     x1:"30",
                     x2:"30"
                 },
                 series: [
                     {
-                        name: '业务指标',
+                        name: '',
                         type: 'gauge',
                         center : ['50%', '60%'],    // 默认全局居中
                         radius : ls.radius,

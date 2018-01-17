@@ -7,7 +7,7 @@
                 <el-col :span="1" style="height: 1px"></el-col>
                 <el-col :span="12">
                     <el-col :span="24" style="font-size: 1.2rem;line-height: 2.6rem">{{obj.class1.name}}</el-col>
-                    <el-col :span="24" style="font-size: 1.8rem;line-height: 1rem">{{obj.class1.value |numToFixed}}吨</el-col>
+                    <el-col :span="24"class="mediaMd">{{obj.class1.value |numToFixed}}{{obj.class1.unit}}</el-col>
                 </el-col>
 
             </div>
@@ -16,7 +16,7 @@
                 <el-col :span="1" style="height: 1px"></el-col>
                 <el-col :span="12">
                     <el-col :span="24" style="font-size: 1.2rem;line-height: 2.6rem">{{obj.class2.name}}</el-col>
-                    <el-col :span="24" style="font-size: 1.8rem;line-height: 1rem">{{obj.class2.value |numToFixed}}吨</el-col>
+                    <el-col :span="24"class="mediaMd">{{obj.class2.value |numToFixed}}{{obj.class2.unit}}</el-col>
                 </el-col>
             </div>
             <div style="width: 15rem">
@@ -24,7 +24,7 @@
                 <el-col :span="1" style="height: 1px"></el-col>
                 <el-col :span="12">
                     <el-col :span="24" style="font-size: 1.2rem;line-height: 2.6rem">{{obj.class3.name}}</el-col>
-                    <el-col :span="24" style="font-size: 1.8rem;line-height: 1rem">{{obj.class3.value |numToFixed}}吨</el-col>
+                    <el-col :span="24"class="mediaMd">{{obj.class3.value |numToFixed}}{{obj.class3.unit}}</el-col>
                 </el-col>
             </div>
 
@@ -94,30 +94,89 @@
                 yAxis : [
                     {
                         type : 'value',
-                        name:'吨'
+                        name:obj.class3.unit
                     }
                 ],
                 series : [
                     {
                         name:'早班',
                         type:'line',
-                        areaStyle: {normal: {}},
+                        smooth:true,
+                        areaStyle:{
+                            normal:{
+                                color:{
+                                    type:'linear',
+                                    x:0,
+                                    y:0,
+                                    x2:0,
+                                    y2:1,
+                                    colorStops:[{
+                                        offset:0,
+                                        color:'rgba(1,172,237,0.7)'
+                                    },{
+                                        offset:1,
+                                        color:'rgba(255,255,255,0.52)'
+                                    }],
+                                    globalCoord:false
+                                }
+                            }
+                        },
                         data:obj.data1
                     },
                     {
                         name:'中班',
                         type:'line',
-                        areaStyle: {normal: {}},
+                        smooth:true,
+                        areaStyle:{
+                            normal:{
+                                color:{
+                                    type:'linear',
+                                    x:0,
+                                    y:0,
+                                    x2:0,
+                                    y2:1,
+                                    colorStops:[{
+                                        offset:0,
+                                        color:'rgba(187,75,57,0.7)'
+                                    },{
+                                        offset:1,
+                                        color:'rgba(255,255,255,0.2)'
+                                    }],
+                                    globalCoord:false
+
+                                }
+                            }
+                        },
                         data:obj.data2
                     },
                     {
                         name:'晚班',
                         type:'line',
-                        areaStyle: {normal: {}},
+                        smooth:true,
+                        areaStyle:{
+                            normal:{
+                                color:{
+                                    type:'linear',
+                                    x:0,
+                                    y:0,
+                                    x2:0,
+                                    y2:1,
+                                    colorStops:[{
+                                        offset:0,
+                                        color:'rgba(59,88,152,0.7)'
+                                    },{
+                                        offset:1,
+                                        color:'rgba(255,255,255,0.2)'
+                                    }],
+                                    globalCoord:false
+
+                                }
+                            }
+                        },
                         data:obj.data3
                 },
                 ],
-                color:['#01ACED','#BB4B39','#3B5898']
+               color:['#01ACED','#BB4B39','#3B5898']
 
 
             })

@@ -226,7 +226,7 @@
                 let data=res.data.retval;
                 if(data==null||data==undefined){
                     this.obj={
-                        "date":['0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23',],
+                        "date":['9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','1','2','3','4','5','6','7','8'],
                         "data1":[],
                         "data2":[],
                         "data3":[],
@@ -261,7 +261,7 @@
                                 value2.push(v);
                             }
                         });
-                    let arr=["","","","","","","",value1[value1.length-1]];
+                    let arr=["","","","","","","",0];
                     value2.unshift.apply(value2,arr);
                 }else if(data.length>=16){
                     value.find(function( v,index){
@@ -271,14 +271,14 @@
                         }else if(index>=8&&index<16){
                             sum2+=v;
                             value2.push(v);
-                        }else if(index>=16){
+                        }else if(index>=16&&index<24){
                             sum3+=v;
                             value3.push(v);
                         }
                     });
-                    let arr=["","","","","","","",value1[value1.length-1]];
+                    let arr=["","","","","","","",0];
                     value2.unshift.apply(value2,arr);
-                    let arr2=["","","","","","","","","","","","","","","",value2[value2.length-1]];
+                    let arr2=["","","","","","","","","","","","","","","",0];
                     value3.unshift.apply(value3,arr2);
 
                 }

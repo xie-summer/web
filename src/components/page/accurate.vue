@@ -62,6 +62,7 @@
     methods:{
         show:function(){
             return !this.curNum;
+          /*  return false;*/
         }
     },
     mounted(){

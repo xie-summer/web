@@ -53,27 +53,27 @@
         </el-row>
 
         <el-row class="pTable putTitle police">
-            <el-col :span="24">
-                <el-table :data="tableData" border style="width: 100%;" ref="multipleTable" stripe>
+            <el-col :span="24" style="box-shadow: 0px 3px 0px #E5E5E5;background-color: #ffffff;">
+                <el-table :data="tableData" border style="width: 100%;" ref="multipleTable" stripe >
                     <el-table-column  label="报警状态" align="center" prop="statusName" width="80">
                         <template slot-scope="scope" >
                             <el-button type="button"v-if="scope.row.statusName=='已解除'" @click.prevent="handleEdit(scope.$index, scope.row)" >已解除</el-button>
                             <el-button type="danger" v-else @click.prevent="handleEdit(scope.$index, scope.row)" >未解除</el-button>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="warningname" label="报警项" align="center" width="250">
+                    <el-table-column prop="warningname" label="报警项" align="center" min-width="220":show-overflow-tooltip=true>
                     </el-table-column>
-                    <el-table-column prop="level" label="预警等级" align="center" width="80">
+                    <el-table-column prop="level" label="预警等级" align="center" min-width="80">
                     </el-table-column>
-                    <el-table-column prop="warningContent" label="报警内容"align="center" width="550">
+                    <el-table-column prop="warningContent" label="报警内容"align="center" min-width="300":show-overflow-tooltip=true>
                     </el-table-column>
-                    <el-table-column prop="ctime" label="报警时间"align="center" width="100">
+                    <el-table-column prop="ctime" label="报警时间"align="center" min-width="100">
                     </el-table-column>
-                    <el-table-column prop="receiverName" label="责任人" align="center" width="100">
+                    <el-table-column prop="receiverName" label="责任人" align="center" min-width="100">
                     </el-table-column>
-                    <el-table-column prop="returnContent" label="责任人日志" align="center" width="100">
+                    <el-table-column prop="returnContent" label="责任人日志" align="center" min-width="100":show-overflow-tooltip=true>
                     </el-table-column>
-                    <el-table-column prop="utime" label="报警解除时间" align="center"width="100">
+                    <el-table-column prop="utime" label="报警解除时间" align="center"min-width="100">
                     </el-table-column>
                 </el-table>
                 <div class="pagination">
@@ -275,18 +275,15 @@
 </script>
 <style >
     .right{float: right}
-    .putTitle .el-table thead{color: #00A8EC}
+    /*.putTitle .el-table thead{color: #00A8EC}*/
     .button_class{height: 3rem;border: 1px solid #888888;margin-right: 1rem;cursor: pointer;border-radius:5px ;background-color: #ffffff}
     .blues{background: #1DB5EF;color: #ffffff;border: solid 0px #ffffff}
-    .btn{border: 1px solid #bb4b39;background-color: #bb4b39;color: #ffffff;width: 100%;height: 100%}
-    .btn:hover{
-        border: 1px solid #bb4b39;background-color: #bb4b39;color: #ffffff;width: 100%;height: 100%
-    }
+    .btn{border:1px solid #bb4b39;background-color: #bb4b39;color: #ffffff;width: 100%;height: 100%}
+    .btn:hover{ border: 1px solid #bb4b39;background-color: #bb4b39;color: #ffffff;width: 100%;height: 100%  }
     .bts{border: 1px solid #ffffff;background-color: #ffffff;color: #000000;width: 100%;height: 100%}
-   .pTable .el-table td{padding: 0 0}
+    .pTable .el-table td{padding: 0 0}
     .pTable .el-table .cell{padding-right: 0}
     .pTable .el-table--border td:first-child .cell{padding-left: 0;}
-    .police .el-table .cell{
-        line-height: 40px;
-    }
+    .police .el-table .cell{  line-height: 36px;  }
+    .putTitle .el-table__header-wrapper thead div {  color:rgb(255, 255, 255);  background-color:rgb(1, 172, 237)  }
 </style>

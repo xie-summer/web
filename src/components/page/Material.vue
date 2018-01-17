@@ -70,13 +70,13 @@
             <v-table ref="putTableTwo" @handleCurrentChange="toShow" :table-name="outTableName":output-table="outTableData":outputData="outData" :type="out"></v-table>
         </div>
         <div  style="display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%;margin-top: 3rem;box-shadow: 0px 3px 0px #E5E5E5;;min-width: 1019px;height: 40rem;background-color: #ffffff">
-            <el-col :span="24"  class="solidTitle stairFontColor">实时消耗(按小时)</el-col>
-               <el-col :span="14" >
+            <el-col :span="24"  class="solidTitle stairFontColor">{{newTitle}}</el-col>
+               <el-col :span="24" >
                    <v-line :child-msg="obj" ref="chartLine"></v-line>
                </el-col>
-               <el-col :span="8" :offset="2" >
+              <!-- <el-col :span="8" :offset="2" >
                    <v-accurate :curNum="change" :curNumber="curNumber"></v-accurate>
-               </el-col>
+               </el-col>-->
         </div>
 <!--
         <div style="display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%;margin-top: 3rem;box-shadow: 5px 5px 3px #E5E5E5;;min-width: 1059px">
@@ -97,35 +97,36 @@
     import vPone from './PublicOne.vue';
     import vGauge from './OldCharts.vue';
     import vLine from './classThree.vue';
-    import vAccurate from './accurate.vue';
+   /* import vAccurate from './accurate.vue';*/
     import vPercentage from './percentage.vue';
     import vMaterialTable from './MaterialTable.vue';
     import vTable from'./materAndProduct/OutPutTable.vue'
     export default {
         components:{
-            vPone,vGauge,vLine,vAccurate,vPercentage,vMaterialTable,vTable
+            vPone,vGauge,vLine,vPercentage,vMaterialTable,vTable
         },
 
         data: function(){
 
             return {
+                newTitle:'矿浆实时消耗(按小时)',
                 screenWidth: document.body.clientWidth,
                 title:'库存状态',
                 obj:{
-                    "date":['8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','1','2','3','4','5','6','7',],
+                    "date":['9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','1','2','3','4','5','6','7','8'],
                     "data1":[],
                     "data2":[],
                     "data3":[],
-                    "class1":{"name":"早班消耗量","value":""},
-                    "class2":{"name":"中班消耗量","value":""},
-                    "class3":{"name":"晚班消耗量","value":""}
+                    "class1":{"name":"早班消耗量","value":"",unit:""},
+                    "class2":{"name":"中班消耗量","value":"",unit:""},
+                    "class3":{"name":"晚班消耗量","value":"",unit:""}
                 },
                 publicOneData:{ "num":"", "remindtext":"磷矿粉库存较低","bool":true},
                 perData:{"value":0,"status":"success"},
                 date:new Date(),
                 unit:{"units":"吨","units2":"",wid:32,hig:21,radius:120,dist:-57,value:0,limit:0,floor:0,tool:20000},
 
-                curNumber:{
+            /*    curNumber:{
                     "text1":"月累积消耗量",
                     "text2":"月累积出库量",
                     "text3":"月总计消耗量",
@@ -138,7 +139,7 @@
                     deviation2:"0",
                     date1:new Date().format("YYYY-MM"),
                     date2:new Date().format("YYYY-MM",1)
-                },
+                },*/
                 outTableName:[{label:"出库时间",name:"inOutTime"},
                             {label:"出库量(吨)",name:"value"},
                             {label:"领用人",name:"personLiable"},
@@ -173,7 +174,7 @@
         /*物料上下限*/
             this.queryBound(this.change==0?"HG01XY750000":"HG01XY750100",this.value11);
             this.queryClass(this.change==0?"HG01XY750000":"HG01XY750100",this.value11);
-            this.queryMonthConsume(this.change==0?"HG01XY750000":"",this.formatDateTime(this.value11));/*yue*/
+           /* this.queryMonthConsume(this.change==0?"HG01XY750000":"",this.formatDateTime(this.value11));*//*yue*/
             this.queryPut(this.change==0?"HG01XY750000":"HG01XY750100",0,this.value11,1,5);
             this.queryPut(this.change==0?"HG01XY750000":"HG01XY750100",1,this.value11,1,5);
 
@@ -189,20 +190,23 @@
     methods: {
         /*时间选择*/
         changeHandler:function(value){
-            this.curNumber.date1= this.formatDateTime(this.value11)
-            this.curNumber.date2= this.formatDateTime(this.value11,1)
+            /*对比模块*/
+            /*this.curNumber.date1= this.formatDateTime(this.value11)
+            this.curNumber.date2= this.formatDateTime(this.value11,1)*/
             this.queryClass(this.change==0?"HG01XY750000":"HG01XY750100",value);
             this.queryGround(this.change==0?"HG01XY750000":"HG01XY750100",value);
-            this.queryMonthConsume(this.change==0?"HG01XY750000":"HG01XY750100",this.formatDateTime(value));/*yue*/
+            /*this.queryMonthConsume(this.change==0?"HG01XY750000":"HG01XY750100",this.formatDateTime(value));*//*yue*/
             this.queryPut(this.code,0,this.value11,1,5);
             this.queryPut(this.code,1,this.value11,1,5);
         },
         /*原料切换*/
         cut:function(key,name,code){
             if(key==0){
+                this.newTitle="矿浆实时消耗(按小时)"
                 this.unit.tool=20000;
                 this.$refs.chartGauge.createChartOne(this.unit);
             }else{
+                this.newTitle="实时下线(按小时)"
                 this.unit.tool=4000;
                 this.$refs.chartGauge.createChartOne(this.unit);
             }
@@ -215,7 +219,7 @@
             this.queryBound(key==0?"HG01XY750000":"HG01XY750100");
             this.queryClass(this.change==0?"HG01XY750000":"HG01XY750100",this.value11);
             this.queryGround(this.change==0?"HG01XY750000":"HG01XY750100",this.value11);
-            this.queryMonthConsume(this.change==0?"HG01XY750000":"HG01XY750100",this.formatDateTime(this.value11));
+           /* this.queryMonthConsume(this.change==0?"HG01XY750000":"HG01XY750100",this.formatDateTime(this.value11));*/
 
         },
         dys:function(){
@@ -230,13 +234,13 @@
                     let data=res.data.retval;
                 if(data==null||data==undefined) {
                     this.obj={
-                        "date":['0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23',],
+                        "date":['9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','1','2','3','4','5','6','7','8'],
                             "data1":[],
                             "data2":[],
                             "data3":[],
-                            "class1":{"name":"晚班消耗量","value":""},
-                            "class2":{"name":"早班消耗量","value":""},
-                            "class3":{"name":"中班消耗量","value":""}
+                            "class1":{"name":"晚班消耗量","value":"",unit:""},
+                            "class2":{"name":"早班消耗量","value":"",unit:""},
+                            "class3":{"name":"中班消耗量","value":"",unit:""}
                     }
                 }
                     let value=[];
@@ -266,7 +270,7 @@
                                 value2.push(v);
                             }
                         });
-                        let arr=["","","","","","","",value1[value1.length-1]];
+                        let arr=["","","","","","","",0];
                         value2.unshift.apply(value2,arr);
                     }else if(data.length>=16){
                         value.find(function( v,index){
@@ -277,14 +281,14 @@
                                 sum2+=v;
                                 value2.push(v);
 
-                            }else if(index>=16){
+                            }else if(index>=16&&index<24){
                                 sum3+=v;
                                 value3.push(v);
                             }
                         });
-                        let arr=["","","","","","","",value1[value1.length-1]];
+                        let arr=["","","","","","","",0];
                         value2.unshift.apply(value2,arr);
-                        let arr2=["","","","","","","","","","","","","","","",value2[value2.length-1]];
+                        let arr2=["","","","","","","","","","","","","","","",0];
                         value3.unshift.apply(value3,arr2);
                     }
                     this.obj.data1=value1;
@@ -293,13 +297,16 @@
                     this.obj.class1.value=sum1;
                     this.obj.class2.value=sum2;
                     this.obj.class3.value=sum3;
+                    if(id=="HG01XY750000"){this.obj.class1.unit="立方米";this.obj.class2.unit="立方米";this.obj.class3.unit="立方米";}else{
+                        this.obj.class1.unit="吨";this.obj.class2.unit="吨";this.obj.class3.unit="吨";
+                    }
                     this.$refs.chartLine.createChartOne(this.obj);
 
                 });
 
         },
         /*月累计量*/
-        queryMonthConsume(id,date){
+       /* queryMonthConsume(id,date){
             if(id=="")return false;
             let self = this;
             let _url = self.$url+"/data/verification/thismonthbios/"+id+"/"+date.formatDate();
@@ -327,7 +334,7 @@
 
 
              });
-        },
+        },*/
         /*实时库存*/
         queryGround(id,date){
             let self = this;
@@ -455,7 +462,9 @@
     .inStyle{width: 1.2rem;height: 1.2rem;display: inline-block}
     .circle{height: 100%;box-sizing: border-box;border-radius: 50%;-webkit-border-radius:50%}
     .mUpDateTime{font-size: 1.5rem;height: 3rem;line-height: 7rem}
+    .mediaMd{font-size: 1.6rem;line-height: 1rem}
     @media screen and (max-width: 1368px){
         .mUpDateTime{font-size: 1.2rem;height: 2rem;line-height: 11rem}
+        .mediaMd{font-size: 1.3rem;line-height: 1rem}
     }
 </style>

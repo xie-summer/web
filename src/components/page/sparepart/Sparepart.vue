@@ -21,14 +21,14 @@
              </el-date-picker>
          </div>
      </el-row>
-     <el-row style="margin-bottom: 2rem;min-width: 1019px;background: #ffffff;box-shadow: 0px 3px 0px #E5E5E5;"type="flex"justify="space-around" >
-            <el-col :span="11">
+     <el-row style="margin-bottom: 2rem;min-width: 1019px;"type="flex"justify="space-between" >
+            <el-col :span="10"style="box-shadow: 0px 3px 0px #E5E5E5;background-color: #ffffff;">
                 <el-col :span="24"style="font-size: 2rem;" class="stairFontColor"> 货值总览</el-col>
                 <div style="width: 100%;height:33.1rem;">
                     <v-gauge :unit="unit" ref="chartGauge"></v-gauge>
                 </div>
             </el-col>
-            <el-col :span="13">
+            <el-col :span="13":offseet="1">
                 <v-table :child-table="tableName1" :table-data="tableData1":num-name="name1"ref="multipleTable" ></v-table>
             </el-col>
      </el-row>
@@ -84,7 +84,7 @@
         <el-row style="min-width: 1019px">
             <el-col :span="24" class="subordinateTitle stairFontColor">月消耗总览</el-col>
         </el-row>
-        <el-row class="outCont"type="flex"justify="space-around">
+        <el-row class="outCont"type="flex"justify="space-between">
             <el-col :span="11">
                 <el-col :span="24" class="title  secondFontColor">消耗货值排行前十</el-col>
                 <el-col :span="24">
