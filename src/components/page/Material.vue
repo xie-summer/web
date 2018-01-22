@@ -40,22 +40,22 @@
                             <div class="inStyle">
                                 <div class="circle" style="background-color: #3b5898"></div>
                             </div>
-                            <div class="textStyle">较低</div>
-                            <div class="textStyle">0-{{unit.floor}}</div>
+                            <div class="textStyle threeFontColor">较低</div>
+                            <div class="textStyle threeFontColor">0-{{unit.floor}}</div>
                         </div>
                         <div  class="outStyle">
                             <div class="inStyle">
                                 <div class="circle"style="background-color: #00a8ec"></div>
                             </div>
-                            <div class="textStyle">正常</div>
-                            <div class="textStyle">{{unit.floor}}-{{unit.limit}}</div>
+                            <div class="textStyle threeFontColor">正常</div>
+                            <div class="textStyle threeFontColor">{{unit.floor}}-{{unit.limit}}</div>
                         </div>
                         <div class="outStyle">
                             <div class="inStyle">
                                 <div class="circle"style="background-color: #bb4b39"></div>
                             </div>
-                            <div class="textStyle">较高</div>
-                            <div class="textStyle">{{unit.limit}}-{{unit.tool}}</div>
+                            <div class="textStyle threeFontColor">较高</div>
+                            <div class="textStyle threeFontColor">{{unit.limit}}-{{unit.tool}}</div>
                         </div>
                     </div>
                 </el-col>
@@ -65,7 +65,7 @@
            <el-row class="bigTitle gauge stairFontColor">当日入库量</el-row>
                    <v-table ref="putTableOne" @handleCurrentChange="toShow" :table-name="putTableName":output-table="putTableData":outputData="putData":type="put"></v-table>
        </div>
-        <div style="box-shadow: 0px 3px 0px #E5E5E5;;min-width: 1019px;">
+        <div style="box-shadow: 0px 3px 0px #E5E5E5;min-width: 1019px;">
             <el-row class="bigTitle gauge stairFontColor">当日出库量</el-row>
             <v-table ref="putTableTwo" @handleCurrentChange="toShow" :table-name="outTableName":output-table="outTableData":outputData="outData" :type="out"></v-table>
         </div>
@@ -206,7 +206,7 @@
                 this.unit.tool=20000;
                 this.$refs.chartGauge.createChartOne(this.unit);
             }else{
-                this.newTitle="实时下线(按小时)"
+                this.newTitle="实时消耗(按小时)"
                 this.unit.tool=4000;
                 this.$refs.chartGauge.createChartOne(this.unit);
             }
@@ -232,17 +232,19 @@
                         _url
                 ).then((res) => {
                     let data=res.data.retval;
+                console.log(data)
                 if(data==null||data==undefined) {
-                    this.obj={
-                        "date":['9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','1','2','3','4','5','6','7','8'],
-                            "data1":[],
-                            "data2":[],
-                            "data3":[],
-                            "class1":{"name":"晚班消耗量","value":"",unit:""},
-                            "class2":{"name":"早班消耗量","value":"",unit:""},
-                            "class3":{"name":"中班消耗量","value":"",unit:""}
+                    this.obj= {
+                        "date": ['9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '1', '2', '3', '4', '5', '6', '7', '8'],
+                        "data1": [],
+                        "data2": [],
+                        "data3": [],
+                        "class1": {"name": "晚班消耗量", "value": "", unit: ""},
+                        "class2": {"name": "早班消耗量", "value": "", unit: ""},
+                        "class3": {"name": "中班消耗量", "value": "", unit: ""}
                     }
-                }
+                    this.$refs.chartLine.createChartOne(this.obj);
+                }else{
                     let value=[];
                     let value1=[];
                     let value2=[];
@@ -270,7 +272,7 @@
                                 value2.push(v);
                             }
                         });
-                        let arr=["","","","","","","",0];
+                        let arr=["","","","","","","",value1[value1.length-1]];
                         value2.unshift.apply(value2,arr);
                     }else if(data.length>=16){
                         value.find(function( v,index){
@@ -286,9 +288,9 @@
                                 value3.push(v);
                             }
                         });
-                        let arr=["","","","","","","",0];
+                        let arr=["","","","","","","",value1[value1.length-1]];
                         value2.unshift.apply(value2,arr);
-                        let arr2=["","","","","","","","","","","","","","","",0];
+                        let arr2=["","","","","","","","","","","","","","","",value2[value2.length-1]];
                         value3.unshift.apply(value3,arr2);
                     }
                     this.obj.data1=value1;
@@ -301,6 +303,8 @@
                         this.obj.class1.unit="吨";this.obj.class2.unit="吨";this.obj.class3.unit="吨";
                     }
                     this.$refs.chartLine.createChartOne(this.obj);
+                }
+
 
                 });
 
@@ -376,6 +380,7 @@
             let self = this;
             let _url= self.$url+"/material/threshold/configuration/stock/"+id;
             self.$axios.get(_url).then((res)=>{
+            console.log(res.data.retval)
                 this.unit.limit=res.data.retval.upperLimit;
                 this.unit.floor=res.data.retval.lowerLimit;
                 self.$refs.chartGauge.createChartOne(this.unit);
@@ -427,8 +432,8 @@
                        if(sumData==null||sumData==undefined){
 
                        }else{
-                           if(type==1){this.putData.data=sumData.value;this.putData.time=new Date(sumData.utime).format("hh:mm:ss")}
-                           if(type==0){this.outData.data=sumData.value;this.outData.time=new Date(sumData.utime).format("hh:mm:ss")}
+                           if(type==1){this.putData.data=sumData.summary;this.putData.time=new Date(sumData.utime).format("hh:mm:ss")}
+                           if(type==0){this.outData.data=sumData.summary;this.outData.time=new Date(sumData.utime).format("hh:mm:ss")}
                        }
                    })
                    for(let obj of list){

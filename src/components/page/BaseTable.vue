@@ -1,7 +1,18 @@
 <template>
     <div class="tableP" ref="son">
        <div class=" erji">
-           <el-table :data="tableData" border style="width: 100%;" ref="multipleTable" @selection-change="handleSelectionChange"height=285 stripe>
+           <el-table
+               :data="tableData"
+               border
+               style="width: 100%;"
+               ref="multipleTable"
+               @selection-change="handleSelectionChange"
+               height=285 stripe
+               v-loading="loading"
+               element-loading-text="拼命加载中"
+               element-loading-spinner="el-icon-loading"
+               element-loading-background="rgba(173,216,230, 0.2)"
+               >
                <el-table-column prop="inTime" label="进厂时间"  align="center" :show-overflow-tooltip="showtf" :formatter="formatterIn">
                </el-table-column>
                <el-table-column prop="outTime" label="出厂时间"align="center" :show-overflow-tooltip="showtf" :formatter="formatter">
@@ -40,7 +51,8 @@
                 pagesize:5,
                 currentPage: 1,
                 totalCount: this.totalCount,
-                showtf:true
+                showtf:true,
+                loading:true
             }
         },
         created(){
@@ -54,9 +66,10 @@
                 this.$emit('handleCurrentChange',{page:this.cur_page,pageSize:this.pagesize});
 
             },
-            getData(data,total){
+            getData(data,total,loading){
                 this.totalCount=total;
                 this.tableData=data;
+                this.loading=loading==undefined?true:loading;
             },
 
             handleSelectionChange: function(val) {

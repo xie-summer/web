@@ -15,16 +15,19 @@ export default new Router({
             children:[
                 {
                     path: '/',
-                    component: resolve => require(['../components/page/Readme.vue'], resolve)/*首页*/
+                    component: resolve => require(['../components/page/Readme.vue'], resolve),
+                    meta: {keepAlive: true}/*首页*/
                 },
 
                 {
                     path: '/material',
-                    component: resolve => require(['../components/page/Material.vue'], resolve)/*原料库*/
+                    component: resolve => require(['../components/page/Material.vue'], resolve),
+                    meta: {keepAlive: true}/*原料库*/
                 },
                 {
                     path: '/product',
-                    component: resolve => require(['../components/page/Product.vue'], resolve)/*产品库*/
+                    component: resolve => require(['../components/page/Product.vue'], resolve),
+                    meta: {keepAlive: true}/*产品库*/
                 },
               /*  {
                     path: '/baseform',
@@ -32,7 +35,8 @@ export default new Router({
                 },*/
                 {
                     path: '/sparepart',
-                    component: resolve => require(['../components/page/sparepart/Sparepart.vue'], resolve)/*备品备件库*/
+                    component: resolve => require(['../components/page/sparepart/Sparepart.vue'], resolve),
+                    meta: {keepAlive: true}/*备品备件库*/
                 },
                 /*{
                     path: '/vuetable',
@@ -61,29 +65,35 @@ export default new Router({
                 },*/
                 {
                     path: '/personGrade',
-                    component: resolve => require(['../components/page/PersonGrade.vue'], resolve) ,  // vue-schart组件
+                    component: resolve => require(['../components/page/PersonGrade.vue'], resolve) ,
+                    meta: {keepAlive: true}// vue-schart组件
                 },
                 {
                     path: '/logistics',
-                    component: resolve => require(['../components/page/logistics/Logistics.vue'], resolve) ,  // vue-schart组件
+                    component: resolve => require(['../components/page/logistics/Logistics.vue'], resolve) ,
+                    meta: {keepAlive: true}// vue-schart组件
                 },
                 {
                     path: '/police',
-                    component: resolve => require(['../components/page/police/Police.vue'], resolve) ,  // vue-schart组件
+                    component: resolve => require(['../components/page/police/Police.vue'], resolve) ,
+                    meta: {keepAlive: true}// vue-schart组件
                 },
                {
                     path: '/entering',
-                    component: resolve => require(['../components/page/entering/Entering.vue'], resolve) ,  // vue-schart组件
+                    component: resolve => require(['../components/page/entering/Entering.vue'], resolve) ,
+                   meta: {keepAlive: true}// vue-schart组件
                 },
                 {
                     path: '/pefficiency',
-                    component: resolve => require(['../components/page/pefficiency/Pefficiency.vue'], resolve) ,  // vue-schart组件
+                    component: resolve => require(['../components/page/pefficiency/Pefficiency.vue'], resolve) ,
+                    meta: {keepAlive: true}// vue-schart组件
                 },
             ]
         },
         {
             path: '/login',
-            component: resolve => require(['../components/page/Login.vue'], resolve)
+            component: resolve => require(['../components/page/Login.vue'], resolve),
+            meta: {keepAlive: true}
         },
     ]
 })

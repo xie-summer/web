@@ -50,7 +50,14 @@
                     },
                     xAxis: {
                         type: 'value',
-                        boundaryGap: [0, 0.01]
+                        boundaryGap: [0, 0.01],
+                        axisLabel:{
+                            formatter:function(e){
+
+                                return e/10000+'k'
+                            }
+                        },
+
                     },
                     yAxis: {
                         type: 'category',

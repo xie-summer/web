@@ -124,11 +124,11 @@
 
             }
         },
-        unit:{units:"万元",units2:"M",hig:33.1,radius:150,dist:-40,value:0,limit:1000,floor:500,tool:2000,title:"备品备件总货值"},
+        unit:{units:"万元",units2:"万",hig:33.1,radius:150,dist:-40,value:0,limit:500,floor:200,tool:600,title:"备品备件总货值"},
         tableName1:[{name:"name",label:"产品名称"},
             {name:"referencePrice",label:"参考成本价"},
             {name:"inventory",label:"当前库存量"},
-            {name:"inventoryValue",label:"库存价值"}],
+            {name:"inventoryValue",label:"库存货值(元)"}],
         tableName2:[
             {name:"name",label:"产品名称   "},
             {name:"referencePrice",label:"参考成本价"},
@@ -172,7 +172,7 @@
     }
     },
     //加载完dom执行的钩子函数
-    created:function(){
+    mounted:function(){
         this.querySum(this.valueDate);
         this.queryValueAmount(this.valueDate);
         this.queryValueHeight(this.valueDate);
@@ -191,9 +191,6 @@
             return date.format("YYYY-MM-dd");
 
         }
-    },
-    mounted () {
-
     },
     methods: {
         //时间组件change事件
@@ -231,33 +228,45 @@
             let url = this.$url+"/spare/parts/materials/summary/detail/"+date;
             self.$axios.get(url).then((res)=>{
                 let data = res.data.retval;
-                self.$refs.multipleTable.getData(data,self.tableName1,self.name1);
-
+                if(data==null||data==undefined){
+                    self.$refs.multipleTable.getData([],self.tableName1,self.name1,false);
+                }else{
+                    self.$refs.multipleTable.getData(data,self.tableName1,self.name1,false);
+                }
+            }).catch((e)=>{
+                self.$refs.multipleTable.getData([],self.tableName1,self.name1,false);
             });
         },
         /*库存高*/
         queryValueHeight(date){
             let self = this;
+            this.$refs.multipleTableHeight.getData([1],self.tableName3,self.name3,true);
             let url=this.$url+"/spare/parts/materials/summary/high/detail/"+date;
             self.$axios.get(url).then((res)=>{
                 let data = res.data.retval;
                 if(data==null||data==undefined){
+                    self.$refs.multipleTableHeight.getData([],self.tableName3,self.name3,false);
                 }else{
-                    self.$refs.multipleTableHeight.getData(data,self.tableName3,self.name3);
+                    self.$refs.multipleTableHeight.getData(data,self.tableName3,self.name3,false);
                 }
+            }).catch((e)=>{
+                self.$refs.multipleTableHeight.getData([],self.tableName3,self.name3,false);
             })
         },
         /*库存低*/
         queryValueLow(date){
             let self = this;
+            this.$refs.multipleTableLow.getData([1],self.tableName2,self.name2,true);
             let url=this.$url+"/spare/parts/materials/summary/low/detail/"+date;
             self.$axios.get(url).then((res)=>{
                 let data = res.data.retval;
                if(data==null||data==undefined){
-
+                   self.$refs.multipleTableLow.getData([],self.tableName2,self.name2,false);
                }else{
-                   self.$refs.multipleTableLow.getData(data,self.tableName2,self.name2);
+                   self.$refs.multipleTableLow.getData(data,self.tableName2,self.name2,false);
                }
+            }).catch((e)=>{
+                self.$refs.multipleTableLow.getData([],self.tableName2,self.name2,false);
             })
         },
         /*货值出入库*/
@@ -266,18 +275,24 @@
             let url=self.$url+"/panoramic/spare/parts/into/inventory/"+date+"/"+type+"/"+page+"/"+size;
                 self.$axios.get(url).then((res)=>{
                         let data=res.data.retval;
-                       if(data==null){}else{
+                       if(data==null){
+                          /* self.$refs.putTable.setData([],0,self.putTableName,type,false)
+                           self.$refs.outTable.setData([],0,self.outTableName,type,false)*/
+                       }else{
                            for( let obj of data.list){
                                obj.inOutTime = new Date(obj.inOutTime).format("hh:mm:ss")
                            }
                            if(type==1){
-                               self.$refs.putTable.setData(data.list,data.total,self.putTableName,type)
+                               self.$refs.putTable.setData(data.list,data.total,self.putTableName,type,false)
                            }
                            if(type==0){
-                               self.$refs.outTable.setData(data.list,data.total,self.outTableName,type)
+                               self.$refs.outTable.setData(data.list,data.total,self.outTableName,type,false)
                            }
                        }
-                });
+                }).catch((e=>{
+                self.$refs.putTable.setData([],0,self.putTableName,type,false)
+                self.$refs.outTable.setData([],0,self.outTableName,type,false)
+            }));
         },
         /*消耗量*/
         queryConsumeValue(date){
@@ -317,6 +332,8 @@
                     for(let i=0;i<valueData.length;i++){
                         percentageData.push(Number(valueData[i]/tool))
                     }
+                    console.log(self.$refs.chartstr);
+                    self.$refs.chartstr.isBool(tool);
                     self.$refs.chartstr.initPie(percentageData,valueData,nameData,tool)
                 }
             });

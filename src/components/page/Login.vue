@@ -7,15 +7,27 @@
               <el-col :span="11":offset="6"class="login_header"></el-col>
               <div class="ms-login">
                   <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="6rem" class="demo-ruleForm" >
-                      <el-form-item prop="username" label="用户名:">
-                          <el-input class="input_border"v-model="ruleForm.username" placeholder="用户名"></el-input>
+                      <el-form-item prop="username">
+                          <el-input class="input_border"v-model="ruleForm.username" placeholder="用户名">
+                              <i slot="prefix">
+                                  <svg class="icon" aria-hidden="true"style="width: 2rem;height: 3rem">
+                                      <use xlink:href="#el-icon-erp-user"></use>
+                                  </svg>
+                              </i>
+                          </el-input>
                       </el-form-item>
-                     <el-form-item prop="password" label="密码:">
-                          <el-input  class="input_border"type="password"placeholder="密码" v-model="ruleForm.password" @keyup.enter.native="submitForm('ruleForm')"></el-input>
+                     <el-form-item prop="password" >
+                          <el-input  class="input_border"type="password"placeholder="密码" v-model="ruleForm.password" @keyup.enter.native="submitForm('ruleForm')">
+                              <i slot="prefix">
+                                  <svg class="icon" aria-hidden="true"style="width: 2rem;height: 3rem">
+                                      <use xlink:href="#el-icon-erp-password"></use>
+                                  </svg>
+                              </i>
+                          </el-input>
                       </el-form-item>
                       <p v-if="bool" style="font-size:12px;line-height:18px;color:red;margin-bottom: 5px;margin-left:22%">*用户名或密码错误</p>
                       <div class="login-btn">
-                          <el-button style="width:70%;margin-left:22%"type="primary" native-type="button" @click="submitForm('ruleForm')">登录</el-button>
+                          <el-button style="width:70%;margin-left:22%;　border-radius: 15px;"type="primary" native-type="button" @click="submitForm('ruleForm')">登录</el-button>
                       </div>
 
                       <p style="font-size:12px;line-height:30px;color:#999;margin-left:22%">Tips : 用户名：admin  密码：admin</p>

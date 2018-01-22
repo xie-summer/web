@@ -1,11 +1,11 @@
 <template>
     <div class="back">
-        <div class="crumbs">
+        <div class="crumbs"style="margin-bottom:1rem ">
             <el-breadcrumb separator="/">
                 <el-breadcrumb-item><i class="el-icon-setting"></i> 全景监控</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
-        <div class="right">
+        <div class="right" style="height: 5rem;line-height: 5rem">
             <el-date-picker
                 @change="(value) => changeHandler(value)"
                 v-model="value11"
@@ -18,7 +18,7 @@
                 >
             </el-date-picker>
         </div>
-        <div class=" stairFontColor newTitle" style="margin-top: 3rem" >
+        <div class=" stairFontColor newTitle">
             物资监管
         </div>
         <el-row :span="24" class="goodsTitle secondFontColor" style="min-width: 1019px;box-shadow: 0px 3px 0px #E5E5E5;background-color: #ffffff;height: 4rem">库存量监控</el-row>
@@ -31,7 +31,7 @@
                             <use xlink:href="#el-icon-erp-shebeibaojing"></use>
                         </svg>
                         <svg class="icon" aria-hidden="true" v-if="i.text=='正常'">
-                            <use xlink:href="#el-icon-erp-206"></use>
+                            <use xlink:href="#el-icon-erp-zhengchang"></use>
                         </svg>
                         <span style="font-size: 1.5rem" :class="i.text=='高'||i.text=='低' ? 'colorRed':'colorBlue'">{{i.text}}</span>
                     </el-col>
@@ -78,26 +78,30 @@
         </div>
         <el-row :span="24"style="height:5rem;min-width: 1019px;line-height: 5rem">
             <div style="float: left;" class="title stairFontColor newTitle"> 生产监管</div>
-            <div  style="float: right;font-size: 1.8rem;color:#a29999" >0.00-24.00</div>
+            <div  style="float: right;font-size: 1.8rem;color:#a29999" >0:00-24:00</div>
             <div style="float: right;margin-right: 1rem;font-size: 1.8rem;color:#a29999">{{dateTitles}}</div>
         </el-row>
         <el-row :span="24"style="font-size: 1.8rem;box-shadow: 0px 3px 0px #E5E5E5;background-color: #ffffff;height:4rem;min-width: 1019px;">
             <div style="float: left;" class="secondFontColor goodsTitle"> 单耗监控</div>
            </el-row>
         <el-row type="flex"  justify="space-between" style="min-width: 1019px;box-shadow: 0px 3px 0px #E5E5E5;margin-bottom: 3rem;background-color: #ffffff">
-                <div style="width: 25rem">
+                <div style="width: 20rem">
                     <el-col :span="24" style="text-align: center;font-size: 1.8rem;color: #888888">磷钙矿耗(吨/吨)</el-col>
                     <div class="gu_1" id="gu_1" ref="gu_1" style="height: 14rem"></div>
                 </div>
-                <div style="width: 25rem">
+                <div style="width: 20rem">
                     <el-col :span="24" style="text-align: center;font-size: 1.8rem;color: #888888">磷钙酸耗(吨/吨)</el-col>
                     <div class="gu_2" id="gu_2" ref="gu_2" style="height: 14rem"></div>
                 </div>
-                <div style="width: 25rem">
+                <div style="width: 20rem">
                     <el-col :span="24" style="text-align: center;font-size: 1.8rem;color: #888888">磷钙煤耗(吨/吨)</el-col>
                     <div class="gu_3" id="gu_3" ref="gu_3" style="height: 14rem"></div>
                 </div>
-                <div style="width: 25rem">
+                <div style="width: 20rem">
+                    <el-col :span="24" style="text-align: center;font-size: 1.8rem;color: #888888">磷钙电耗(度/吨)</el-col>
+                    <div class="gu_5" id="gu_5" ref="gu_5" style="height: 14rem"></div>
+                </div>
+                <div style="width: 20rem">
                     <el-col :span="24" style="text-align: center;font-size: 1.8rem;color: #888888">普钙电耗(度/吨)</el-col>
                     <div class="gu_4" id="gu_4" ref="gu_4" style="height: 14rem"></div>
                 </div>
@@ -105,7 +109,7 @@
         <div class="numberVerify" style="min-width: 1019px">
             <el-col :span="24">
                 <div style="float: left;" class="stairFontColor newTitle">数据校验</div>
-                <div class="time" >0.00-24.00</div>
+                <div class="time" >0:00-24:00</div>
                 <div class="time timeRight">{{dateTitles}}</div>
             </el-col>
 
@@ -212,9 +216,9 @@
         uTime:"",
         numberSize:"",
         errMsg:"",
-        production:{"ccp":0,"cpac":0,"cpc":0,"cpoc":0},
+        production:{"ccp":0,"cpac":0,"cpc":0,"cpoc":0,"pcc":0},
         tableData_1:[1,2],
-        benchmark:[1,1,1,1],
+        benchmark:[0,0,0,0,0],
         item:[{"name":"磷矿粉(吨)","number":85,"text":"高"},
             {"name":"硫酸(立方米)","number":85,"text":"高"},
             {"name":"石灰(吨)","number":85,"text":"低"},
@@ -236,7 +240,6 @@
         },
     created:function(){
         this.queryOneCall(this.value11.format("YYYY-MM-dd"));
-        this.queryTable(this.value11.format("YYYY-MM-dd"),this.cur_page,this.pageSize);
         this.querynventoryDay(this.value11.format("YYYY-MM-dd"));
         this.queryDatIoValue(this.value11.format("YYYY-MM-dd"));
         this.queryProduction(this.value11.format("YYYY-MM-dd"));
@@ -244,10 +247,12 @@
 
     },
     mounted(){
+        this.queryTable(this.value11.format("YYYY-MM-dd"),this.cur_page,this.pageSize);
         this.queryProduction_1(this.production.ccp);
         this.queryProduction_2(this.production.cpac);
         this.queryProduction_3(this.production.cpc);
         this.queryProduction_4(this.production.cpoc);
+        this.queryProduction_5(this.production.pcc);
     },
    filters:{
 
@@ -270,12 +275,18 @@
         },
         queryTable(date,page,size){
             let self = this;
+            this.$refs.son.getData( [1],0,true);
             let _url=self.$url+"/into/the/factory/records/"+date+"/"+page+"/"+size;
             self.$axios.get(_url).then((res)=>{
-                this.tableData_1=res.data.retval.list;
-                this.totalCount1=res.data.retval.total;
-             self.$refs.son.getData( this.tableData_1,this.totalCount1);
-
+                if(res.data.retval.list==null){
+                    self.$refs.son.getData( [],0,false);
+                }else{
+                    this.tableData_1=res.data.retval.list;
+                    this.totalCount1=res.data.retval.total;
+                    self.$refs.son.getData( this.tableData_1,this.totalCount1,false);
+                }
+            }).catch((e)=>{
+                self.$refs.son.getData( [],0,false);
             });
         },
         queryOneCall(value){
@@ -350,8 +361,8 @@
                             for(let j  of newList){
                                 let k=0;
                                 let obj={};
-                                obj.name= j.name;
-                                obj.number= j.value+j.unit;
+                                obj.name= j.name+"("+j.unit+")";
+                                obj.number= j.value;
                                 obj.text=res.data.retval[j.code];
                                 item.push(obj);
                             }
@@ -379,13 +390,13 @@
             let d = new Date(Date.parse(date)-1000*60*60*24).format("YYYY-MM-dd")
             var self = this;
             function queryLKF(){
-                return self.$axios.get(self.$url+"/data/verification/HG01XY75000/"+d)
+                return self.$axios.get(self.$url+"/data/verification/HG01XY750000/"+d)
             };
             function queryLG(){
                 return self.$axios.get(self.$url+"/data/verification/HG01XY750510/"+d)
             };
             function queryPG(){
-                return self.$axios.get(self.$url+"/data/verification/HG01XY75041/"+d)
+                return self.$axios.get(self.$url+"/data/verification/HG01XY750410/"+d)
             }
 
            self.$axios.all([queryLKF(), queryLG(),queryPG()])
@@ -406,7 +417,7 @@
                     }else{
                         self.dat.dataIoLG=lg.data.retval.bias;
                         self.dat.valueLG=lg.data.retval.valueAuto;
-                        self.dat.dataIoValueLGs=lg.data.retval.valueManual;
+                        self.dat.dataIoValueLG=lg.data.retval.valueManual;
                     }
                     if(pg.data.retval==null){
                         self.dat.dataIoPG=0;
@@ -430,6 +441,7 @@
                     benchmarking.push( obj.upperLimit==undefined?1:obj.upperLimit);
                 }
                 this.benchmark = benchmarking;
+                console.log(benchmarking)
                 /*没做异常处理，除非挂服务*/
 
             })
@@ -439,12 +451,14 @@
                     this.queryProduction_2(0);
                     this.queryProduction_3(0);
                     this.queryProduction_4(0);
+                    this.queryProduction_5(0);
                 }else{
                     this.production=res.data.retval;
                     this.queryProduction_1(this.production.cpoc==undefined?0:this.production.cpoc);
                     this.queryProduction_2(this.production.cpac==undefined?0:this.production.cpac);
                     this.queryProduction_3(this.production.ccp==undefined?0:this.production.ccp);
                     this.queryProduction_4(this.production.cpc==undefined?0:this.production.cpc);
+                    this.queryProduction_5(this.production.pcc==undefined?0:this.production.pcc);
                 }
 
 
@@ -472,7 +486,7 @@
                         startAngle: 180,
                         endAngle: 0,
                         center : ['50%', '70%'],    // 默认全局居中
-                        radius : 100,
+                        radius : 90,
                         splitNumber:1,
 
                         splitLine:{
@@ -557,7 +571,7 @@
                         startAngle: 180,
                         endAngle: 0,
                         center : ['50%', '70%'],    // 默认全局居中
-                        radius : 100,
+                        radius : 90,
                         splitNumber:1,
                         splitLine:{
                             show:false,
@@ -640,7 +654,7 @@
                         startAngle: 180,
                         endAngle: 0,
                         center : ['50%', '70%'],    // 默认全局居中
-                        radius : 100,
+                        radius : 90,
                         splitNumber:1,
                         splitLine:{
                             show:false,
@@ -723,7 +737,7 @@
                         startAngle: 180,
                         endAngle: 0,
                         center : ['50%', '70%'],    // 默认全局居中
-                        radius : 100,
+                        radius : 90,
                         splitNumber:1,
                         splitLine:{
                             show:false,
@@ -749,7 +763,7 @@
                             formatter:function(e){
                                 return "\n"+"\n"+e
                             },
-                           "distance":-5,
+                            "distance":-5,
                             textStyle:{
                                 color:"#000000"
                             },
@@ -786,6 +800,89 @@
                 ],
             });
         },
+        queryProduction_5(v){
+            let self = this;
+            let a1=[v/100, '#3B48AA'];
+            let a2=[ this.benchmark[4]/100, '#BBC3FF'];
+            if(v>this.benchmark[4]){
+                a1=[ 0, '#BBC3FF'];
+                a2=[v/100, '#3B48AA'];
+            }
+            let gu_5=echarts.init(self.$refs.gu_5);
+            gu_5.setOption({
+                tooltip : {
+                    formatter: "{a} <br/>{b} : {c}万"
+                },
+                series : [
+                    {
+                        name:'',
+                        type:'gauge',
+                        startAngle: 180,
+                        endAngle: 0,
+                        center : ['50%', '70%'],    // 默认全局居中
+                        radius : 90,
+                        splitNumber:1,
+                        splitLine:{
+                            show:false,
+                            length:10
+                        },
+                        min:0,
+                        max:100,
+                        axisLine: {
+                            show:true,
+                            // 属性lineStyle控制线条样式
+                            lineStyle: {
+                                color:[a1,a2,[1,'#E4E4E4']],
+                                width: 30
+                            }
+                        },
+                        axisTick: {            // 坐标轴小标记
+                            splitNumber: 1,   // 每份split细分多少段
+                            length :0,        // 属性length控制线长
+                        },
+
+                        axisLabel:{
+                            show:true,
+                            formatter:function(e){
+                                return "\n"+"\n"+e
+                            },
+                            "distance":-5,
+                            textStyle:{
+                                color:"#000000"
+                            },
+                        },
+                        pointer: {
+                            width:0,
+
+                        },
+                        title : {
+                            show : true,
+                            offsetCenter: [0, '-45%'],       // x, y，单位px
+                            textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                                color: '#888888',
+                                fontSize: 14
+                            }
+                        },
+                        detail : {
+                            show : true,
+                            borderWidth: 0,
+                            borderColor: '#ccc',
+                            offsetCenter: [0, '-15%'],       // x, y，单位px
+                            formatter:function(e){
+                                return e
+                            },
+                            textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                                fontSize : 20,
+                                color:'#000000'
+                            }
+                        },
+
+                        data:[{value: v, name: '对标值'+this.benchmark[4]}]
+                    },
+
+                ],
+            });
+        },
     }
     }
 </script>
@@ -797,7 +894,7 @@
   /*  .title{margin-top: 2.5rem;font-size: 2rem;height: 4rem;line-height: 4rem;}*/
     .count{background-color: #ffffff;height:10.5rem}
     .fontCenter{text-align: center;}
-    .font1{font-size: 1.8rem;color:#cbcbcb}
+    .font1{font-size: 1.8rem;color:#606266}
     .font2{font-size: 2.1rem;color:#414141}
 
     .goods{background-color: #ffffff;box-shadow: 0px 3px 0px #E5E5E5;margin-bottom: 3rem}

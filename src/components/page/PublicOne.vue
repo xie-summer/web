@@ -8,8 +8,8 @@
                            <div style="width: 7rem;float:left;height: 7rem;background-color:#01ACED">
                                <img class="user-logo" src="../../../static/img/tianshu.png" style="width: 60%;height: 60%;padding-left: 20%;padding-top:20%">
                            </div>
-                           <div class="titleCenter font">{{data.num}}</div>
                            <div class="titleCenter">预计可使用天数</div>
+                           <div class="titleCenter font">{{data.num}}</div>
                        </div>
                    </div>
                </div>
@@ -53,9 +53,9 @@
         background-color:rgb(1, 172, 237)
     }
 
-    .titleCenter{text-align: center;color: #BB4B39;font-size: 1.8rem;height: 4rem}
+    .titleCenter{text-align: center;font-size: 1.8rem;height: 3rem}
     .font{font-size: 3.6rem;height: 4rem;line-height:4rem}
     .remind{font-size: 1.6rem;height: 7rem;float: left;width: 70%;border: 1px solid #BB4B39;margin-left:15%;margin-top: 5%}
     .remindTwo{font-size: 1.6rem;height: 7rem;float: left;width: 70%;border: 1px solid #01ACED;margin-left:15%;margin-top: 1%}
-    .remindText{font-size: 1.5rem;width:55%;height:5rem;word-break:break-all;float: left;padding-left: 1.5rem;padding-top: 1rem}
+
 </style>

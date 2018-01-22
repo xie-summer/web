@@ -2,29 +2,36 @@
 
     <div>
         <div class="contents">
-            <div style="width: 15rem">
-                <el-col :span="5"style="height: 2.8rem;background-color: #01ACED;margin-top: 0.7rem"></el-col>
-                <el-col :span="1" style="height: 1px"></el-col>
-                <el-col :span="12">
-                    <el-col :span="24" style="font-size: 1.2rem;line-height: 2.6rem">{{obj.class1.name}}</el-col>
-                    <el-col :span="24"class="mediaMd">{{obj.class1.value |numToFixed}}{{obj.class1.unit}}</el-col>
+            <div class="morningWidth">
+                <el-col :span="3"class="morning"style="background-color: #01ACED;margin-top: 1.5rem"></el-col>
+                <el-col :span="19":offset="1">
+                    <el-col :span="24" class="threeFontColor"style="font-size: 1.2rem;line-height: 2.6rem">{{obj.class1.name}}</el-col>
+                    <el-col :span="24"class="mediaMd">
+                        <span class="morningSize">{{obj.class1.value |numToFixed}}</span>
+                        <span  class="secondFontColor"style="font-size: 1.2rem;">{{obj.class1.unit}}</span>
+                    </el-col>
                 </el-col>
 
             </div>
-            <div style="width: 15rem">
-                <el-col :span="5"style="height: 2.8rem;background-color: #BB4B39;margin-top: 0.7rem"></el-col>
-                <el-col :span="1" style="height: 1px"></el-col>
-                <el-col :span="12">
-                    <el-col :span="24" style="font-size: 1.2rem;line-height: 2.6rem">{{obj.class2.name}}</el-col>
-                    <el-col :span="24"class="mediaMd">{{obj.class2.value |numToFixed}}{{obj.class2.unit}}</el-col>
+            <div  class="morningWidth">
+                <el-col :span="3"class="morning"style="background-color: #BB4B39;margin-top: 1.5rem"></el-col>
+              <!--  <el-col :span="1" style="height: 1px"></el-col>-->
+                <el-col :span="19":offset="1">
+                    <el-col :span="24" class="threeFontColor"style="font-size: 1.2rem;line-height: 2.6rem">{{obj.class2.name}}</el-col>
+                    <el-col :span="24"class="mediaMd">
+                        <span class="morningSize">{{obj.class2.value |numToFixed}}</span>
+                        <span  class="secondFontColor"style="font-size: 1.2rem;">{{obj.class2.unit}}</span>
+                    </el-col>
                 </el-col>
             </div>
-            <div style="width: 15rem">
-                <el-col :span="5"style="height: 2.8rem;background-color: #3B5898;margin-top: 0.7rem"></el-col>
-                <el-col :span="1" style="height: 1px"></el-col>
-                <el-col :span="12">
-                    <el-col :span="24" style="font-size: 1.2rem;line-height: 2.6rem">{{obj.class3.name}}</el-col>
-                    <el-col :span="24"class="mediaMd">{{obj.class3.value |numToFixed}}{{obj.class3.unit}}</el-col>
+            <div  class="morningWidth">
+                <el-col :span="3"class="morning"style="background-color: #3B5898;margin-top: 1.5rem"></el-col>
+                <el-col :span="19":offset="1">
+                    <el-col :span="24" class="threeFontColor"style="font-size: 1.2rem;line-height: 2.6rem">{{obj.class3.name}}</el-col>
+                    <el-col :span="24"class="mediaMd">
+                        <span class="morningSize">{{obj.class3.value |numToFixed}}</span>
+                        <span class="secondFontColor"style="font-size: 1.2rem;">{{obj.class3.unit}}</span>
+                    </el-col>
                 </el-col>
             </div>
 
@@ -190,7 +197,7 @@
 <style scoped>
     .contents{width: 100%;
         height: 5rem;
-        justify-content:space-around;
+        justify-content:space-between;
         display: -moz-box;
         display: -webkit-box;
         display: -ms-flexbox;

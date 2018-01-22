@@ -41,41 +41,41 @@
                             <div class="inStyle">
                                 <div class="circle" style="background-color: #3b5898"></div>
                             </div>
-                            <div class="textStyle">较低</div>
-                            <div class="textStyle">0~{{unit.floor}}</div>
+                            <div class="textStyle threeFontColor">较低</div>
+                            <div class="textStyle threeFontColor">0~{{unit.floor}}</div>
                         </div>
                         <div  class="outStyle">
                             <div class="inStyle">
                                 <div class="circle"style="background-color: #00a8ec"></div>
                             </div>
-                            <div class="textStyle">正常</div>
-                            <div class="textStyle">{{unit.floor}}~{{unit.limit}}</div>
+                            <div class="textStyle threeFontColor" >正常</div>
+                            <div class="textStyle threeFontColor">{{unit.floor}}~{{unit.limit}}</div>
                         </div>
                         <div class="outStyle">
                             <div class="inStyle">
                                 <div class="circle"style="background-color: #bb4b39"></div>
                             </div>
-                            <div class="textStyle">较高</div>
-                            <div class="textStyle">{{unit.limit}}~{{unit.tool}}</div>
+                            <div class="textStyle threeFontColor">较高</div>
+                            <div class="textStyle threeFontColor">{{unit.limit}}~{{unit.tool}}</div>
                         </div>
                     </div>
                 </el-col>
             </el-col>
         </div>
-        <div style="box-shadow: 0px 3px 0px #E5E5E5;;min-width: 1019px;">
+        <div style="box-shadow: 0px 3px 0px #E5E5E5;;min-width: 1019px; margin-top: 3rem;">
             <el-row class="bigTitle gauge stairFontColor">当日入库量</el-row>
             <v-table ref="putTableOne" @handleCurrentChange="toShow" :table-name="putTableName":output-table="putTableData":outputData="putData":type="put"></v-table>
         </div>
-        <div style="box-shadow: 0px 3px 0px #E5E5E5;;min-width: 1019px;">
+        <div style="box-shadow: 0px 3px 0px #E5E5E5;;min-width: 1019px;    margin-top: 3rem;">
             <el-row class="bigTitle gauge stairFontColor">当日出库量</el-row>
             <v-table ref="putTableTwo" @handleCurrentChange="toShow" :table-name="outTableName":output-table="outTableData":outputData="outData":type="out"></v-table>
         </div>
         <div  style="display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%;margin-top: 3rem;box-shadow: 0px 3px 0px #E5E5E5;;min-width: 1019px;background-color: #ffffff">
             <el-col :span="24"  class="solidTitle stairFontColor">实时下线(按小时)</el-col>
-            <el-col :span="14" >
+            <el-col :lg="18" >
                 <v-line :child-msg="obj" ref="chartLine"></v-line>
             </el-col>
-            <el-col :span="8" :offset="2" >
+            <el-col :lg="6"  >
                 <v-accurate :curNum="0" :curNumber="curNumber"></v-accurate>
             </el-col>
         </div>
@@ -116,13 +116,13 @@
                 title:'库存状态',
                 perData:{"value":0,"status":"success"},
                 obj:{
-                    "date":['8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','1','2','3','4','5','6','7'],
+                    "date":['9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','1','2','3','4','5','6','7','8'],
                     "data1":[],
                     "data2":[],
                     "data3":[],
-                    "class1":{"name":"早班产量","value":""},
-                    "class2":{"name":"中班产量","value":""},
-                    "class3":{"name":"晚班产量","value":""}
+                    "class1":{"name":"早班产量","value":"",unit:""},
+                    "class2":{"name":"中班产量","value":"",unit:""},
+                    "class3":{"name":"晚班产量","value":"",unit:""}
                 },
                 curNumber:{
                     "text1":"月累积产量",
@@ -148,8 +148,8 @@
                     {label:"入库部门",name:"inOutCompany"}],
                 outTableData:[],
                 putTableData:[],
-                outData:{data:0,time:"00:00:00"},
-                putData:{data:0,time:"00:00:00"},
+                outData:{data:0,data1:0,data2:0,time:"00:00:00"},
+                putData:{data:0,data1:0,data2:0,time:"00:00:00"},
                 unit:{"units":"吨","units2":"",wid:32,hig:21,radius:120,dist:-40,value:0,limit:0,floor:0,tool:20000},
                 publicOneData:{"num":"", "remindtext":"磷钙库存值较低","bool":false},
 
@@ -261,7 +261,7 @@
                                 value2.push(v);
                             }
                         });
-                    let arr=["","","","","","","",0];
+                    let arr=["","","","","","","",value1[value1.length-1]];
                     value2.unshift.apply(value2,arr);
                 }else if(data.length>=16){
                     value.find(function( v,index){
@@ -276,9 +276,9 @@
                             value3.push(v);
                         }
                     });
-                    let arr=["","","","","","","",0];
+                    let arr=["","","","","","","",value1[value1.length-1]]
                     value2.unshift.apply(value2,arr);
-                    let arr2=["","","","","","","","","","","","","","","",0];
+                    let arr2=["","","","","","","","","","","","","","","",value2[value2.length-1]];
                     value3.unshift.apply(value3,arr2);
 
                 }
@@ -289,7 +289,7 @@
                     this.obj.class2.value=sum2;
                     this.obj.class3.value=sum3;
                 if(id=="HG01XY750510"){this.obj.class1.unit="吨";this.obj.class2.unit="吨";this.obj.class3.unit="吨";}else{
-                    this.obj.class1.unit="吨";this.obj.class2.unit="吨";this.obj.class3.unit="吨";
+                    this.obj.class1.unit="吨";
                 }
                     this.$refs.chartLine.createChartOne(this.obj);
                 });
@@ -300,13 +300,15 @@
             let _url = self.$url+"/data/verification/thismonthbios/"+id+"/"+date.formatDate();
             let _url_1 = self.$url+"/data/verification/thismonthbios/"+id+"/"+date.formatDate(1);
             self.$axios.get(_url).then((res)=>{
-
+                    console.log(res.data.retval)
                 if (res.data.retval!=null) {
                     this.curNumber.deviation1=res.data.retval.bias;
                     this.curNumber.value1=res.data.retval.valueAuto;
                     this.curNumber.value2=res.data.retval.valueManual;
                 } else {
-                    return 0;
+                    this.curNumber.deviation1=0;
+                    this.curNumber.value1=0;
+                    this.curNumber.value2=0;
                 }
 
 
@@ -317,7 +319,9 @@
                     this.curNumber.value3=res.data.retval.valueAuto;
                     this.curNumber.value4=res.data.retval.valueManual;
                 } else {
-                    return 0
+                    this.curNumber.deviation2=0;
+                    this.curNumber.value3=0;
+                    this.curNumber.value4=0;
                 }
 
 
@@ -387,27 +391,60 @@
             self.$axios.get(_url).then((res)=>{
                 let list = res.data.retval.list;
                 if(list==null||list==undefined||list.length==0){
+                    if(code=="HG01XY750410"){
                         if(type==1){
                             this.putTableData=[];
                             this.putData.data=0;
+                            this.putData.data1="";
+                            this.putData.data2="";
+                            this.putData.time="00:00:00";
+                            console.log(this.putData);
+                            self.$refs.putTableOne.getData(  this.putTableData,this.putTableName,0,this.putData);
+                        }
+                        if(type==0){
+                            this.outTableData=[];
+                            this.outData.data=0;
+                            this.outData.data1="";
+                            this.outData.data2="";
+                            this.outData.time="00:00:00";
+                            self.$refs.putTableTwo.getData(  this.outTableData,this.outTableName,0,this.outData);
+                        }
+                    }else{
+                        if(type==1){
+                            this.putTableData=[];
+                            this.putData.data=0;
+                            this.putData.data1="50KG入库量："+0+"吨";
+                            this.putData.data2="吨包入库量："+0+"吨";
                             this.putData.time="00:00:00";
                             self.$refs.putTableOne.getData(  this.putTableData,this.putTableName,0,this.putData);
                         }
-                    if(type==0){
-                        this.outTableData=[];
-                        this.outData.data=0;
-                        this.outData.time="00:00:00";
-                        self.$refs.putTableTwo.getData(  this.outTableData,this.outTableName,0,this.outData);
+                        if(type==0){
+                            this.outTableData=[];
+                            this.outData.data=0;
+                            this.outData.data1="50KG出库量："+0+"吨";
+                            this.outData.data2="吨包出库量："+0+"吨";
+                            this.outData.time="00:00:00";
+                            self.$refs.putTableTwo.getData(  this.outTableData,this.outTableName,0,this.outData);
+                        }
                     }
+
                 }else{
                     self.$axios.get(_url1).then((res)=>{
                         let sumData = res.data.retval;
                         if(sumData==null||sumData==undefined){
 
                         }else{
-                            if(type==1){this.putData.data=sumData.value;this.putData.time=new Date(sumData.utime).format("hh:mm:ss")}
-                            if(type==0){this.outData.data=sumData.value;this.outData.time=new Date(sumData.utime).format("hh:mm:ss")}
-                        }
+                            console.log(code)
+                            if(code=="HG01XY750410"){
+
+                                if(type==1){this.putData.data=sumData.summary;this.putData.time=new Date(sumData.utime).format("hh:mm:ss")}
+                                if(type==0){this.outData.data=sumData.summary;this.outData.time=new Date(sumData.utime).format("hh:mm:ss")}
+
+                            }else{
+                                if(type==1){this.putData.data=sumData.summary;this.putData.data1="50KG入库量："+sumData.summary50kg+"吨";this.putData.data2="吨包入库量："+sumData.summary1000kg+"吨";this.putData.time=new Date(sumData.utime).format("hh:mm:ss")}
+                                if(type==0){this.outData.data=sumData.summary;this.outData.data1="50KG出库量："+sumData.summary50kg+"吨";this.outData.data2="吨包出库量："+sumData.summary1000kg+"吨";this.outData.time=new Date(sumData.utime).format("hh:mm:ss")}
+                            }
+                          }
                     })
                     for(let obj of list){
                         obj.inOutTime = new Date(obj.inOutTime).format("hh:mm:ss")

@@ -62,8 +62,8 @@
                                 show:true,
                                 formatter:function(e){
                                     if(e==0){ return "\n"+"\n"+e+ls.units2;}
-                                    if(e==ls.limit) {return e+ls.units2+"\n"+"\n"};
-                                    if(e==ls.floor) {return e+ls.units2+"\n"+"\n";}
+                                    if(e==ls.limit) {return e+ls.units2};
+                                    if(e==ls.floor) {return e+ls.units2;}
                                     if(e==ls.tool) return "\n"+"\n"+e+ls.units2;
                                 },
                             "distance": ls.dist,
@@ -93,7 +93,7 @@
                                 return e+ls.units
                             },
                             textStyle: {
-                                fontSize : 20,
+                                fontSize : 25,
                             }
                         },
 

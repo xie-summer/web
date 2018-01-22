@@ -28,71 +28,296 @@
 
         },
         /*创建图表一*/
-       initPie(sr,ar,name,tool){
+       initPie(sr,dataValue,strValue,tool){
             if(tool==0){
                 this.isShow=false
             }else{
-                this.isShow=true;
-                var listName = name;
-                var dataList=[];
-                var x=155,y=175;
-                for(let i=0;i<sr.length;i++){
-                    let item={
-                        name: '', type: 'pie', clockWise: false, hoverAnimation: false,
-                        radius: [0, 0], itemStyle:{ normal: {label: {show: false,  position : 'inner'}, labelLine: {show: false}}}, data: getData(0.4)
-                    };
-                    item.name=listName[i];
-                    item.radius=[x,y];
-                    item.data=getData(sr[i]);
-                    dataList.push(item);
-                    x=x-25;
-                    y=y-25;
-                }
-                function getData(percent) {
-                    return [{
-                        value: percent,
-                        name: percent,
-                        itemStyle: {
-                            normal: {
-                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                                    offset: 0,
-                                    color: '#00B2EE'
-                                }, {
-                                    offset: 1,
-                                    color: '#00DDE6'
-                                }])
-                            }
-                        }
-                    }, {
-                        value: 1 - percent,
-                        itemStyle: {
-                            normal: {
-                                color: 'transparent'
-                            }
-                        }
-                    }];
-                }
+                this.isShow=true
+
+                console.log(this.$refs.chartstr);
                 let chartstr=echarts.init(this.$refs.chartstr);
+                var txFs = 12;
+                var value_1_4 = 100000;
+                var value_3_4 = 400000;
+                var dataStyle = {
+                    normal: {
+                        label: {
+                            show: false
+                        },
+                        labelLine: {
+                            show: false
+                        }
+                    }
+                };
+                var placeHolderStyle = {
+                    normal: {
+                        color: 'rgba(0,0,0,0)',
+                        label: {
+                            show: false
+                        },
+                        labelLine: {
+                            show: false
+                        }
+                    },
+                    emphasis: {
+                        color: 'rgba(0,0,0,0)'
+                    }
+                };
+                var grayHolderStyle = {
+                    normal: {
+                        color: '#EEEEEE',
+                        label: {
+                            show: false
+                        },
+                        labelLine: {
+                            show: false
+                        }
+                    },
+                    emphasis: {
+                        color: '#EEEEEE'
+                    }
+                };
                 chartstr.setOption({
                     tooltip: {
-                        trigger: 'item',
-                        formatter: function(params, ticket, callback) {
-                            return params.seriesName + ": " + params.value*tool ;
-                        }
+                        show: false,
+                        formatter: "{a} <br/>{b} : {c} ({d}%)"
                     },
                     legend: {
-                        left: "50%",
-                        itemWidth:0,
-                        itemHeight: 15,
-                        data: listName,
-                        selectedMode: true,
-                        orient: "vertical",
-
+                        selectedMode: false,
+                        orient: 'vertical',
+                        x: '52%',
+                        y: 50,
+                        itemGap: 9,
+                        itemWidth: 8,
+                        itemHeight: 8,
+                        data: [{
+                            name: strValue[0] + ': ' + dataValue[0],
+                            icon: 'rect',
+                        }, {
+                            name: strValue[1] + ': ' + dataValue[1],
+                            icon: 'rect',
+                        }, {
+                            name: strValue[2] + ': ' + dataValue[2],
+                            icon: 'rect',
+                        }, {
+                            name: strValue[3] + ': ' + dataValue[3],
+                            icon: 'rect',
+                        }, {
+                            name: strValue[4] + ': ' + dataValue[4],
+                            icon: 'rect',
+                        }],
+                        textStyle: {
+                            fontSize: txFs,
+                        }
                     },
-                    series: dataList
+                    toolbox: {
+                        show: false,
+                        feature: {
+                            mark: {
+                                show: true
+                            },
+                            dataView: {
+                                show: true,
+                                readOnly: false
+                            },
+                            restore: {
+                                show: true
+                            },
+                            saveAsImage: {
+                                show: true
+                            }
+                        }
+                    },
+                    color: ['#37A3FD'],
+                    series: [{
+                        name: '1',
+                        type: 'pie',
+                        clockWise: false,
+                        radius: [112, 120],
+                        itemStyle: dataStyle,
+                        data: [{
+                            value: dataValue[0],
+                            name: strValue[0] + ': ' + dataValue[0]
+                        },
+                            {
+                                value: value_3_4 - parseInt(dataValue[0]),
+                                name: '',
+                                itemStyle: grayHolderStyle
+                            },
+                            {
+                                value: value_1_4,
+                                name: 'invisible',
+                                itemStyle: placeHolderStyle
+                            }
+                        ]
+                    },
+                        {
+                            name: '',
+                            type: 'pie',
+                            clockWise: false,
+                            radius: [100, 112],
+                            itemStyle: dataStyle,
+                            data: [{
+                                value: 0,
+                                name: ''
+                            },
+                                {
+                                    value: 100,
+                                    name: 'invisible',
+                                    itemStyle: placeHolderStyle
+                                }
+                            ]
+                        },
+                        {
+                            name: '2',
+                            type: 'pie',
+                            clockWise: false,
+                            radius: [92, 100],
+                            itemStyle: dataStyle,
+                            data: [{
+                                value: dataValue[1],
+                                name: strValue[1] + ': ' + dataValue[1]
+                            },
+                                {
+                                    value: value_3_4 - parseInt(dataValue[1]),
+                                    name: '',
+                                    itemStyle: grayHolderStyle
+                                },
+                                {
+                                    value: value_1_4,
+                                    name: 'invisible',
+                                    itemStyle: placeHolderStyle
+                                }
+                            ]
+                        },
+                        {
+                            name: '',
+                            type: 'pie',
+                            clockWise: false,
+                            radius: [80, 92],
+                            itemStyle: dataStyle,
+                            data: [{
+                                value: 0,
+                                name: ''
+                            },
+                                {
+                                    value: 100,
+                                    name: 'invisible',
+                                    itemStyle: placeHolderStyle
+                                }
+                            ]
+                        },
+                        {
+                            name: '3',
+                            type: 'pie',
+                            clockWise: false,
+                            radius: [72, 80],
+                            itemStyle: dataStyle,
+                            data: [{
+                                value: dataValue[2],
+                                name: strValue[2] + ': ' + dataValue[2]
+                            },
+                                {
+                                    value: value_3_4 - parseInt(dataValue[2]),
+                                    name: '',
+                                    itemStyle: grayHolderStyle
+                                },
+                                {
+                                    value: value_1_4,
+                                    name: 'invisible',
+                                    itemStyle: placeHolderStyle
+                                }
+                            ]
+                        },
+                        {
+                            name: '',
+                            type: 'pie',
+                            clockWise: false,
+                            radius: [60, 72],
+                            itemStyle: dataStyle,
+                            data: [{
+                                value: 0,
+                                name: ''
+                            },
+                                {
+                                    value: 100,
+                                    name: 'invisible',
+                                    itemStyle: placeHolderStyle
+                                }
+                            ]
+                        },
+                        {
+                            name: '4',
+                            type: 'pie',
+                            clockWise: false,
+                            radius: [52, 60],
+                            itemStyle: dataStyle,
+                            data: [{
+                                value: dataValue[3],
+                                name: strValue[3] + ': ' + dataValue[3]
+                            },
+                                {
+                                    value: value_3_4 - parseInt(dataValue[3]),
+                                    name: '',
+                                    itemStyle: grayHolderStyle
+                                },
+                                {
+                                    value: value_1_4,
+                                    name: 'invisible',
+                                    itemStyle: placeHolderStyle
+                                }
+                            ]
+                        },
+                        {
+                            name: '',
+                            type: 'pie',
+                            clockWise: false,
+                            radius: [40, 52],
+                            itemStyle: dataStyle,
+                            data: [{
+                                value: 0,
+                                name: ''
+                            },
+                                {
+                                    value: 100,
+                                    name: 'invisible',
+                                    itemStyle: placeHolderStyle
+                                }
+                            ]
+                        },
+                        {
+                            name: '5',
+                            type: 'pie',
+                            clockWise: false,
+                            radius: [32, 40],
+                            itemStyle: dataStyle,
+                            data: [{
+                                value: dataValue[4],
+                                name: strValue[4] + ': ' + dataValue[4]
+                            },
+                                {
+                                    value: value_3_4 - parseInt(dataValue[4]),
+                                    name: '',
+                                    itemStyle: grayHolderStyle
+                                },
+                                {
+                                    value: value_1_4,
+                                    name: 'invisible',
+                                    itemStyle: placeHolderStyle
+                                }
+                            ]
+                        }
+                    ]
                 })
             }
 
+        },
+        isBool(v){
+            if(v==true){
+                this.isShow=true;
+            }else{
+                this.isShow=false;
+            }
         }
     },
     mounted(){

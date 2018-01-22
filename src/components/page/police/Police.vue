@@ -54,7 +54,17 @@
 
         <el-row class="pTable putTitle police">
             <el-col :span="24" style="box-shadow: 0px 3px 0px #E5E5E5;background-color: #ffffff;">
-                <el-table :data="tableData" border style="width: 100%;" ref="multipleTable" stripe >
+                <el-table
+                    :data="tableData"
+                    border style="
+                    width: 100%;"
+                    ref="multipleTable"
+                    stripe
+                    v-loading="loading"
+                    element-loading-text="拼命加载中"
+                    element-loading-spinner="el-icon-loading"
+                    element-loading-background="rgba(173,216,230, 0.2)"
+                    >
                     <el-table-column  label="报警状态" align="center" prop="statusName" width="80">
                         <template slot-scope="scope" >
                             <el-button type="button"v-if="scope.row.statusName=='已解除'" @click.prevent="handleEdit(scope.$index, scope.row)" >已解除</el-button>
@@ -93,7 +103,7 @@
         <el-dialog title="问题反馈表" :visible.sync="dialogFormVisible"width="30%">
             <el-form ref="form" :model="form" label-width="80px">
                 <el-form-item label="内容">
-                    <el-input type="textarea" v-model="form.desc" :rows=10 :maxlength=1000 @input="descInput" placeholder="请输入内容"></el-input>
+                    <el-input type="textarea" v-model="form.desc" :rows=10 :maxlength=1000 @input="descInput" placeholder="相应负责人对情况简要说明..."></el-input>
                     <span>{{form.remnant}}/1000</span>
                 </el-form-item>
             </el-form>
@@ -143,6 +153,7 @@
             formLabelWidth: '120px',
             name:"",
             info:{},
+            loading:true,
             pickerOptions: {
                 disabledDate(time) {
                 return time.getTime() > Date.now();
@@ -181,6 +192,7 @@
                 },
                 /*查询数据*/
                 queryData(date1,date2,page,size,suatus,name){
+                        this.loading=true;
                         if(name==""){}else{name="/"+name}
                         let self = this;
                         let _url = "http://192.168.1.106:5000/riskapi/getrisklist/"+date1+"/"+date2+"/"+page+"/"+size+"/"+suatus+name;
@@ -189,14 +201,18 @@
                             this.totalCount=res.data.retval.total;
                             if(data==null){
                                 this.tableData=[];
+                                this.loading=false;
                             }else{
                                 for(let i of data){
                                     i.ctime =  new Date(i.ctime).format("YYYY-MM-dd");
                                     i.utime = i.utime==null?"":new Date( i.utime).format("YYYY-MM-dd");
                                 }
                                 this.tableData=data;
+                                this.loading=false;
                             }
-                        })
+                        }).catch((e)=>{
+                        this.loading=false;
+                })
                     },
                 /*select选择*/
                 handlerChange1(value){
@@ -239,9 +255,10 @@
                 },
                 /*提交输入内容*/
                 setContent(formValue){
+                console.log("11111111111")
                     let self = this;
                     let _url = "http://192.168.1.106:5000/riskapi/finishbymanual"
-                    let obj={Responsiblecontent:"",Responsiblename:"",id:""};
+                    let obj={responsiblecontent:"",responsiblename:"",id:""};
                     obj.responsiblecontent=formValue.desc;
                     obj.responsiblename=this.info.receiverName;
                     obj.id=this.info.id;
@@ -253,6 +270,7 @@
                             type: 'success',
                             message: '提交成功'
                         });
+                        this.queryData(this.valueDate[0],this.valueDate[1],this.cur_page,this.pagesize,this.status,this.name);
                     }else{
                         this.$message({
                             type: 'warning',
@@ -300,5 +318,5 @@
     .pTable .el-table .cell{padding-right: 0}
     .pTable .el-table--border td:first-child .cell{padding-left: 0;}
     .police .el-table .cell{  line-height: 36px;  }
-    .putTitle .el-table__header-wrapper thead div {  color:rgb(255, 255, 255);  background-color:rgb(1, 172, 237)  }
+    .pTable .el-table__header-wrapper thead div {  color:rgb(255, 255, 255);  background-color:rgb(1, 172, 237)  }
 </style>

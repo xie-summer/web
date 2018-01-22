@@ -157,9 +157,22 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill { -we
 .el-table__row,.el-table__row--striped {background-color: #eff3f8!important}
 .el-table th{padding: 0}
 
-.mUpDateTime{font-size: 1.5rem;height: 3rem;line-height: 7rem}
+.mUpDateTime{font-size: 1.5rem;height: 3rem;line-height: 3rem;text-align: center}
 .mediaMd{font-size: 1.6rem;line-height: 1rem}
+.mUpData{font-size: 2.2rem;height: 14rem;line-height: 22rem;text-align: center}
+.mUpData1{height: 5rem;  line-height: 5rem;  font-size: 1.4rem;text-align: center}
+.morning{height: 2rem;}
+.morningWidth{width: 17rem}
+.morningSize{font-size: 3rem;text-align: center}
+/*原料库*/
+.remindText{font-size: 1.5rem;width:77%;height:5rem;word-break:break-all;float: left;padding-left: 1.5rem;padding-top: 2rem;text-align: center}
 @media screen and (max-width: 1368px){
-    .mUpDateTime{font-size: 1.2rem;height: 2rem;line-height: 11rem}
-    .mediaMd{font-size: 1.3rem;line-height: 1rem}
+    .mUpDateTime{font-size: 1.2rem;height: 2rem;line-height: 10rem}
+    .mediaMd{font-size: 1.2rem;line-height: 1rem}
+    .mUpData{font-size: 2rem;height: 13rem;line-height: 19rem}
+    .mUpData1{height: 3rem;  line-height: 1rem;  font-size: 1.4rem;text-align: center}
+    .morning{height: 1.4rem;}
+    .morningWidth{width: 12rem}
+    .morningSize{font-size: 2rem;text-align: center}
+    .remindText{font-size: 1.5rem;width:60%;height:5rem;word-break:break-all;float: left;padding-left: 1.5rem;padding-top: 2rem;text-align: center}
 }
