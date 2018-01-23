@@ -300,7 +300,7 @@
             let _url = self.$url+"/data/verification/thismonthbios/"+id+"/"+date.formatDate();
             let _url_1 = self.$url+"/data/verification/thismonthbios/"+id+"/"+date.formatDate(1);
             self.$axios.get(_url).then((res)=>{
-                    console.log(res.data.retval)
+
                 if (res.data.retval!=null) {
                     this.curNumber.deviation1=res.data.retval.bias;
                     this.curNumber.value1=res.data.retval.valueAuto;
@@ -398,7 +398,6 @@
                             this.putData.data1="";
                             this.putData.data2="";
                             this.putData.time="00:00:00";
-                            console.log(this.putData);
                             self.$refs.putTableOne.getData(  this.putTableData,this.putTableName,0,this.putData);
                         }
                         if(type==0){
@@ -434,7 +433,6 @@
                         if(sumData==null||sumData==undefined){
 
                         }else{
-                            console.log(code)
                             if(code=="HG01XY750410"){
 
                                 if(type==1){this.putData.data=sumData.summary;this.putData.time=new Date(sumData.utime).format("hh:mm:ss")}

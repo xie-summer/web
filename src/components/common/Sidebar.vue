@@ -91,7 +91,7 @@
 
 
                     {
-                        icon: 'el-icon-star-off',
+                        icon: 'el-icon-bell',
                         index: 'police',
                         title: '报警状态一览'
                     },

@@ -1,12 +1,11 @@
 <template>
-    <div class="table">
+    <div class="tableNew">
         <el-table
             class="putTable"
             :data="tableData"
             ref="mulTable"
             border
             style="width: 100%;"
-            height=286
             stripe
             v-loading="loading"
             element-loading-text="拼命加载中"
@@ -34,7 +33,7 @@
         data(){
             return{
                 tableData:[],
-                pagesize:5,
+                pagesize:10,
                 currentPage:1,
                 totalCount:0,
                 item:[],
@@ -65,7 +64,6 @@
 </script>
 <style>
  /* .table .el-table thead{color: #00A8EC}*/
-    .el-table td{height: 36px}
   .table .el-table__header-wrapper thead div {
       color:rgb(255, 255, 255);
       background-color:rgb(1, 172, 237)

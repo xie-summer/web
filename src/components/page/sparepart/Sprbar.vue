@@ -1,9 +1,9 @@
 <template>
     <el-row>
         <el-col :span="24" v-if="isShow">
-            <div class="chartBar" ref="chartBar" style="height: 30rem"></div>
+            <div class="chartBar chartPsHeight" ref="chartBar" ></div>
         </el-col>
-        <el-col :span="24" v-else class="imgCenter" style="height: 30rem;padding-top: 5rem">
+        <el-col :span="24" v-else class="imgCenter" style="padding-top: 5rem">
             <img src="../../../../static/img/wushuju.png"/>
         </el-col>
     </el-row>
@@ -37,7 +37,11 @@
                         trigger: 'axis',
                         axisPointer: {
                             type: 'shadow'
+                        },
+                        formatter:function(e){
+                           return e[0].name+"："+e[0].value+"元"
                         }
+
                     },
                     legend: {
                         data: []

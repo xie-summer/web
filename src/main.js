@@ -27,7 +27,7 @@ Object.keys(numberFilter).forEach(key => {
 axios.defaults.withCredentials = true;
 /*axios.defaults.headers['Content-Type']="application/json"
 axios.defaults.headers.common['Authorization'] = "Basic dXNlcjp1c2Vy";*/
-let u1 = "http://test.neweplatform.com:9000";
+let u1 = "http://192.168.1.106:9000";
 let u2="http://panoramic.neweplatform.com:60002/manage"
 Vue.prototype.$axios = axios;
 Vue.prototype.$url=u1;
@@ -100,6 +100,16 @@ Date.prototype.format = function(format,n,p) {
         var d = dd.getDate();
         if(d<10){d="0"+d}
         return y+"-"+m+"-"+d;
+    },
+    Array.prototype.max = function() {
+        var max = this[0];
+        var len = this.length;
+        for (var i = 1; i < len; i++){
+            if (this[i] > max) {
+                max = this[i];
+            }
+        }
+        return max;
     }
 let routers = new VueRouter({
     routes: [{

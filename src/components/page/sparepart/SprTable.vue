@@ -1,5 +1,5 @@
 <template>
-    <div class="table">
+    <div class="tableNew">
 
         <el-table
             :data="tableDatas"
@@ -9,7 +9,6 @@
             size="mini"
             :border="zreo"
             :strip="zreo"
-            height="405"
             :stripe="ys"
             v-loading="loading"
             element-loading-text="拼命加载中"
@@ -56,10 +55,10 @@
 </script>
 
 <style >
-  .table .el-table__header-wrapper thead div {
+  .tableNew .el-table__header-wrapper thead div {
         color:rgb(255, 255, 255);
         background-color:rgb(1, 172, 237)
     }
   /* .table .el-table thead{color: #00A8EC}*/
-    .el-table td{height: 36px}
+
 </style>

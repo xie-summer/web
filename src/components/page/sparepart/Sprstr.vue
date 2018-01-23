@@ -1,9 +1,9 @@
 <template>
     <el-row>
         <el-col :span="24" v-if="isShow">
-            <div class="chartStr" ref="chartstr" style="height: 30rem"></div>
+            <div class="chartStr chartPsHeight" ref="chartstr" ></div>
         </el-col>
-        <el-col :span="24" v-else class="imgCenter" style="height: 30rem;padding-top: 5rem">
+        <el-col :span="24" v-else class="imgCenter" style="padding-top: 5rem">
             <img src="../../../../static/img/wushuju.png"/>
         </el-col>
     </el-row>
@@ -28,17 +28,16 @@
 
         },
         /*创建图表一*/
-       initPie(sr,dataValue,strValue,tool){
+       initPie(sr,dataValue,strValue,unitData,tool){
+            console.log(unitData)
             if(tool==0){
                 this.isShow=false
             }else{
                 this.isShow=true
-
-                console.log(this.$refs.chartstr);
                 let chartstr=echarts.init(this.$refs.chartstr);
                 var txFs = 12;
-                var value_1_4 = 100000;
-                var value_3_4 = 400000;
+                var value_1_4 = Math.ceil(dataValue.max()/3*4);
+                var value_3_4 = dataValue.max()*4;
                 var dataStyle = {
                     normal: {
                         label: {
@@ -86,24 +85,24 @@
                         selectedMode: false,
                         orient: 'vertical',
                         x: '52%',
-                        y: 50,
-                        itemGap: 9,
+                        y: 34,
+                        itemGap: 8,
                         itemWidth: 8,
                         itemHeight: 8,
                         data: [{
-                            name: strValue[0] + ': ' + dataValue[0],
+                            name: strValue[0] + ': ' + dataValue[0]+unitData[0],
                             icon: 'rect',
                         }, {
-                            name: strValue[1] + ': ' + dataValue[1],
+                            name: strValue[1] + ': ' + dataValue[1]+unitData[1],
                             icon: 'rect',
                         }, {
-                            name: strValue[2] + ': ' + dataValue[2],
+                            name: strValue[2] + ': ' + dataValue[2]+unitData[2],
                             icon: 'rect',
                         }, {
-                            name: strValue[3] + ': ' + dataValue[3],
+                            name: strValue[3] + ': ' + dataValue[3]+unitData[3],
                             icon: 'rect',
                         }, {
-                            name: strValue[4] + ': ' + dataValue[4],
+                            name: strValue[4] + ': ' + dataValue[4]+unitData[4],
                             icon: 'rect',
                         }],
                         textStyle: {
@@ -137,7 +136,7 @@
                         itemStyle: dataStyle,
                         data: [{
                             value: dataValue[0],
-                            name: strValue[0] + ': ' + dataValue[0]
+                            name: strValue[0] + ': ' + dataValue[0]+unitData[0]
                         },
                             {
                                 value: value_3_4 - parseInt(dataValue[0]),
@@ -176,7 +175,7 @@
                             itemStyle: dataStyle,
                             data: [{
                                 value: dataValue[1],
-                                name: strValue[1] + ': ' + dataValue[1]
+                                name: strValue[1] + ': ' + dataValue[1]+unitData[1]
                             },
                                 {
                                     value: value_3_4 - parseInt(dataValue[1]),
@@ -215,7 +214,7 @@
                             itemStyle: dataStyle,
                             data: [{
                                 value: dataValue[2],
-                                name: strValue[2] + ': ' + dataValue[2]
+                                name: strValue[2] + ': ' + dataValue[2]+unitData[2]
                             },
                                 {
                                     value: value_3_4 - parseInt(dataValue[2]),
@@ -254,7 +253,7 @@
                             itemStyle: dataStyle,
                             data: [{
                                 value: dataValue[3],
-                                name: strValue[3] + ': ' + dataValue[3]
+                                name: strValue[3] + ': ' + dataValue[3]+unitData[3]
                             },
                                 {
                                     value: value_3_4 - parseInt(dataValue[3]),
@@ -293,7 +292,7 @@
                             itemStyle: dataStyle,
                             data: [{
                                 value: dataValue[4],
-                                name: strValue[4] + ': ' + dataValue[4]
+                                name: strValue[4] + ': ' + dataValue[4]+unitData[4]
                             },
                                 {
                                     value: value_3_4 - parseInt(dataValue[4]),
@@ -324,7 +323,8 @@
         let ar=[];
         let sr=[]
         let name=[]
-        this.initPie(sr,ar,name);
+        let unit=[]
+        this.initPie(sr,ar,name,unit);
 
     },
 

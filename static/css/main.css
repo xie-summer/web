@@ -165,7 +165,11 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill { -we
 .morningWidth{width: 17rem}
 .morningSize{font-size: 3rem;text-align: center}
 /*原料库*/
+/*抽取css*/
+.chartPsHeight{height: 27rem}
 .remindText{font-size: 1.5rem;width:77%;height:5rem;word-break:break-all;float: left;padding-left: 1.5rem;padding-top: 2rem;text-align: center}
+.tableNew  .el-table td{height: 36px;padding: 0}
+.tableNew .el-table__body-wrapper{height: 30rem !important;}
 @media screen and (max-width: 1368px){
     .mUpDateTime{font-size: 1.2rem;height: 2rem;line-height: 10rem}
     .mediaMd{font-size: 1.2rem;line-height: 1rem}
@@ -175,4 +179,11 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill { -we
     .morningWidth{width: 12rem}
     .morningSize{font-size: 2rem;text-align: center}
     .remindText{font-size: 1.5rem;width:60%;height:5rem;word-break:break-all;float: left;padding-left: 1.5rem;padding-top: 2rem;text-align: center}
+
+/*ui库样式*/
+    .tableNew  .el-table td{height: 28px}
+    .tableNew .el-table td {padding: 0}
+    .tableNew .el-table__body{height:23.3rem !important;}
+    .tableNew .el-table__body-wrapper{height: 23.3rem !important;}
+
 }

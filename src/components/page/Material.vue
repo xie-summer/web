@@ -232,7 +232,6 @@
                         _url
                 ).then((res) => {
                     let data=res.data.retval;
-                console.log(data)
                 if(data==null||data==undefined) {
                     this.obj= {
                         "date": ['9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '1', '2', '3', '4', '5', '6', '7', '8'],
@@ -380,7 +379,6 @@
             let self = this;
             let _url= self.$url+"/material/threshold/configuration/stock/"+id;
             self.$axios.get(_url).then((res)=>{
-            console.log(res.data.retval)
                 this.unit.limit=res.data.retval.upperLimit;
                 this.unit.floor=res.data.retval.lowerLimit;
                 self.$refs.chartGauge.createChartOne(this.unit);

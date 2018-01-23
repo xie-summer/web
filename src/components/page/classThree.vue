@@ -7,7 +7,7 @@
                 <el-col :span="19":offset="1">
                     <el-col :span="24" class="threeFontColor"style="font-size: 1.2rem;line-height: 2.6rem">{{obj.class1.name}}</el-col>
                     <el-col :span="24"class="mediaMd">
-                        <span class="morningSize">{{obj.class1.value |numToFixed}}</span>
+                        <span class="morningSize">{{obj.class1.value }}</span>
                         <span  class="secondFontColor"style="font-size: 1.2rem;">{{obj.class1.unit}}</span>
                     </el-col>
                 </el-col>
@@ -19,7 +19,7 @@
                 <el-col :span="19":offset="1">
                     <el-col :span="24" class="threeFontColor"style="font-size: 1.2rem;line-height: 2.6rem">{{obj.class2.name}}</el-col>
                     <el-col :span="24"class="mediaMd">
-                        <span class="morningSize">{{obj.class2.value |numToFixed}}</span>
+                        <span class="morningSize">{{obj.class2.value }}</span>
                         <span  class="secondFontColor"style="font-size: 1.2rem;">{{obj.class2.unit}}</span>
                     </el-col>
                 </el-col>
@@ -29,7 +29,7 @@
                 <el-col :span="19":offset="1">
                     <el-col :span="24" class="threeFontColor"style="font-size: 1.2rem;line-height: 2.6rem">{{obj.class3.name}}</el-col>
                     <el-col :span="24"class="mediaMd">
-                        <span class="morningSize">{{obj.class3.value |numToFixed}}</span>
+                        <span class="morningSize">{{obj.class3.value}}</span>
                         <span class="secondFontColor"style="font-size: 1.2rem;">{{obj.class3.unit}}</span>
                     </el-col>
                 </el-col>

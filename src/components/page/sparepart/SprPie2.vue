@@ -7,9 +7,9 @@
             </div>
         </el-col>
         <el-col :span="16" v-if="out">
-            <div class="chartPs2" ref="chartPs2" style="height: 30rem"></div>
+            <div class="chartPs2 chartPsHeight" ref="chartPs2" ></div>
         </el-col>
-        <el-col :span="16" v-else class="imgCenter" style="height: 30rem;padding-top: 5rem">
+        <el-col :span="16" v-else class="imgCenter " style="padding-top: 5rem">
             <img src="../../../../static/img/wushuju.png"/>
         </el-col>
     </el-row>

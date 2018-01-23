@@ -7,9 +7,9 @@
             </div>
         </el-col>
         <el-col :span="16" v-if="put">
-            <div class="chartPs" ref="chartPs" style="height: 30rem"></div>
+            <div class="chartPs" ref="chartPs"></div>
         </el-col>
-        <el-col :span="16" v-else class="imgCenter" style="height: 30rem;padding-top: 5rem">
+        <el-col :span="16" v-else class="imgCenter chartPsHeight" style="padding-top: 5rem" >
             <img src="../../../../static/img/wushuju.png"/>
         </el-col>
     </el-row>
@@ -86,4 +86,5 @@
     .monery{font-size: 2.5rem;color:#1DB5EF;text-align: center;height: 9rem;line-height: 12rem}
     .title_t{font-size: 1.4rem;text-align: center;height: 4rem}
     .imgCenter{text-align:center;vertical-align:middle;height: 25rem;}
+
 </style>

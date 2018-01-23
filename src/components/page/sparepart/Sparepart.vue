@@ -24,7 +24,7 @@
      <el-row style="margin-bottom: 2rem;min-width: 1019px;"type="flex"justify="space-between" >
             <el-col :span="10"style="box-shadow: 0px 3px 0px #E5E5E5;background-color: #ffffff;">
                 <el-col :span="24"style="font-size: 2rem;" class="stairFontColor"> 货值总览</el-col>
-                <div style="width: 100%;height:33.1rem;">
+                <div style="width: 100%;height:23.4rem;">
                     <v-gauge :unit="unit" ref="chartGauge"></v-gauge>
                 </div>
             </el-col>
@@ -33,7 +33,7 @@
             </el-col>
      </el-row>
         <el-row class="subordinateTitle stairFontColor">当日入出库量</el-row>
-        <el-row class="outCont"type="flex"justify="space-between">
+        <el-row class="outCont still"type="flex"justify="space-between">
             <el-col :span="11">
                 <el-col :span="24" class="title secondFontColor">入库列表</el-col>
                 <el-col :span="24">
@@ -49,7 +49,7 @@
 
         </el-row>
       <el-row class="subordinateTitle stairFontColor">库存量监控</el-row>
-        <el-row class="outCont"type="flex"justify="space-between">
+        <el-row class="outCont still"type="flex"justify="space-between">
             <el-col :span="11">
                    <el-col :span="24" class="title secondFontColor">低库存列表</el-col>
                    <el-col :span="24">
@@ -67,35 +67,45 @@
      <el-row style="min-width: 1019px">
             <el-col :span="24" class="subordinateTitle stairFontColor">出入库总览</el-col>
         </el-row>
+        <!--------------------------------------------------------------------------------------------------------->
      <el-row class="outCont"type="flex"justify="space-around">
-            <el-col :span="11">
-                <el-col :span="24" class="title secondFontColor">本周各入库产品货值</el-col>
-                <el-col :span="24">
-                    <v-pie ref="chartPs" :putData="putData" :isPut="put"></v-pie>
-                </el-col>
+            <el-col :span="12">
+               <div  class="agitatedBack">
+                   <el-col :span="24" class="title secondFontColor">本周各入库产品货值</el-col>
+                   <el-col :span="24">
+                       <v-pie ref="chartPs" :putData="putData" :isPut="put"></v-pie>
+                   </el-col>
+               </div>
             </el-col>
-            <el-col :span="11">
-                <el-col :span="24" class="title secondFontColor">本周各出库产品货值</el-col>
-                <el-col :span="24">
-                    <v-pies ref="chartPs2" :putData="outData" :isOut="out"></v-pies>
-                </el-col>
+            <el-col :span="12">
+                <div class="agitatedBack">
+                    <el-col :span="24" class="title secondFontColor">本周各出库产品货值</el-col>
+                    <el-col :span="24">
+                        <v-pies ref="chartPs2" :putData="outData" :isOut="out"></v-pies>
+                    </el-col>
+                </div>
             </el-col>
         </el-row>
+        <!--------------------------------------------------------------------------------->
         <el-row style="min-width: 1019px">
             <el-col :span="24" class="subordinateTitle stairFontColor">月消耗总览</el-col>
         </el-row>
         <el-row class="outCont"type="flex"justify="space-between">
-            <el-col :span="11">
-                <el-col :span="24" class="title  secondFontColor">消耗货值排行前5</el-col>
-                <el-col :span="24">
-                    <v-bar ref="chartBar"></v-bar>
-                </el-col>
+            <el-col :span="12" >
+               <div  class="agitatedBack">
+                   <el-col :span="24" class="title  secondFontColor">消耗货值排行前5</el-col>
+                   <el-col :span="24">
+                       <v-bar ref="chartBar"></v-bar>
+                   </el-col>
+               </div>
             </el-col>
-            <el-col :span="11">
-                <el-col :span="24" class="title secondFontColor">消耗量排行前5</el-col>
-                <el-col :span="24">
-                  <v-str ref="chartstr"></v-str>
-                </el-col>
+            <el-col :span="12" >
+                <div class="agitatedBack" style="float: right">
+                    <el-col :span="24" class="title secondFontColor">消耗量排行前5</el-col>
+                    <el-col :span="24">
+                        <v-str ref="chartstr"></v-str>
+                    </el-col>
+                </div>
             </el-col>
         </el-row>
     </div>
@@ -124,7 +134,7 @@
 
             }
         },
-        unit:{units:"万元",units2:"万",hig:33.1,radius:150,dist:-40,value:0,limit:500,floor:200,tool:600,title:"备品备件总货值"},
+        unit:{units:"万元",units2:"万",hig:23.4,radius:150,dist:-40,value:0,limit:500,floor:200,tool:600,title:"备品备件总货值"},
         tableName1:[{name:"name",label:"产品名称"},
             {name:"referencePrice",label:"参考成本价"},
             {name:"inventory",label:"当前库存量"},
@@ -163,8 +173,8 @@
         name1:"货值排行",
         name2:"低库存量排行",
         name3:"高库存量排行",
-        putTableName:[{name:"inOutTime",label:"入库时间"},{name:"name",label:"产品名称"},{name:"unit",label:"单位"},{name:"value",label:"入库量"},{name:"amountPrice",label:"入库货值(元)"}],
-        outTableName:[{name:"inOutTime",label:"出库时间"},{name:"name",label:"产品名称"},{name:"unit",label:"单位"},{name:"value",label:"出库量"},{name:"amountPrice",label:"出库货值(元)"}],
+        putTableName:[{name:"inOutTime",label:"入库时间"},{name:"name",label:"产品名称"},{name:"value",label:"入库量"},{name:"unit",label:"单位"},{name:"amountPrice",label:"入库货值(元)"}],
+        outTableName:[{name:"inOutTime",label:"出库时间"},{name:"name",label:"产品名称"},{name:"value",label:"出库量"},{name:"unit",label:"单位"},{name:"amountPrice",label:"出库货值(元)"}],
         putTableData:[],
         outTableData:[],
         putType:1,
@@ -177,8 +187,8 @@
         this.queryValueAmount(this.valueDate);
         this.queryValueHeight(this.valueDate);
         this.queryValueLow(this.valueDate);
-        this.queryValue(this.valueDate,1,1,5);
-        this.queryValue(this.valueDate,0,1,5);
+        this.queryValue(this.valueDate,1,1,10);
+        this.queryValue(this.valueDate,0,1,10);
         this.queryConsumeValue(this.valueDate);
         this.queryConsumeAmong(this.valueDate);
         this.queryPut(this.valueDate);
@@ -199,8 +209,8 @@
             this.queryValueAmount(value);
             this.queryValueHeight(value);
             this.queryValueLow(value);
-            this.queryValue(value,1,1,5);
-            this.queryValue(value,0,1,5);
+            this.queryValue(value,1,1,10);
+            this.queryValue(value,0,1,10);
             this.queryConsumeValue(value);
             this.queryConsumeAmong(value);
             this.queryPut(value);
@@ -299,6 +309,7 @@
             let self = this;
             let _url = this.$url+"/panoramic/spare/parts/into/inventory/monthlyconsume/price/"+date;
             self.$axios.get( _url).then((res)=>{
+                console.log(res.data.retval)
                 if(res.data.retval==null){
                     self.$refs.chartBar.initPie([],[],0)
                 }else{
@@ -322,19 +333,20 @@
                 }else{
                     let nameData=[];
                     let valueData=[];
+                    let unitData=[];
                     let percentageData=[];
                     let tool=0;
                     for( let obj of res.data.retval){
                         nameData.push(obj.name);
                         valueData.push(obj.summary);
+                        unitData.push(obj.unit);
                         tool+=obj.summary;
                     }
                     for(let i=0;i<valueData.length;i++){
                         percentageData.push(Number(valueData[i]/tool))
                     }
-                    console.log(self.$refs.chartstr);
                     self.$refs.chartstr.isBool(tool);
-                    self.$refs.chartstr.initPie(percentageData,valueData,nameData,tool)
+                    self.$refs.chartstr.initPie(percentageData,valueData,nameData,unitData,tool)
                 }
             });
         },
@@ -408,7 +420,9 @@
 </script>
 <style scoped>
     .right{float: right;height: 3rem}
-    .outCont{margin-bottom: 2rem;background: #ffffff;box-shadow: 0px 3px 0px #E5E5E5;min-width: 1019px}
+    .outCont{margin-bottom: 2rem;min-width: 1019px}
     .title{font-size: 1.8rem;padding-left: 0.5rem;height: 3rem;line-height: 3rem}
     .subordinateTitle{font-size: 2rem;height: 5rem;line-height: 5rem}
+    .agitatedBack{background-color: #ffffff;box-shadow: 0px 3px 0px #E5E5E5;width: 98%;height:30rem}
+    .still{background-color: #ffffff;box-shadow: 0px 3px 0px #E5E5E5;}
 </style>

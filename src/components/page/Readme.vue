@@ -109,60 +109,72 @@
         <div class="numberVerify" style="min-width: 1019px">
             <el-col :span="24">
                 <div style="float: left;" class="stairFontColor newTitle">数据校验</div>
-                <div class="time" >0:00-24:00</div>
+                <div class="time" >8:00-8:00</div>
                 <div class="time timeRight">{{dateTitles}}</div>
             </el-col>
 
                 <div class="row-bg yyyyy">
                     <el-col :span="7" class="backgroundVerify">
                         <el-col :span="12"  >
-                            <el-col :span="24" style="height:5rem;font-size: 1.4rem;padding-left: 1rem;padding-top: 0.5rem">磷矿粉消耗（吨）</el-col>
-                            <el-col :span="24" style="height:6rem;font-size: 2.4rem;text-align: center;line-height:6rem;border-right:solid 1px #c7c7c7">{{dat.valueLKF}}</el-col>
-                            <el-col :span="24" style="height:5rem;font-size: 1.6rem;text-align: center">计量</el-col>
+                            <el-col :span="24" style="height:5rem;font-size: 1.4rem;padding-left: 1rem;padding-top: 0.5rem">磷矿粉消耗（偏差）</el-col>
+                            <el-col :span="24" style="height:6rem;font-size: 2.4rem;text-align: center;line-height:6rem;border-right:solid 1px #c7c7c7">{{dat.valueLKF}}<small style="font-size: 10px;color:#606266">吨</small></el-col>
+                            <el-col :span="24" style="height:5rem;font-size: 1.6rem;text-align: center"class="secondFontColor">IOT计量</el-col>
                         </el-col>
                         <el-col :span="12">
                             <el-col :span="24"  style="height:5rem;font-size: 1.6rem;padding-left: 3rem;padding-top: 1rem">
-                                <svg class="icon" aria-hidden="true" style=" width: 3rem; height: 3rem;">
+                                <svg class="icon" aria-hidden="true" style=" width: 3rem; height: 3rem;"v-if="dat.dataIoLKF*100>=150||dat.dataIoLKF*100<=-150">
                                 <use xlink:href="#el-icon-erp-shebeibaojing"></use>
                                 </svg>
-                                <span style="color:#BB4B39">{{dat.dataIoLKF}}%</span>
+                                <svg class="icon" aria-hidden="true" style=" width: 3rem; height: 3rem;"v-else-if="dat.dataIoLKF*100>-150||dat.dataIoLKF*100<150">
+                                    <use xlink:href="#el-icon-erp-shebeibaojing1"></use>
+                                </svg>
+                                <span style="color:#BB4B39"v-if="dat.dataIoLKF*100>=150||dat.dataIoLKF*100<=-150">{{dat.dataIoLKF}}%</span>
+                                <span style="color:#00a8ec"v-else-if="dat.dataIoLKF*100>-150||dat.dataIoLKF*100<150">{{dat.dataIoLKF}}%</span>
                             </el-col>
-                            <el-col style="height:6rem;font-size: 2.4rem;text-align: center;line-height:6rem;">{{dat.dataIoValueLKF}}</el-col>
-                            <el-col style="height:5rem;font-size: 1.6rem;text-align: center">记录</el-col>
+                            <el-col style="height:6rem;font-size: 2.4rem;text-align: center;line-height:6rem;">{{dat.dataIoValueLKF}}<small style="font-size: 10px;color:#606266">吨</small></el-col>
+                            <el-col style="height:5rem;font-size: 1.6rem;text-align: center" class="secondFontColor">ERP记录</el-col>
                         </el-col>
                     </el-col>
                     <el-col :span="7" class="backgroundVerify">
                         <el-col :span="12" >
-                            <el-col :span="24" style="height:5rem;font-size: 1.4rem;padding-left: 1rem;padding-top: 0.5rem">磷钙产量（吨）</el-col>
-                            <el-col :span="24" style="height:6rem;font-size: 2.4rem;text-align: center;line-height:6rem;border-right:solid 1px #c7c7c7">{{dat.valueLG}}</el-col>
-                            <el-col :span="24" style="height:5rem;font-size: 1.6rem;text-align: center">计量</el-col>
+                            <el-col :span="24" style="height:5rem;font-size: 1.4rem;padding-left: 1rem;padding-top: 0.5rem">磷钙产量（偏差）</el-col>
+                            <el-col :span="24" style="height:6rem;font-size: 2.4rem;text-align: center;line-height:6rem;border-right:solid 1px #c7c7c7">{{dat.valueLG}}<small style="font-size: 10px;color:#606266">吨</small></el-col>
+                            <el-col :span="24" style="height:5rem;font-size: 1.6rem;text-align: center"class="secondFontColor">IOT计量</el-col>
                         </el-col>
                         <el-col :span="12">
                             <el-col :span="24"  style="height:5rem;font-size: 1.6rem;padding-left: 3rem;padding-top: 1rem">
-                                <svg class="icon" aria-hidden="true" style=" width: 3rem; height: 3rem;">
+                                <svg class="icon" aria-hidden="true" style=" width: 3rem; height: 3rem;"v-if="dat.dataIoLG>=150||dat.dataIoLG*100<=-150">
                                     <use xlink:href="#el-icon-erp-shebeibaojing"></use>
                                 </svg>
-                                <span style="color:#BB4B39">{{dat.dataIoLG}}%</span>
+                                <svg class="icon" aria-hidden="true" style=" width: 3rem; height: 3rem;"v-else-if="dat.dataIoLG*100>-150||dat.dataIoLG*100<150">
+                                    <use xlink:href="#el-icon-erp-shebeibaojing1"></use>
+                                </svg>
+                                <span style="color:#BB4B39"v-if="dat.dataIoLG>=150||dat.dataIoLG*100<=-150">{{dat.dataIoLG}}%</span>
+                                <span style="color:#00a8ec"v-else-if="dat.dataIoLG*100>-150||dat.dataIoLG*100<150">{{dat.dataIoLG}}%</span>
                             </el-col>
-                            <el-col style="height:6rem;font-size: 2.4rem;text-align: center;line-height:6rem;">{{dat.dataIoValueLG}}</el-col>
-                            <el-col style="height:5rem;font-size: 1.6rem;text-align: center">记录</el-col>
+                            <el-col style="height:6rem;font-size: 2.4rem;text-align: center;line-height:6rem;">{{dat.dataIoValueLG}}<small style="font-size: 10px;color:#606266">吨</small></el-col>
+                            <el-col style="height:5rem;font-size: 1.6rem;text-align: center"class="secondFontColor">ERP记录</el-col>
                         </el-col>
                     </el-col>
                     <el-col :span="7" class="backgroundVerify">
                         <el-col :span="12" >
-                            <el-col :span="24" style="height:5rem;font-size: 1.4rem;padding-left: 1rem;padding-top: 0.5rem">普钙产量（吨）</el-col>
-                            <el-col :span="24" style="height:6rem;font-size: 2.4rem;text-align: center;line-height:6rem;border-right:solid 1px #c7c7c7">{{dat.valuePG}}</el-col>
-                            <el-col :span="24" style="height:5rem;font-size: 1.6rem;text-align: center">计量</el-col>
+                            <el-col :span="24" style="height:5rem;font-size: 1.4rem;padding-left: 1rem;padding-top: 0.5rem">普钙产量（偏差）</el-col>
+                            <el-col :span="24" style="height:6rem;font-size: 2.4rem;text-align: center;line-height:6rem;border-right:solid 1px #c7c7c7">{{dat.valuePG}}<small style="font-size: 10px;color:#606266">吨</small></el-col>
+                            <el-col :span="24" style="height:5rem;font-size: 1.6rem;text-align: center"class="secondFontColor">IOT计量</el-col>
                         </el-col>
                         <el-col :span="12">
                             <el-col :span="24"  style="height:5rem;font-size: 1.6rem;padding-left: 3rem;padding-top: 1rem">
-                                <svg class="icon" aria-hidden="true" style=" width: 3rem; height: 3rem;">
+                                <svg class="icon" aria-hidden="true" style=" width: 3rem; height: 3rem;"v-if="dat.dataIoPG>=150||dat.dataIoPG*100<=-150">
                                     <use xlink:href="#el-icon-erp-shebeibaojing"></use>
                                 </svg>
-                                <span style="color:#BB4B39">{{dat.dataIoPG}}%</span>
+                                <svg class="icon" aria-hidden="true" style=" width: 3rem; height: 3rem;"v-else-if="dat.dataIoPG*100>-150||dat.dataIoPG*100<150">
+                                    <use xlink:href="#el-icon-erp-shebeibaojing1"></use>
+                                </svg>
+                                <span style="color:#BB4B39"v-if="dat.dataIoPG>=150||dat.dataIoPG*100<=-150">{{dat.dataIoPG}}%</span>
+                                <span style="color:#00a8ec"v-else-if="dat.dataIoPG*100>-150||dat.dataIoPG*100<150">{{dat.dataIoPG}}%</span>
                             </el-col>
-                            <el-col style="height:6rem;font-size: 2.4rem;text-align: center;line-height:6rem;">{{dat.dataIoValuePG}}</el-col>
-                            <el-col style="height:5rem;font-size: 1.6rem;text-align: center">记录</el-col>
+                            <el-col style="height:6rem;font-size: 2.4rem;text-align: center;line-height:6rem;">{{dat.dataIoValuePG}}<small style="font-size: 10px;color:#606266">吨</small></el-col>
+                            <el-col style="height:5rem;font-size: 1.6rem;text-align: center"class="secondFontColor">ERP记录</el-col>
                         </el-col>
                     </el-col>
 
@@ -406,27 +418,27 @@
                         self.dat.valueLKF=0;
                         self.dat.dataIoValueLKF=0;
                     }else{
-                        self.dat.dataIoLKF=lkf.data.retval.bias;
-                        self.dat.valueLKF=lkf.data.retval.valueAuto;
-                        self.dat.dataIoValueLKF=lkf.data.retval.valueManual;
+                        self.dat.dataIoLKF=lkf.data.retval.bias==""?0:lkf.data.retval.bias;
+                        self.dat.valueLKF=lkf.data.retval.valueAuto==""?0:lkf.data.retval.valueAuto;
+                        self.dat.dataIoValueLKF=lkf.data.retval.valueManual==""?0:lkf.data.retval.valueManual;
                     }
                     if(lg.data.retval==null){
                         self.dat.dataIoLG=0;
                         self.dat.valueLG=0;
                         self.dat.dataIoValueLG=0;
                     }else{
-                        self.dat.dataIoLG=lg.data.retval.bias;
-                        self.dat.valueLG=lg.data.retval.valueAuto;
-                        self.dat.dataIoValueLG=lg.data.retval.valueManual;
+                        self.dat.dataIoLG=lg.data.retval.bias==""?0:lg.data.retval.bias;
+                        self.dat.valueLG=lg.data.retval.valueAuto==""?0:lg.data.retval.valueAuto;
+                        self.dat.dataIoValueLG=lg.data.retval.valueManual==""?0:lg.data.retval.valueManual;
                     }
                     if(pg.data.retval==null){
                         self.dat.dataIoPG=0;
                         self.dat.valuePG=0;
                         self.dat.dataIoValuePG=0;
                     }else{
-                        self.dat.dataIoPG=pg.data.retval.bias;
-                        self.dat.valuePG=pg.data.retval.valueAuto;
-                        self.dat.dataIoValuePG=pg.data.retval.valueManual;
+                        self.dat.dataIoPG=pg.data.retval.bias==""?0:pg.data.retval.bias;
+                        self.dat.valuePG=pg.data.retval.valueAuto==""?0:pg.data.retval.valueAuto;
+                        self.dat.dataIoValuePG=pg.data.retval.valueManual==""?0:pg.data.retval.valueManual;
                     }
                 }));
         },
@@ -441,9 +453,7 @@
                     benchmarking.push( obj.upperLimit==undefined?1:obj.upperLimit);
                 }
                 this.benchmark = benchmarking;
-                console.log(benchmarking)
                 /*没做异常处理，除非挂服务*/
-
             })
             self.$axios.get(_url).then((res)=>{
                 if(res.data.retval==null){

@@ -13,7 +13,7 @@
         <!--    <el-col :span="18">
                 <button class="button_class" :class="{blues:change==key}"@click="cut(key,item.name,item.code)" v-for=" (item,key) in nameData " :key="key" style="width: 8rem">{{item.name}}</button>
             </el-col>-->
-            <el-col :span="24">
+            <el-col :span="3">
                 <el-select v-model="value8" filterable placeholder="全部" @change="(value)=>handlerChange1(value)">
                     <el-option
                         v-for="item in options"
@@ -23,7 +23,7 @@
                     </el-option>
                 </el-select>
             </el-col>
-            <el-col :span="24">
+            <el-col :span="3">
                 <el-select v-model="value9" filterable placeholder="全部责任人"  @change="(item)=>handlerChange2(item)" >
                     <el-option
                         v-for="item in options2"
@@ -67,15 +67,15 @@
                     >
                     <el-table-column  label="报警状态" align="center" prop="statusName" width="80">
                         <template slot-scope="scope" >
-                            <el-button type="button"v-if="scope.row.statusName=='已解除'" @click.prevent="handleEdit(scope.$index, scope.row)" >已解除</el-button>
-                            <el-button type="danger" v-else @click.prevent="handleEdit(scope.$index, scope.row)" >未解除</el-button>
+                            <el-button type="text"v-if="scope.row.statusName=='已解除'" >已解除</el-button>
+                            <el-button type="text" v-else @click.prevent="handleEdit(scope.$index, scope.row)" >未解除</el-button>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="warningname" label="报警项" align="center" min-width="220":show-overflow-tooltip=true>
+                    <el-table-column prop="warningname" label="报警项" align="center" min-width="185":show-overflow-tooltip=true>
                     </el-table-column>
                     <el-table-column prop="level" label="预警等级" align="center" min-width="80">
                     </el-table-column>
-                    <el-table-column prop="warningContent" label="报警内容"align="center" min-width="300":show-overflow-tooltip=true>
+                    <el-table-column prop="warningContent" label="报警内容"align="center" min-width="271":show-overflow-tooltip=true>
                     </el-table-column>
                     <el-table-column prop="ctime" label="报警时间"align="center" min-width="100">
                     </el-table-column>
@@ -319,4 +319,5 @@
     .pTable .el-table--border td:first-child .cell{padding-left: 0;}
     .police .el-table .cell{  line-height: 36px;  }
     .pTable .el-table__header-wrapper thead div {  color:rgb(255, 255, 255);  background-color:rgb(1, 172, 237)  }
+    .pTable .el-button--text{color: #5a5e66}
 </style>
