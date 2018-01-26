@@ -1,10 +1,8 @@
 <template>
     <el-row>
-        <el-col :span="24" v-if="isShow">
-            <div class="chartStr chartPsHeight" ref="chartstr" ></div>
-        </el-col>
-        <el-col :span="24" v-else class="imgCenter" style="padding-top: 5rem">
-            <img src="../../../../static/img/wushuju.png"/>
+        <el-col :span="24" >
+            <div class="chartStr chartPsHeight" ref="chartstr" :class="isShow?'a':'b'" ></div>
+            <img src="../../../../static/img/wushuju.png" v-if="!isShow"class="imgCenter"/>
         </el-col>
     </el-row>
 
@@ -29,7 +27,6 @@
         },
         /*创建图表一*/
        initPie(sr,dataValue,strValue,unitData,tool){
-            console.log(unitData)
             if(tool==0){
                 this.isShow=false
             }else{
@@ -85,24 +82,24 @@
                         selectedMode: false,
                         orient: 'vertical',
                         x: '52%',
-                        y: 34,
+                        y: 23,
                         itemGap: 8,
                         itemWidth: 8,
                         itemHeight: 8,
                         data: [{
-                            name: strValue[0] + ': ' + dataValue[0]+unitData[0],
+                            name: strValue[0]+'('+unitData[0] + '): ' + dataValue[0],
                             icon: 'rect',
                         }, {
-                            name: strValue[1] + ': ' + dataValue[1]+unitData[1],
+                            name: strValue[1] +'('+unitData[1] + '): ' + dataValue[1],
                             icon: 'rect',
                         }, {
-                            name: strValue[2] + ': ' + dataValue[2]+unitData[2],
+                            name: strValue[2] +'('+unitData[2] + '): ' + dataValue[2],
                             icon: 'rect',
                         }, {
-                            name: strValue[3] + ': ' + dataValue[3]+unitData[3],
+                            name: strValue[3] +'('+unitData[3] + '): ' + dataValue[3],
                             icon: 'rect',
                         }, {
-                            name: strValue[4] + ': ' + dataValue[4]+unitData[4],
+                            name: strValue[4] +'('+unitData[4] + '): ' + dataValue[4],
                             icon: 'rect',
                         }],
                         textStyle: {
@@ -136,7 +133,7 @@
                         itemStyle: dataStyle,
                         data: [{
                             value: dataValue[0],
-                            name: strValue[0] + ': ' + dataValue[0]+unitData[0]
+                            name: strValue[0] +'('+unitData[0] + '): ' + dataValue[0]
                         },
                             {
                                 value: value_3_4 - parseInt(dataValue[0]),
@@ -175,7 +172,7 @@
                             itemStyle: dataStyle,
                             data: [{
                                 value: dataValue[1],
-                                name: strValue[1] + ': ' + dataValue[1]+unitData[1]
+                                name: strValue[1] +'('+unitData[1] + '): ' + dataValue[1]
                             },
                                 {
                                     value: value_3_4 - parseInt(dataValue[1]),
@@ -214,7 +211,7 @@
                             itemStyle: dataStyle,
                             data: [{
                                 value: dataValue[2],
-                                name: strValue[2] + ': ' + dataValue[2]+unitData[2]
+                                name: strValue[2] +'('+unitData[2] + '): ' + dataValue[2]
                             },
                                 {
                                     value: value_3_4 - parseInt(dataValue[2]),
@@ -253,7 +250,7 @@
                             itemStyle: dataStyle,
                             data: [{
                                 value: dataValue[3],
-                                name: strValue[3] + ': ' + dataValue[3]+unitData[3]
+                                name: strValue[3] +'('+unitData[3] + '): ' + dataValue[3]
                             },
                                 {
                                     value: value_3_4 - parseInt(dataValue[3]),
@@ -292,7 +289,7 @@
                             itemStyle: dataStyle,
                             data: [{
                                 value: dataValue[4],
-                                name: strValue[4] + ': ' + dataValue[4]+unitData[4]
+                                name: strValue[4] +'('+unitData[4] + '): ' + dataValue[4]
                             },
                                 {
                                     value: value_3_4 - parseInt(dataValue[4]),
@@ -333,5 +330,4 @@
 <style scoped>
     .monery{font-size: 3rem;color:#1DB5EF;text-align: center;height: 9rem;line-height: 12rem}
     .title{font-size: 1.4rem;text-align: center;height: 4rem}
-    .imgCenter{text-align:center;vertical-align:middle;height: 25rem;}
 </style>

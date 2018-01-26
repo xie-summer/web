@@ -71,11 +71,11 @@
             <v-table ref="putTableTwo" @handleCurrentChange="toShow" :table-name="outTableName":output-table="outTableData":outputData="outData":type="out"></v-table>
         </div>
         <div  style="display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%;margin-top: 3rem;box-shadow: 0px 3px 0px #E5E5E5;;min-width: 1019px;background-color: #ffffff">
-            <el-col :span="24"  class="solidTitle stairFontColor">实时下线(按小时)</el-col>
-            <el-col :lg="18" >
+            <el-col :span="24"  class="solidTitle stairFontColor">{{newTitle_p}}</el-col>
+            <el-col :lg="17" >
                 <v-line :child-msg="obj" ref="chartLine"></v-line>
             </el-col>
-            <el-col :lg="6"  >
+            <el-col :lg="7"  >
                 <v-accurate :curNum="0" :curNumber="curNumber"></v-accurate>
             </el-col>
         </div>
@@ -114,21 +114,23 @@
 
             return {
                 title:'库存状态',
+                newTitle_p:'实时下线:50kg包袋(按小时)',
                 perData:{"value":0,"status":"success"},
                 obj:{
                     "date":['9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','1','2','3','4','5','6','7','8'],
                     "data1":[],
                     "data2":[],
                     "data3":[],
+                    "title":"",
                     "class1":{"name":"早班产量","value":"",unit:""},
                     "class2":{"name":"中班产量","value":"",unit:""},
                     "class3":{"name":"晚班产量","value":"",unit:""}
                 },
                 curNumber:{
-                    "text1":"月累积产量",
-                    "text2":"月累积入库量",
-                    "text3":"月总计产量",
-                    "text4":"月总计入库量",
+                    "text1":"IOT月累积产量",
+                    "text2":"ERP月累积入库量",
+                    "text3":"IOT月总计产量",
+                    "text4":"ERP月总计入库量",
                     "value1":"",
                     "value2":"",
                     "value3":"",
@@ -173,7 +175,7 @@
         /*物料上下限*/
         this.queryBound(this.change==0?"HG01XY750510":"HG01XY750410",this.value11)
         this.queryClass(this.change==0?"HG01XY750510":"HG01XY750410",this.value11);
-      this.queryMonthConsume(this.change==0?"HG01XY750510":"HG01XY750510",this.formatDateTime(this.value11));
+      this.queryMonthConsume(this.change==0?"HG01XY750510":"HG01XY750510",this.value11);
         this.queryPut(this.code,0,this.value11,1,5);
         this.queryPut(this.code,1,this.value11,1,5);
 
@@ -195,7 +197,7 @@
             this.curNumber.date2= this.formatDateTime(this.value11,1)
             this.queryClass(this.change==0?"HG01XY750510":"HG01XY750410",value);
             this.queryGround(this.change==0?"HG01XY750510":"HG01XY750410",value);
-            this.queryMonthConsume(this.change==0?"HG01XY750510":"HG01XY750510",this.formatDateTime(value));
+            this.queryMonthConsume(this.change==0?"HG01XY750510":"HG01XY750410",value);
             this.queryPut(this.code,0,value,1,5);
             this.queryPut(this.code,1,value,1,5);
         },
@@ -205,13 +207,15 @@
             this.change = key;
             if(key==0){
                 this.unit.tool=20000;
+                this.newTitle_p="实时下线:50kg包袋(按小时)"
             }else{
                 this.unit.tool=2000;
+                this.newTitle_p="实时下线(按小时)"
             }
             this.$refs.chartGauge.createChartOne(this.unit);
            this.queryClass(this.change==0?"HG01XY750510":"HG01XY750410",this.value11);
             this.queryGround(this.change==0?"HG01XY750510":"HG01XY750410",this.value11);
-           this.queryMonthConsume(this.change==0?"HG01XY750510":"HG01XY750410",this.formatDateTime(this.value11));
+           this.queryMonthConsume(this.change==0?"HG01XY750510":"HG01XY750410",this.value11);
             this.queryBound(this.change==0?"HG01XY750510":"HG01XY750410");
             this.queryPut(code,0,this.value11,1,5);
             this.queryPut(code,1,this.value11,1,5);
@@ -219,7 +223,7 @@
         },
         queryClass(id,date){
             let self = this;
-                var _url=self.$url+'/real/time/consumption/gather/'+date+'/'+id;
+                var _url=self.$url+'/real/time/consumption/gather/'+date+'/'+id+"?"+Date.now();
                 self.$axios.get(
                     _url
                 ).then((res) => {
@@ -230,6 +234,7 @@
                         "data1":[],
                         "data2":[],
                         "data3":[],
+                        "title":"",
                         "class1":{"name":"晚班消耗量","value":"",unit:""},
                         "class2":{"name":"早班消耗量","value":"",unit:""},
                         "class3":{"name":"中班消耗量","value":"",unit:""}
@@ -288,6 +293,7 @@
                     this.obj.class1.value=sum1;
                     this.obj.class2.value=sum2;
                     this.obj.class3.value=sum3;
+                    this.obj.title=this.nameTitle;
                 if(id=="HG01XY750510"){this.obj.class1.unit="吨";this.obj.class2.unit="吨";this.obj.class3.unit="吨";}else{
                     this.obj.class1.unit="吨";
                 }
@@ -295,12 +301,12 @@
                 });
         },
         queryMonthConsume(id,date){
+
             if(id=="")return false;
             let self = this;
-            let _url = self.$url+"/data/verification/thismonthbios/"+id+"/"+date.formatDate();
-            let _url_1 = self.$url+"/data/verification/thismonthbios/"+id+"/"+date.formatDate(1);
+            let _url = self.$url+"/data/verification/thismonthbios/"+id+"/"+date+"?"+Date.now();
+            let _url_1 = self.$url+"/data/verification/lastmonthbios/"+id+"/"+date+"?"+Date.now();
             self.$axios.get(_url).then((res)=>{
-
                 if (res.data.retval!=null) {
                     this.curNumber.deviation1=res.data.retval.bias;
                     this.curNumber.value1=res.data.retval.valueAuto;
@@ -329,7 +335,7 @@
         },
         queryGround(id,date){
             let self = this;
-            let _url = self.$url+"/daily/inventory/summary/"+date+"/"+id;
+            let _url = self.$url+"/daily/inventory/summary/"+date+"/"+id+"?"+Date.now();
             self.$axios.get(_url).then((res)=>{
                 this.unit.value=(function() {
                     if (res.data.retval!=null) {
@@ -356,7 +362,7 @@
         /*物料上下限*/
         queryBound(id){
             let self = this;
-            let _url= self.$url+"/material/threshold/configuration/stock/"+id;
+            let _url= self.$url+"/material/threshold/configuration/stock/"+id+"?"+Date.now();
             self.$axios.get(_url).then((res)=>{
                 this.unit.limit=res.data.retval.upperLimit;
                 this.unit.floor=res.data.retval.lowerLimit;
@@ -386,8 +392,8 @@
         /*出入库信息*/
         queryPut(code,type,date,page,size){
             let self=this;
-            let _url=this.$url+"/material/into/inventory/"+code+"/"+type+"/"+date+"/"+page+"/"+size;
-            let _url1 = this.$url+"/material/into/inventory/summary/"+code+"/"+type+"/"+date
+            let _url=this.$url+"/material/into/inventory/"+code+"/"+type+"/"+date+"/"+page+"/"+size+"?"+Date.now();
+            let _url1 = this.$url+"/material/into/inventory/summary/"+code+"/"+type+"/"+date+"?"+Date.now();
             self.$axios.get(_url).then((res)=>{
                 let list = res.data.retval.list;
                 if(list==null||list==undefined||list.length==0){

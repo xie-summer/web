@@ -15,26 +15,38 @@
     </div>
 </template>
 <script>
+    var qs = require('qs');
+    import {mapActions } from 'vuex'
     export default {
+        methods: mapActions({//与vuex中的actions关联
+            userName: "saveName"
+        }),
         data() {
             return {
-                name: 'linxin'
+                name: '测试用户'
             }
         },
-        computed:{
+            computed:{
             username(){
-                let username = localStorage.getItem('ms_username');
-                return username ? username : this.name;
+                let username = this.$store.state.username;
+                    console.log(username);
+                return username ? username : sessionStorage.getItem('ms_username');
             }
         },
         methods:{
             handleCommand(command) {
                 if(command == 'loginout'){
-                    localStorage.removeItem('ms_username')
+                  /*  sessionStorage.removeItem('ms_username');*/
+                    let _url =this.$url3+"/user/weblogout"+"?"+Date.now();
+                    let self=this;
+                    self.$axios.post(_url,qs.stringify({username:sessionStorage.getItem('ms_username')})).then((res)=>{
+
+                    })
+                    sessionStorage.clear();
                     this.$router.push('/login');
                 }
             }
-        }
+        },
     }
 </script>
 <style scoped>

@@ -5,6 +5,7 @@ import axios from 'axios';
 import ElementUI from 'element-ui';
 import VueRouter from 'vue-router';
 import Vuex  from 'vuex';
+import  store from './vuex/store.js'
 import  Login from'./components/page/Login.vue'
 import  Icon from'./assets/icon/iconfont.js'
 import  * as stringFilters  from './filters/stringFilters.js'
@@ -16,6 +17,7 @@ import 'element-ui/lib/theme-default/index.css';    // 默认主题
 // import '../static/css/theme-green/index.css';       // 浅绿色主题
 /*过滤器*/
 /* 字符串过滤*/
+
 Vue.use(ElementUI,Vuex,Icon );
 Object.keys(stringFilters).forEach(key => {
     Vue.filter(key, stringFilters[key])
@@ -29,8 +31,16 @@ axios.defaults.withCredentials = true;
 axios.defaults.headers.common['Authorization'] = "Basic dXNlcjp1c2Vy";*/
 let u1 = "http://192.168.1.106:9000";
 let u2="http://panoramic.neweplatform.com:60002/manage"
+/*登录*/
+let u3 = "http://192.168.1.106:6002/users"
+let  u4 = "http://panoramic.neweplatform.com:60002/users"
+/*预警*/
+let u5="http://192.168.1.106:5000";
+let u6="http://panoramic.neweplatform.com:60002/risk-warning";
 Vue.prototype.$axios = axios;
-Vue.prototype.$url=u1;
+Vue.prototype.$url=u2;
+Vue.prototype.$url3=u4;
+Vue.prototype.$url5=u6;
 /*请求拦截器*/
 Vue.prototype.$axios.interceptors.request.use(function (config) {
     config.headers['Content-Type'] ="application/x-www-form-urlencoded"
@@ -112,14 +122,19 @@ Date.prototype.format = function(format,n,p) {
         return max;
     }
 let routers = new VueRouter({
+    mode:'history',
     routes: [{
         path: '/login',
         name: 'login',
         component: Login
-    }]
+    }],
+    scrollBehavior (to, from, savedPosition) {
+        return { x:0,y: 0 }
+    }
 })
 let vm = new Vue({
     router,
+    store,
     render: h => h(App)
 }).$mount('#app');
 

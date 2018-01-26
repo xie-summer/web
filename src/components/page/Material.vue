@@ -117,6 +117,7 @@
                     "data1":[],
                     "data2":[],
                     "data3":[],
+                    "title":"",
                     "class1":{"name":"早班消耗量","value":"",unit:""},
                     "class2":{"name":"中班消耗量","value":"",unit:""},
                     "class3":{"name":"晚班消耗量","value":"",unit:""}
@@ -227,7 +228,7 @@
         /*实时消耗*/
         queryClass(id,date){
             let self = this;
-                var _url=self.$url+'/real/time/consumption/gather/'+date+'/'+id;
+                var _url=self.$url+'/real/time/consumption/gather/'+date+'/'+id+"?"+Date.now();
                 self.$axios.get(
                         _url
                 ).then((res) => {
@@ -238,6 +239,7 @@
                         "data1": [],
                         "data2": [],
                         "data3": [],
+                        "title":"",
                         "class1": {"name": "晚班消耗量", "value": "", unit: ""},
                         "class2": {"name": "早班消耗量", "value": "", unit: ""},
                         "class3": {"name": "中班消耗量", "value": "", unit: ""}
@@ -298,6 +300,7 @@
                     this.obj.class1.value=sum1;
                     this.obj.class2.value=sum2;
                     this.obj.class3.value=sum3;
+                    this.obj.title=this.nameTitle;
                     if(id=="HG01XY750000"){this.obj.class1.unit="立方米";this.obj.class2.unit="立方米";this.obj.class3.unit="立方米";}else{
                         this.obj.class1.unit="吨";this.obj.class2.unit="吨";this.obj.class3.unit="吨";
                     }
@@ -341,8 +344,8 @@
         /*实时库存*/
         queryGround(id,date){
             let self = this;
-            let _url = self.$url+"/daily/inventory/summary/"+date+"/"+id;
-            let _url_1  = self.$url+"/raw/materials/"+id+"/"+date;
+            let _url = self.$url+"/daily/inventory/summary/"+date+"/"+id+"?"+Date.now();
+            let _url_1  = self.$url+"/raw/materials/"+id+"/"+date+"?"+Date.now();
             self.$axios.get(_url).then((res)=>{
                 this.unit.value=(function() {
                     if (res.data.retval!=null) {
@@ -377,7 +380,7 @@
         /*物料上下限*/
         queryBound(id){
             let self = this;
-            let _url= self.$url+"/material/threshold/configuration/stock/"+id;
+            let _url= self.$url+"/material/threshold/configuration/stock/"+id+"?"+Date.now();
             self.$axios.get(_url).then((res)=>{
                 this.unit.limit=res.data.retval.upperLimit;
                 this.unit.floor=res.data.retval.lowerLimit;
@@ -407,8 +410,8 @@
         /*出入库信息*/
         queryPut(code,type,date,page,size){
             let self=this;
-            let _url=this.$url+"/material/into/inventory/"+code+"/"+type+"/"+date+"/"+page+"/"+size;
-            let _url1 = this.$url+"/material/into/inventory/summary/"+code+"/"+type+"/"+date
+            let _url=this.$url+"/material/into/inventory/"+code+"/"+type+"/"+date+"/"+page+"/"+size+"?"+Date.now();
+            let _url1 = this.$url+"/material/into/inventory/summary/"+code+"/"+type+"/"+date+"?"+Date.now();
             self.$axios.get(_url).then((res)=>{
                 let list = res.data.retval.list;
                if(list==null||list==undefined||list.length==0){

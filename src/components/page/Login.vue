@@ -17,7 +17,7 @@
                           </el-input>
                       </el-form-item>
                      <el-form-item prop="password" >
-                          <el-input  class="input_border"type="password"placeholder="密码" v-model="ruleForm.password" @keyup.enter.native="submitForm('ruleForm')">
+                          <el-input  class="input_border"type="password"placeholder="密码" v-model="ruleForm.password" @keyup.enter.native="submitForm('ruleForm'),saveName(ruleForm.username)">
                               <i slot="prefix">
                                   <svg class="icon" aria-hidden="true"style="width: 2rem;height: 3rem">
                                       <use xlink:href="#el-icon-erp-password"></use>
@@ -27,10 +27,10 @@
                       </el-form-item>
                       <p v-if="bool" style="font-size:12px;line-height:18px;color:red;margin-bottom: 5px;margin-left:22%">*用户名或密码错误</p>
                       <div class="login-btn">
-                          <el-button style="width:70%;margin-left:22%;　border-radius: 15px;"type="primary" native-type="button" @click="submitForm('ruleForm')">登录</el-button>
+                          <el-button style="width:70%;margin-left:22%;　border-radius: 15px;"type="primary" native-type="button" @click="submitForm('ruleForm'),saveName(ruleForm.username)">登录</el-button>
                       </div>
 
-                      <p style="font-size:12px;line-height:30px;color:#999;margin-left:22%">Tips : 用户名：admin  密码：admin</p>
+                 <!--     <p style="font-size:12px;line-height:30px;color:#999;margin-left:22%">Tips : 用户名：admin  密码：admin</p>-->
                   </el-form>
               </div>
           </el-col>
@@ -41,9 +41,11 @@
 
 <script>
     var qs = require('qs');
+    import { mapGetters ,mapActions } from 'vuex'
     export default {
         data: function(){
             return {
+                userName:'张三',
                 ruleForm: {
                     username: '',
                     password: ''
@@ -60,17 +62,36 @@
             }
         },
         methods: {
+    ...mapGetters([
+    ]),
+    ...mapActions({
+
+        saveName: 'saveName'
+    }),
             submitForm(formName) {
 
                 const self = this;
+                let _url=this.$url3+"/user/weblogin"+"?"+Date.now() ;
+                let user={username:"",password:""}
                 self.$refs[formName].validate((valid) => {
-                   if (valid&&this.ruleForm.username=="admin"&&this.ruleForm.password=="admin") {
-                        localStorage.setItem('ms_username',self.ruleForm.username);
-                        self.$router.push('/readme');
-                    } else {
-                        this.bool=true
-                        return false;
-                    }
+                        user.username=this.ruleForm.username;
+                        user.password=this.ruleForm.password;
+                        self.$axios.post(_url, qs.stringify(user)).then((res)=>{
+                                       let status =res.data.success;
+                                        let data=res.data.retval;
+                                        if(data){
+                                            sessionStorage.setItem('ms_username',data.loginname);
+                                            console.log(this.$store.state)
+                                          /*  this.$store.state.user_name = data.loginname;*/
+                                           self.$router.push('/readme');
+                                        }else{
+                                            this.bool=true
+                                            return false;
+                                        }
+                            }).catch((e=>{
+                                console.log(e)
+                        }));
+
                 });
             },
         },

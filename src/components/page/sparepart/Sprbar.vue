@@ -1,10 +1,8 @@
 <template>
     <el-row>
-        <el-col :span="24" v-if="isShow">
-            <div class="chartBar chartPsHeight" ref="chartBar" ></div>
-        </el-col>
-        <el-col :span="24" v-else class="imgCenter" style="padding-top: 5rem">
-            <img src="../../../../static/img/wushuju.png"/>
+        <el-col :span="24">
+            <div class="chartBar chartPsHeight" ref="chartBar"  :class="isShow?'a':'b'"></div>
+            <img src="../../../../static/img/wushuju.png" v-if="!isShow"class="imgCenter"/>
         </el-col>
     </el-row>
 
@@ -85,6 +83,3 @@
     }
     }
 </script>
-<style scoped>
-    .imgCenter{text-align:center;vertical-align:middle;height: 25rem;}
-</style>

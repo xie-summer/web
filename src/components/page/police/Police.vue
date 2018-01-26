@@ -9,7 +9,7 @@
 
 
 
-        <el-row type="flex"justify="space-between" style="margin-bottom: 2rem">
+        <el-row type="flex"justify="space-between" style="margin-bottom:1rem">
         <!--    <el-col :span="18">
                 <button class="button_class" :class="{blues:change==key}"@click="cut(key,item.name,item.code)" v-for=" (item,key) in nameData " :key="key" style="width: 8rem">{{item.name}}</button>
             </el-col>-->
@@ -65,19 +65,19 @@
                     element-loading-spinner="el-icon-loading"
                     element-loading-background="rgba(173,216,230, 0.2)"
                     >
-                    <el-table-column  label="报警状态" align="center" prop="statusName" width="80">
+                    <el-table-column  label="报警状态" align="center" prop="statusName" width="85">
                         <template slot-scope="scope" >
-                            <el-button type="text"v-if="scope.row.statusName=='已解除'" >已解除</el-button>
-                            <el-button type="text" v-else @click.prevent="handleEdit(scope.$index, scope.row)" >未解除</el-button>
+                            <el-button type="success"v-if="scope.row.statusName=='已解除'"@click="handleEdit1(scope.$index, scope.row)" >已解除</el-button>
+                            <el-button type="danger" v-else @click="handleEdit(scope.$index, scope.row)" >未解除</el-button>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="warningname" label="报警项" align="center" min-width="185":show-overflow-tooltip=true>
+                    <el-table-column prop="warningname" label="报警项" align="center" min-width="175":show-overflow-tooltip=true>
                     </el-table-column>
                     <el-table-column prop="level" label="预警等级" align="center" min-width="80">
                     </el-table-column>
-                    <el-table-column prop="warningContent" label="报警内容"align="center" min-width="271":show-overflow-tooltip=true>
+                    <el-table-column prop="warningContent" label="报警内容"align="center" min-width="266":show-overflow-tooltip=true>
                     </el-table-column>
-                    <el-table-column prop="ctime" label="报警时间"align="center" min-width="100">
+                    <el-table-column prop="ctime" label="报警时间"align="center" min-width="100" >
                     </el-table-column>
                     <el-table-column prop="receiverName" label="责任人" align="center" min-width="100">
                     </el-table-column>
@@ -91,7 +91,7 @@
                         @current-change ="handleCurrentChange"
                         @size-change="handleSizeChange"
                         layout="total, prev, pager, next,sizes"
-                        :page-sizes="[5, 10, 20, 30]"
+                        :page-sizes="[8, 10, 20, 30]"
                         :total="totalCount"
                         :current-page="cur_page"
                         :page-size="pagesize"
@@ -110,18 +110,6 @@
             <div slot="footer" class="dialog-footer">
                 <el-button @click="cancelIncident()">取 消</el-button>
                 <el-button type="primary" @click="setContent(form)">提交</el-button>
-                    <el-dialog
-                        top="30vh"
-                        center
-                        width="15%"
-                        title="是否取消"
-                        :visible.sync="innerVisible"
-                        append-to-body>
-                        <span slot="footer" class="dialog-footer">
-                            <el-button @click="isCancel">取 消</el-button>
-                            <el-button type="primary" @click="isConfirm">确 定</el-button>
-                         </span>
-                    </el-dialog>
             </div>
         </el-dialog>
     </div>
@@ -139,7 +127,7 @@
             valueDate: [new Date().format("YYYY-MM-dd",0,7), new Date().format("YYYY-MM-dd")],
             tableData: [],
             cur_page: 1,
-            pagesize:10,
+            pagesize:8,
             totalCount: 50,
             code:"",
             options:[{value:2,label:"全部"},{value:0,label:"未解除"},{value:1,label:"已解除"}],
@@ -195,7 +183,7 @@
                         this.loading=true;
                         if(name==""){}else{name="/"+name}
                         let self = this;
-                        let _url = "http://192.168.1.106:5000/riskapi/getrisklist/"+date1+"/"+date2+"/"+page+"/"+size+"/"+suatus+name;
+                        let _url = this.$url5+"/riskapi/getrisklist/"+date1+"/"+date2+"/"+page+"/"+size+"/"+suatus+name+"?"+Date.now();
                        self.$axios.get(_url).then((res)=>{
                             let data = res.data.retval.list;
                             this.totalCount=res.data.retval.total;
@@ -204,8 +192,8 @@
                                 this.loading=false;
                             }else{
                                 for(let i of data){
-                                    i.ctime =  new Date(i.ctime).format("YYYY-MM-dd");
-                                    i.utime = i.utime==null?"":new Date( i.utime).format("YYYY-MM-dd");
+                                    i.ctime =  new Date(i.ctime).format("YYYY-MM-dd hh:mm:ss");
+                                    i.utime = i.utime==null?"":new Date( i.utime).format("YYYY-MM-dd hh:mm:ss");
                                 }
                                 this.tableData=data;
                                 this.loading=false;
@@ -228,10 +216,11 @@
                     this.info = level;
                     this.dialogFormVisible = true
                 },
+                handleEdit1(){},
                 /*获取责任人*/
                 getDuty(){
                    let self = this;
-                    let _url = "http://192.168.1.106:5000/riskapi/getresponsiblenameList";
+                    let _url = "http://192.168.1.106:5000/riskapi/getresponsiblenameList"+"?"+Date.now();
                     self.$axios.get(_url).then((res)=>{
                         let data = res.data.retval;
                         let personList=[];
@@ -255,12 +244,12 @@
                 },
                 /*提交输入内容*/
                 setContent(formValue){
-                console.log("11111111111")
                     let self = this;
-                    let _url = "http://192.168.1.106:5000/riskapi/finishbymanual"
+                    let _url = this.$url5+"/riskapi/finishbymanual"+"?"+Date.now();
+                    let userName=sessionStorage.getItem('ms_username');
                     let obj={responsiblecontent:"",responsiblename:"",id:""};
                     obj.responsiblecontent=formValue.desc;
-                    obj.responsiblename=this.info.receiverName;
+                    obj.responsiblename=userName;
                     obj.id=this.info.id;
                 self.$axios.post(_url,
                     qs.stringify(obj)
@@ -288,20 +277,11 @@
                 },
                 /*取消事件*/
                 cancelIncident(){
-                    this.innerVisible=true;
+                this.form.desc="";
+                this.form.remnant=0;
+                this.dialogFormVisible=false;
                 },
-                /*确定取消事件*/
-                isConfirm(){
-                    this.innerVisible=false;
-                    this.dialogFormVisible=false;
-                    this.form.desc="";
-                    this.form.remnant=0;
-                },
-                /*取消 取消事件*/
-                isCancel(){
-                    this.innerVisible=false;
-                    this.dialogFormVisible=true;
-                }
+
     }
     };
 

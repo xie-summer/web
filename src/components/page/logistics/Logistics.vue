@@ -153,7 +153,7 @@
     methods: {
         getData(code, page,size){
             let self = this;
-            let _url = "http://192.168.1.106:9000/onway/getOnWayResult/" + code + "/" + page + "/" + size;
+            let _url = "http://192.168.1.106:9000/onway/getOnWayResult/" + code + "/" + page + "/" + size+"?"+Date.now();
             self.$axios.get(_url).then((res)=>{
                 let data = res.data.retval;
                 if(data.list==null){
@@ -179,7 +179,7 @@
             this.getData(2, val, this.pageSize);
         },
         getNum(){
-            let _url="http://192.168.1.106:9000/onway/getTitleInfo"
+            let _url="http://192.168.1.106:9000/onway/getTitleInfo"+"?"+Date.now()
             let self = this;
             self.$axios.get(_url).then((res)=>{
                 let data=res.data.retval;

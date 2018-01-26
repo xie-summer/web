@@ -10,10 +10,51 @@
                     </el-submenu>
                 </template>
                 <template v-else>
-                    <el-menu-item :index="item.index":text-color="color" @click="show(item.title)">
+                    <el-menu-item :index="item.index":text-color="color" >
                         <i :class="item.icon"></i>{{ item.title }}
                     </el-menu-item>
                 </template>
+            </template>
+
+        </el-menu>
+        <el-menu
+            default-active="onRoutes"
+            class="el-menu-vertical-demo"
+            unique-opened>
+                <template>
+                    <el-submenu index="7">
+                        <template slot="title">
+                            <i class="el-icon-location"></i>
+                            生产监管
+                        </template>
+                        <el-menu-item index="1-1" @click="show1()":text-color="color">实时通讯监控</el-menu-item>
+                        <el-menu-item index="1-2"@click="show2()":text-color="color">生产监管</el-menu-item>
+                    </el-submenu>
+                </template>
+                <template>
+                    <el-menu-item index="8" @click="show3()":text-color="color">
+                        <i class="el-icon-menu"></i>
+                       资金监管
+                    </el-menu-item>
+                </template>
+                <template>
+                    <el-menu-item index="9"@click="show4()":text-color="color">
+                        <i class="el-icon-setting"></i>
+                       设备监管
+                    </el-menu-item>
+                </template>
+                 <template>
+                    <el-menu-item index="10" @click="show5()":text-color="color">
+                        <i class="el-icon-setting"></i>
+                        在途物资
+                    </el-menu-item>
+                </template>
+        </el-menu>
+        <el-menu :default-active="onRoutes" class="el-menu-vertical-demo" unique-opened router>
+            <template>
+                <el-menu-item index="police":text-color="color" >
+                    <i class="el-icon-bell"></i>报警状态一览
+                </el-menu-item>
             </template>
         </el-menu>
     </div>
@@ -23,6 +64,7 @@
     export default {
         data() {
             return {
+                isHeight:true,
                 items: [
                     {
                         icon: 'el-icon-setting',
@@ -62,21 +104,38 @@
                                 title: '备品备件库'
                             }
                         ]
-                    },{
+                    },/*{
                         icon: 'el-icon-menu',
-                        index: '',
+                        index: '4',
                         title: '生产监管',
-                    },
-                    {
-                        icon: 'el-icon-menu',
-                        index: 'logistics',
-                        title: '在途物资',
+                        subs: [
+                            {
+                                index: '',
+                                title: '实时通讯监控',
+                            },
+                            {
+                                index: '',
+                                title: '生产监管',
+                            }
+                        ]
                     },
                     {
                         icon: 'el-icon-menu',
                         index: '',
                         title: '资金监管',
                     },
+
+                    {
+                        icon: 'el-icon-menu',
+                        index: '',
+                        title: '设备管理',
+                    },
+                    {
+                        icon: 'el-icon-menu',
+                        index: '',
+                        title: '在途物资',
+                    },*/
+
                   /*  {
                         icon: 'el-icon-menu',
                         index: '2',
@@ -90,11 +149,11 @@
                     },*/
 
 
-                    {
+                 /*   {
                         icon: 'el-icon-bell',
                         index: 'police',
                         title: '报警状态一览'
-                    },
+                    },*/
                   /*  {
                         icon: 'el-icon-star-off',
                         index: 'entering',
@@ -154,9 +213,35 @@
             }
         },
         methods:{
-            show(name){
-               if(name=="资金监管"){window.open("http://flowasset.newefactory.com")}
+            show(name,item){
+             /*   console.log(item)*/
+              /* if(name=="资金监管"){window.open("http://flowasset.newefactory.com")}
                 if(name=="生产监管"){window.open("http://www.newefactory.com ")}
+                if(name=="在途物资"){window.open(" http://g7s.huoyunren.com ")}
+                if(name=="设备管理"){window.open("http://116.62.116.10/")}*/
+            },
+            show1(){
+                window.open("http://116.62.116.10:5510/fmWebView.asp")
+            },
+            show2(){
+                window.open("http://www.newefactory.com")
+            },
+            show3(){
+                window.open("http://flowasset.newefactory.com")
+            },
+            show4(){
+                window.open("http://116.62.116.10/")
+            },
+            show5(){
+                window.open(" http://g7s.huoyunren.com ")
+            },
+            showHeight(){
+                if( this.isHeight==true){
+                    this.isHeight=false;
+                }else{
+                    this.isHeight==true
+                }
+
             }
         }
     }
@@ -172,9 +257,10 @@ y<style scoped>
         bottom:0;
         background: #2E363F;
     }
-    .sidebar > ul {
-        height:100%;
-    }
+/*    .sidebar > ul {
+        height:312px;
+    }*/
+  /*  .is-active{color: #ffffff}*/
     /*.el-menu-vertical-demo{background-color: #444D59;}*/
 
 </style>

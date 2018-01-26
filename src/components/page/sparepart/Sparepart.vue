@@ -78,7 +78,7 @@
                </div>
             </el-col>
             <el-col :span="12">
-                <div class="agitatedBack">
+                <div class="agitatedBack" style="float: right">
                     <el-col :span="24" class="title secondFontColor">本周各出库产品货值</el-col>
                     <el-col :span="24">
                         <v-pies ref="chartPs2" :putData="outData" :isOut="out"></v-pies>
@@ -90,7 +90,7 @@
         <el-row style="min-width: 1019px">
             <el-col :span="24" class="subordinateTitle stairFontColor">月消耗总览</el-col>
         </el-row>
-        <el-row class="outCont"type="flex"justify="space-between">
+        <el-row class="outCont"type="flex"justify="space-around">
             <el-col :span="12" >
                <div  class="agitatedBack">
                    <el-col :span="24" class="title  secondFontColor">消耗货值排行前5</el-col>
@@ -220,7 +220,7 @@
         /*库存总量*/
         querySum(date){
             let self = this;
-            let url = this.$url+"/spare/parts/materials/summary/"+date;
+            let url = this.$url+"/spare/parts/materials/summary/"+date+"?"+Date.now();
             self.$axios.get(url).then((res)=>{
                 let data = res.data.retval;
                 if(data==null||data==undefined){
@@ -235,7 +235,7 @@
         /*货值总量排行10个*/
         queryValueAmount(date){
             let self = this;
-            let url = this.$url+"/spare/parts/materials/summary/detail/"+date;
+            let url = this.$url+"/spare/parts/materials/summary/detail/"+date+"?"+Date.now();
             self.$axios.get(url).then((res)=>{
                 let data = res.data.retval;
                 if(data==null||data==undefined){
@@ -251,7 +251,7 @@
         queryValueHeight(date){
             let self = this;
             this.$refs.multipleTableHeight.getData([1],self.tableName3,self.name3,true);
-            let url=this.$url+"/spare/parts/materials/summary/high/detail/"+date;
+            let url=this.$url+"/spare/parts/materials/summary/high/detail/"+date+"?"+Date.now();
             self.$axios.get(url).then((res)=>{
                 let data = res.data.retval;
                 if(data==null||data==undefined){
@@ -267,7 +267,7 @@
         queryValueLow(date){
             let self = this;
             this.$refs.multipleTableLow.getData([1],self.tableName2,self.name2,true);
-            let url=this.$url+"/spare/parts/materials/summary/low/detail/"+date;
+            let url=this.$url+"/spare/parts/materials/summary/low/detail/"+date+"?"+Date.now();
             self.$axios.get(url).then((res)=>{
                 let data = res.data.retval;
                if(data==null||data==undefined){
@@ -282,7 +282,7 @@
         /*货值出入库*/
         queryValue(date,type,page,size){
             let self = this;
-            let url=self.$url+"/panoramic/spare/parts/into/inventory/"+date+"/"+type+"/"+page+"/"+size;
+            let url=self.$url+"/panoramic/spare/parts/into/inventory/"+date+"/"+type+"/"+page+"/"+size+"?"+Date.now();
                 self.$axios.get(url).then((res)=>{
                         let data=res.data.retval;
                        if(data==null){
@@ -307,9 +307,8 @@
         /*消耗量*/
         queryConsumeValue(date){
             let self = this;
-            let _url = this.$url+"/panoramic/spare/parts/into/inventory/monthlyconsume/price/"+date;
+            let _url = this.$url+"/panoramic/spare/parts/into/inventory/monthlyconsume/price/"+date+"?"+Date.now();
             self.$axios.get( _url).then((res)=>{
-                console.log(res.data.retval)
                 if(res.data.retval==null){
                     self.$refs.chartBar.initPie([],[],0)
                 }else{
@@ -326,7 +325,7 @@
         /*消耗货值*/
         queryConsumeAmong(date){
             let self = this;
-            let _url = this.$url+"/panoramic/spare/parts/into/inventory/monthlyconsume/value/"+date;
+            let _url = this.$url+"/panoramic/spare/parts/into/inventory/monthlyconsume/value/"+date+"?"+Date.now();
             self.$axios.get( _url).then((res)=>{
                 if(res.data.retval==null){
                     self.$refs.chartstr.initPie([],[],[],0)
@@ -353,7 +352,7 @@
         /*入库*/
         queryPut(date){
             let self = this;
-            let _url = this.$url+"/panoramic/spare/parts/into/inventory/weeklysummary/in/"+date;
+            let _url = this.$url+"/panoramic/spare/parts/into/inventory/weeklysummary/in/"+date+"?"+Date.now();
             self.$axios.get( _url).then((res)=>{
                 if(res.data.retval==null){
                     this.put = false;
@@ -381,7 +380,7 @@
         /*出库*/
         queryOut(date){
             let self = this;
-            let _url = this.$url+"/panoramic/spare/parts/into/inventory/weeklysummary/out/"+date;
+            let _url = this.$url+"/panoramic/spare/parts/into/inventory/weeklysummary/out/"+date+"?"+Date.now();
             self.$axios.get( _url).then((res)=>{
                 if(res.data.retval==null){
                     this.out=false;
@@ -423,6 +422,6 @@
     .outCont{margin-bottom: 2rem;min-width: 1019px}
     .title{font-size: 1.8rem;padding-left: 0.5rem;height: 3rem;line-height: 3rem}
     .subordinateTitle{font-size: 2rem;height: 5rem;line-height: 5rem}
-    .agitatedBack{background-color: #ffffff;box-shadow: 0px 3px 0px #E5E5E5;width: 98%;height:30rem}
+    .agitatedBack{background-color: #ffffff;box-shadow: 0px 3px 0px #E5E5E5;width: 98%;height:30rem;margin:0}
     .still{background-color: #ffffff;box-shadow: 0px 3px 0px #E5E5E5;}
 </style>

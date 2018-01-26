@@ -7,7 +7,7 @@
                 <el-col :span="19":offset="1">
                     <el-col :span="24" class="threeFontColor"style="font-size: 1.2rem;line-height: 2.6rem">{{obj.class1.name}}</el-col>
                     <el-col :span="24"class="mediaMd">
-                        <span class="morningSize">{{obj.class1.value }}</span>
+                        <span class="morningSize">{{obj.class1.value|numToFixed }}</span>
                         <span  class="secondFontColor"style="font-size: 1.2rem;">{{obj.class1.unit}}</span>
                     </el-col>
                 </el-col>
@@ -19,7 +19,7 @@
                 <el-col :span="19":offset="1">
                     <el-col :span="24" class="threeFontColor"style="font-size: 1.2rem;line-height: 2.6rem">{{obj.class2.name}}</el-col>
                     <el-col :span="24"class="mediaMd">
-                        <span class="morningSize">{{obj.class2.value }}</span>
+                        <span class="morningSize">{{obj.class2.value |numToFixed}}</span>
                         <span  class="secondFontColor"style="font-size: 1.2rem;">{{obj.class2.unit}}</span>
                     </el-col>
                 </el-col>
@@ -29,7 +29,7 @@
                 <el-col :span="19":offset="1">
                     <el-col :span="24" class="threeFontColor"style="font-size: 1.2rem;line-height: 2.6rem">{{obj.class3.name}}</el-col>
                     <el-col :span="24"class="mediaMd">
-                        <span class="morningSize">{{obj.class3.value}}</span>
+                        <span class="morningSize">{{obj.class3.value|numToFixed}}</span>
                         <span class="secondFontColor"style="font-size: 1.2rem;">{{obj.class3.unit}}</span>
                     </el-col>
                 </el-col>
@@ -73,7 +73,9 @@
                        for(let i=0;i< p.length;i++){
                            if(p[i].value===""){
                            }else{
-                                   return '<div style="width:100px;height:50px;display: inline-block;background-color:'+p[i].color+'">'+p[i].seriesName+"："+p[i].value+'</div>'
+                                    let y = "消耗量"
+                                    if(obj.title=="磷矿粉"||obj.title=="硫酸"||obj.title=="矿浆"){y="消耗量";if(obj.title=="磷矿粉"){obj.title="矿浆"}}else{y="产量"}
+                                   return '<div style="width:170px;height:85px;display: inline-block;line-height:35px;text-align:center;background-color:'+p[i].color+'">'+"时间："+(p[i].axisValueLabel-1)+":00-"+p[i].axisValueLabel+":00"+'</br>'+obj.title+y+"："+p[i].value+obj.class1.unit+'</div>'
                            }
                        }
                     },

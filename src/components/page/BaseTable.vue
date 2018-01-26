@@ -6,7 +6,6 @@
                border
                style="width: 100%;"
                ref="multipleTable"
-               @selection-change="handleSelectionChange"
                height=285 stripe
                v-loading="loading"
                element-loading-text="拼命加载中"
@@ -47,17 +46,16 @@
         data() {
             return {
                 tableData: [],
-                cur_page: 1,
                 pagesize:5,
                 currentPage: 1,
                 totalCount: this.totalCount,
                 showtf:true,
-                loading:true
+                loading:true,
             }
         },
         created(){
-        this.totalCount=this.tableTotal
-            this.getData(this.tableCon);
+       /* this.totalCount=this.tableTotal
+            this.getDatas(this.tableCon, this.totalCount);*/
         },
         methods: {
             handleCurrentChange(val){
@@ -66,15 +64,12 @@
                 this.$emit('handleCurrentChange',{page:this.cur_page,pageSize:this.pagesize});
 
             },
-            getData(data,total,loading){
+            getDatas(data,total,loading){
                 this.totalCount=total;
                 this.tableData=data;
                 this.loading=loading==undefined?true:loading;
             },
 
-            handleSelectionChange: function(val) {
-                this.multipleSelection = val;
-            },
             formatter(row, column){
               return row.outTime==undefined?null:new Date(row.outTime).format("hh:mm:ss")
             },

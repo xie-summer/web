@@ -4,6 +4,7 @@ import Router from 'vue-router';
 Vue.use(Router);
 
 export default new Router({
+    mode:'history',
     routes: [
         {
             path: '/',
@@ -68,11 +69,11 @@ export default new Router({
                     component: resolve => require(['../components/page/PersonGrade.vue'], resolve) ,
                     meta: {keepAlive: true}// vue-schart组件
                 },
-                {
+                /*{
                     path: '/logistics',
                     component: resolve => require(['../components/page/logistics/Logistics.vue'], resolve) ,
                     meta: {keepAlive: true}// vue-schart组件
-                },
+                },*/
                 {
                     path: '/police',
                     component: resolve => require(['../components/page/police/Police.vue'], resolve) ,
@@ -95,5 +96,6 @@ export default new Router({
             component: resolve => require(['../components/page/Login.vue'], resolve),
             meta: {keepAlive: true}
         },
+
     ]
 })
