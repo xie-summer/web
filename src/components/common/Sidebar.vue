@@ -28,7 +28,7 @@
                             生产监管
                         </template>
                         <el-menu-item index="1-1" @click="show1()":text-color="color">实时通讯监控</el-menu-item>
-                        <el-menu-item index="1-2"@click="show2()":text-color="color">生产监管</el-menu-item>
+                        <el-menu-item index="1-2"@click="show2()":text-color="color">生产监控</el-menu-item>
                     </el-submenu>
                 </template>
                 <template>
@@ -89,7 +89,7 @@
                     {
                         icon: 'el-icon-menu',
                         index: '3',
-                        title: '库存监管',
+                        title: '仓库监管',
                         subs: [
                             {
                                 index: 'material',

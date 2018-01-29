@@ -6,7 +6,7 @@
              <el-col :span="11" :offset="6"class="login_title"></el-col>
               <el-col :span="11":offset="6"class="login_header"></el-col>
               <div class="ms-login">
-                  <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="6rem" class="demo-ruleForm" >
+                  <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="5rem" class="demo-ruleForm" >
                       <el-form-item prop="username">
                           <el-input class="input_border"v-model="ruleForm.username" placeholder="用户名">
                               <i slot="prefix">
@@ -17,7 +17,7 @@
                           </el-input>
                       </el-form-item>
                      <el-form-item prop="password" >
-                          <el-input  class="input_border"type="password"placeholder="密码" v-model="ruleForm.password" @keyup.enter.native="submitForm('ruleForm'),saveName(ruleForm.username)">
+                          <el-input  class="input_border"type="password"placeholder="密码" auto-complete="off" v-model="ruleForm.password" @keyup.enter.native="submitForm('ruleForm'),saveName(ruleForm.username)">
                               <i slot="prefix">
                                   <svg class="icon" aria-hidden="true"style="width: 2rem;height: 3rem">
                                       <use xlink:href="#el-icon-erp-password"></use>
@@ -29,7 +29,6 @@
                       <div class="login-btn">
                           <el-button style="width:70%;margin-left:22%;　border-radius: 15px;"type="primary" native-type="button" @click="submitForm('ruleForm'),saveName(ruleForm.username)">登录</el-button>
                       </div>
-
                  <!--     <p style="font-size:12px;line-height:30px;color:#999;margin-left:22%">Tips : 用户名：admin  密码：admin</p>-->
                   </el-form>
               </div>
@@ -69,7 +68,6 @@
         saveName: 'saveName'
     }),
             submitForm(formName) {
-
                 const self = this;
                 let _url=this.$url3+"/user/weblogin"+"?"+Date.now() ;
                 let user={username:"",password:""}
@@ -81,7 +79,6 @@
                                         let data=res.data.retval;
                                         if(data){
                                             sessionStorage.setItem('ms_username',data.loginname);
-                                            console.log(this.$store.state)
                                           /*  this.$store.state.user_name = data.loginname;*/
                                            self.$router.push('/readme');
                                         }else{
@@ -91,12 +88,10 @@
                             }).catch((e=>{
                                 console.log(e)
                         }));
-
                 });
             },
         },
     created:function(){
-
     }
     }
 </script>
@@ -172,5 +167,9 @@
     .login-wrap_fff .ms-login input[type=text]:focus, input[type=password]:focus, textarea:focus {
         -webkit-box-shadow: 0 0 0 1000px white inset;
         border-bottom: 1px solid #888888;
+    }
+    @media screen and (max-width: 1368px){
+        .ms-login{ left:0; top:20%;}
+
     }
 </style>

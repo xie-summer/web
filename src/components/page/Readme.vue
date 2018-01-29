@@ -474,6 +474,7 @@
                     this.queryProduction_5(0);
                 }else{
                     this.production=res.data.retval;
+                    console.log(res.data.retval)
                     this.queryProduction_1(this.production.cpoc==undefined?0:this.production.cpoc);
                     this.queryProduction_2(this.production.cpac==undefined?0:this.production.cpac);
                     this.queryProduction_3(this.production.ccp==undefined?0:this.production.ccp);
@@ -885,7 +886,7 @@
 
     .goods{background-color: #ffffff;box-shadow: 0px 3px 0px #E5E5E5;margin-bottom: 3rem}
     .goodsTitle{font-size: 1.8rem;padding-left:2rem}
-    .goodsHeight {height: 27.8rem}
+    .goodsHeight {-moz-height: 27.8rem}
 
     .numberHint{height:15.4rem;color: #bb4b39;font-size: 4.8rem;text-align: center;line-height: 23rem}
     .titleHint{text-align: center;font-size: 1.8rem}

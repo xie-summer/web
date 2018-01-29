@@ -199,7 +199,6 @@
         formatDate(){
             let date = new Date();
             return date.format("YYYY-MM-dd");
-
         }
     },
     methods: {
@@ -215,7 +214,6 @@
             this.queryConsumeAmong(value);
             this.queryPut(value);
             this.queryOut(value);
-
         },
         /*库存总量*/
         querySum(date){
@@ -370,11 +368,9 @@
                             objList.push(obj);
                         }
                     }
-
                     this.putData.value=objList;
                     self.$refs.chartPs.initPie(this.putData,this.put)
                 }
-
             });
         },
         /*出库*/
@@ -398,11 +394,9 @@
                             objList.push(obj);
                         }
                     }
-
                     this.outData.value=objList;
                     self.$refs.chartPs2.initPie(this.outData,this.out)
                 }
-
             });
         },
         setData(msg){

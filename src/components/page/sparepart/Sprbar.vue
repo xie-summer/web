@@ -56,7 +56,7 @@
                         axisLabel:{
                             formatter:function(e){
 
-                                return e/10000+'k'
+                                return e/10000+'万'
                             }
                         },
 

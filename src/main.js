@@ -1,3 +1,4 @@
+import 'babel-polyfill'
 import Vue from 'vue';
 import App from './App';
 import router from './router';
@@ -30,13 +31,16 @@ axios.defaults.withCredentials = true;
 /*axios.defaults.headers['Content-Type']="application/json"
 axios.defaults.headers.common['Authorization'] = "Basic dXNlcjp1c2Vy";*/
 let u1 = "http://192.168.1.106:9000";
-let u2="http://panoramic.neweplatform.com:60002/manage"
+let u2="http://gateway.neweplatform.com/manage";
+let u7="http://panoramic.neweplatform.com:60002/manage"
 /*登录*/
-let u3 = "http://192.168.1.106:6002/users"
-let  u4 = "http://panoramic.neweplatform.com:60002/users"
+let u3 = "http://192.168.1.106:6002/users";
+let u4 = "http://gateway.neweplatform.com/users";
+let u8="http://panoramic.neweplatform.com:60002/users";
 /*预警*/
 let u5="http://192.168.1.106:5000";
-let u6="http://panoramic.neweplatform.com:60002/risk-warning";
+let u6="http://gateway.neweplatform.com/risk-warning";
+let u9="http://panoramic.neweplatform.com:60002/risk-warning"
 Vue.prototype.$axios = axios;
 Vue.prototype.$url=u2;
 Vue.prototype.$url3=u4;

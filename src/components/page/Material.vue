@@ -126,21 +126,6 @@
                 perData:{"value":0,"status":"success"},
                 date:new Date(),
                 unit:{"units":"吨","units2":"",wid:32,hig:21,radius:120,dist:-40,value:0,limit:0,floor:0,tool:20000},
-
-            /*    curNumber:{
-                    "text1":"月累积消耗量",
-                    "text2":"月累积出库量",
-                    "text3":"月总计消耗量",
-                    "text4":"月总计出库量",
-                    "value1":"",
-                    "value2":"",
-                    "value3":"",
-                    "value4":"",
-                    deviation1:"0",
-                    deviation2:"0",
-                    date1:new Date().format("YYYY-MM"),
-                    date2:new Date().format("YYYY-MM",1)
-                },*/
                 outTableName:[{label:"出库时间",name:"inOutTime"},
                             {label:"出库量(吨)",name:"value"},
                             {label:"领用人",name:"personLiable"},
@@ -178,14 +163,12 @@
            /* this.queryMonthConsume(this.change==0?"HG01XY750000":"",this.formatDateTime(this.value11));*//*yue*/
             this.queryPut(this.change==0?"HG01XY750000":"HG01XY750100",0,this.value11,1,5);
             this.queryPut(this.change==0?"HG01XY750000":"HG01XY750100",1,this.value11,1,5);
-
         },
         filters:{
             /*时间过滤*/
             formatDate(){
             let date = new Date();
             return date.format("YYYY-MM-dd");
-
              }
     },
     methods: {
@@ -211,7 +194,6 @@
                 this.unit.tool=4000;
                 this.$refs.chartGauge.createChartOne(this.unit);
             }
-
             this.queryPut(code,0,this.value11,1,5);
             this.queryPut(code,1,this.value11,1,5);
             this.code=code;
@@ -221,7 +203,6 @@
             this.queryClass(this.change==0?"HG01XY750000":"HG01XY750100",this.value11);
             this.queryGround(this.change==0?"HG01XY750000":"HG01XY750100",this.value11);
            /* this.queryMonthConsume(this.change==0?"HG01XY750000":"HG01XY750100",this.formatDateTime(this.value11));*/
-
         },
         dys:function(){
         },
@@ -306,10 +287,7 @@
                     }
                     this.$refs.chartLine.createChartOne(this.obj);
                 }
-
-
                 });
-
         },
         /*月累计量*/
        /* queryMonthConsume(id,date){
@@ -337,8 +315,6 @@
                     } else {
                         return 0
                     }
-
-
              });
         },*/
         /*实时库存*/
