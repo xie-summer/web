@@ -21,26 +21,7 @@
 	|-- src                              // 源码目录
 	|   |-- components                   // 组件
 	|       |-- common                   // 公共组件
-	|           |-- Header.vue           // 公共头部
-	|           |-- Home.vue           	 // 公共路由入口
-	|           |-- Sidebar.vue          // 公共左边栏
 	|		|-- page                   	 // 主要路由页面
-	|           |-- BaseCharts.vue       // 基础图表
-	|           |-- BaseForm.vue         // 基础表单
-	|           |-- BaseTable.vue        // 基础表格
-	|           |-- Login.vue          	 // 登录
-	|           |-- Markdown.vue         // markdown组件
-	|           |-- Readme.vue           // 首页
-	|           |-- Upload.vue           // 图片上传
-	|           |-- VueEditor.vue        // 富文本编辑器
-	|           |-- VueTable.vue         // vue表格组件
-	|           |-- accurate.vue         // 库存原料偏差组件
-	|           |-- classThree.vue       // 原料库存三班图
-	|           |-- OldCharts.vue        // echarts仪表盘
-	|           |-- Percentage.vue       // 库存原料百分比组件
-	|           |-- PublicOne.vue        // 库存原料提醒
-	|           |-- Product.vue          // 产品库
-	|           |-- Material.vue         // 原料库
 	|   |-- App.vue                      // 页面入口文件
 	|   |-- main.js                      // 程序入口文件，加载各种公共组件
 	|-- .babelrc                         // ES6语法编译配置
@@ -134,9 +115,11 @@ Vue.js的Markdown Editor组件。访问地址：[Vue-SimpleMDE](https://github.c
 
 
 ### Vue-Router ###
-vue.js的路由模块[Vue-Router](https://router.vuejs.org/zh-cn/)
+vue.js的路由模块[Vue-Router]访问地址：(https://router.vuejs.org/zh-cn/)
 
 
+### Vuex ###
+vue.js的数据管理[Vue-Router]访问地址：(https://vuex.vuejs.org/zh-cn/)
 ## 其他注意事项 ##
 ### 一、如果我不想用到上面的某些组件呢，那我怎么在模板中删除掉不影响到其他功能呢？ ###
 
@@ -164,34 +147,3 @@ vue.js的路由模块[Vue-Router](https://router.vuejs.org/zh-cn/)
 	npm un vue-datasource -S
 
 完成。
-
-### 二、如何切换主题色呢？ ###
-
-第一步：打开 src/main.js 文件，找到引入 element 样式的地方，换成浅绿色主题。
-
-```javascript
-import 'element-ui/lib/theme-default/index.css';    // 默认主题
-// import '../static/css/theme-green/index.css';       // 浅绿色主题
-```
-
-第二步：打开 src/App.vue 文件，找到 style 标签引入样式的地方，切换成浅绿色主题。
-
-```javascript
-@import "../static/css/main.css";
-@import "../static/css/color-dark.css";     /*深色主题*/
-/*@import "../static/css/theme-green/color-green.css";   !*浅绿色主题*!*/
-```
-
-第三步：打开 src/components/common/Sidebar.vue 文件，找到 el-menu 标签，把 theme="dark" 去掉即可。
-
-## 项目截图 ##
-### 默认皮肤 ###
-
-![Image text](https://github.com/lin-xin/manage-system/raw/master/screenshots/wms1.png)
-
-### 浅绿色皮肤 ###
-
-![Image text](https://github.com/lin-xin/manage-system/raw/master/screenshots/wms2.png)
-=======
-全景监控-前端系统
->>>>>>> 2ecb1f1c15c36f9a42706da82381f593c396bbbc
