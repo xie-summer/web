@@ -22,11 +22,11 @@
                 </el-date-picker>
             </div>
         </div>
-        <div style="display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%;box-shadow: 0px 3px 0px #E5E5E5;min-width: 1019px;background-color: #ffffff">
+        <el-row style="box-shadow: 0px 3px 0px #E5E5E5;min-width: 1019px;background-color: #ffffff">
             <el-col :span="24"  class="bigTitle stairFontColor">当日库存量</el-col>
             <el-col :span="10" style="border-right: solid 1px #c7c7c7">
 
-                <el-col :span="24"  style="flex-flow: 1">
+                <el-col :span="24">
                     <v-pone :public-data="publicOneData"></v-pone>
                 </el-col>
 
@@ -61,7 +61,7 @@
                     </div>
                 </el-col>
             </el-col>
-        </div>
+        </el-row>
         <div style="box-shadow: 0px 3px 0px #E5E5E5;;min-width: 1019px; margin-top: 3rem;">
             <el-row class="bigTitle gauge stairFontColor">当日入库量</el-row>
             <v-table ref="putTableOne" @handleCurrentChange="toShow" :table-name="putTableName":output-table="putTableData":outputData="putData":type="put"></v-table>
@@ -70,7 +70,7 @@
             <el-row class="bigTitle gauge stairFontColor">当日出库量</el-row>
             <v-table ref="putTableTwo" @handleCurrentChange="toShow" :table-name="outTableName":output-table="outTableData":outputData="outData":type="out"></v-table>
         </div>
-        <div  style="display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%;margin-top: 3rem;box-shadow: 0px 3px 0px #E5E5E5;;min-width: 1019px;background-color: #ffffff">
+        <el-row  style="margin-top: 3rem;box-shadow: 0px 3px 0px #E5E5E5;;min-width: 1019px;background-color: #ffffff">
             <el-col :span="24"  class="solidTitle stairFontColor">{{newTitle_p}}</el-col>
             <el-col :lg="17" >
                 <v-line :child-msg="obj" ref="chartLine"></v-line>
@@ -78,7 +78,7 @@
             <el-col :lg="7"  >
                 <v-accurate :curNum="0" :curNumber="curNumber"></v-accurate>
             </el-col>
-        </div>
+        </el-row>
 <!--
         <div style="display: -webkit-flex;flex-direction:row ; flex-wrap:wrap;width: 100%;margin-top: 3rem;box-shadow: 5px 5px 3px #E5E5E5;;min-width: 1055px">
 
@@ -468,7 +468,7 @@
 </script>
 
 <style scoped>
-    .bigTitle{font-size: 2rem;height: 3rem;background-color: #ffffff}
+    .bigTitle{font-size: 2rem;height: 3rem;background-color: #ffffff;padding-left: 1rem}
     .title{font-size: 2rem;color: #000000;padding-left: 2rem}
     .solidTitle{font-size: 2rem;height: 3rem;}
     .select_time{margin-bottom: 3rem;height: 3rem}

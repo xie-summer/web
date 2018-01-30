@@ -488,6 +488,7 @@
 
         },
         queryProduction_1(v){
+            console.log(v)
             let self = this;
             let gu_1=echarts.init(self.$refs.gu_1);
             gu_1.setOption({
@@ -553,7 +554,7 @@
                             borderColor: '#ccc',
                             offsetCenter: [0, '14%'],       // x, y，单位px
                             formatter:function(e){
-                                return e
+                                return e.toFixed(2);
                             },
                             textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
                                 fontSize : 20,
@@ -629,7 +630,7 @@
                             borderColor: '#ccc',
                             offsetCenter: [0, '14%'],       // x, y，单位px
                             formatter:function(e){
-                                return e
+                                return e.toFixed(2);
                             },
                             textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
                                 fontSize : 20,
@@ -705,7 +706,7 @@
                             borderColor: '#ccc',
                             offsetCenter: [0, '14%'],       // x, y，单位px
                             formatter:function(e){
-                                return e
+                                return e.toFixed(2);
                             },
                             textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
                                 fontSize : 20,
@@ -781,7 +782,7 @@
                             borderColor: '#ccc',
                             offsetCenter: [0, '14%'],       // x, y，单位px
                             formatter:function(e){
-                                return e
+                                return e.toFixed(2);
                             },
                             textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
                                 fontSize : 20,
@@ -856,7 +857,7 @@
                             borderColor: '#ccc',
                             offsetCenter: [0, '14%'],       // x, y，单位px
                             formatter:function(e){
-                                return e
+                                return e.toFixed(2);
                             },
                             textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
                                 fontSize : 20,

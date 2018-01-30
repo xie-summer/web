@@ -77,13 +77,13 @@
                     </el-table-column>
                     <el-table-column prop="warningContent" label="报警内容"align="center" min-width="266":show-overflow-tooltip=true>
                     </el-table-column>
-                    <el-table-column prop="ctime" label="报警时间"align="center" min-width="100" >
+                    <el-table-column prop="ctime" label="报警时间"align="center" min-width="100" :show-overflow-tooltip=true>
                     </el-table-column>
-                    <el-table-column prop="receiverName" label="责任人" align="center" min-width="100">
+                    <el-table-column prop="receiverName" label="责任人" align="center" min-width="100":show-overflow-tooltip=true>
                     </el-table-column>
                     <el-table-column prop="returnContent" label="责任人日志" align="center" min-width="100":show-overflow-tooltip=true>
                     </el-table-column>
-                    <el-table-column prop="utime" label="报警解除时间" align="center"min-width="100">
+                    <el-table-column prop="utime" label="报警解除时间" align="center"min-width="100":show-overflow-tooltip=true>
                     </el-table-column>
                 </el-table>
                 <div class="pagination">

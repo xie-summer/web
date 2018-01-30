@@ -169,7 +169,7 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill { -we
 .chartPsHeight{height: 27rem}
 .remindText{font-size: 1.5rem;width:77%;height:5rem;word-break:break-all;float: left;padding-left: 1.5rem;padding-top: 2rem;text-align: center}
 .tableNew  .el-table td{height: 36px;padding: 0}
-.tableNew .el-table__body-wrapper{max-height: 30rem !important;}
+.tableNew .el-table__body-wrapper{max-height: 395px !important;}
 .deviation{width: 341px;margin-left: 5rem}
 .deviation_two{margin-top: 2.9rem;width: 341px;margin-left: 5rem}
 .number_user{font-size: 3rem;color: white;float: left;width: 100%;text-align: center;height: 40px}
@@ -200,6 +200,6 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill { -we
 
 /*ui库样式*/
     .tableNew  .el-table td{height: 28px;padding: 0}
-    .tableNew .el-table__body-wrapper{max-height: 23.3rem !important;}
+    .tableNew .el-table__body-wrapper{max-height: 280px !important;}
 
 }

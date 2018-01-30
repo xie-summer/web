@@ -85,7 +85,7 @@ vue.js封装sChart.js的图表组件。访问地址：[vue-schart](https://githu
 		></schart>
     </div>
 </template>
-	
+
 <script>
     import Schart from 'vue-schart';        // 导入Schart组件
     export default {
@@ -130,9 +130,11 @@ Vue.js的Markdown Editor组件。访问地址：[Vue-SimpleMDE](https://github.c
 
 
 ### Vue-Core-Image-Upload ###
-一款轻量级的vue上传插件，支持裁剪。访问地址：[Vue-Core-Image-Upload](https://github.com/Vanthink-UED/vue-core-image-upload)
+一款轻量级的vue上传插件，支持裁剪。访问地址：(https://github.com/Vanthink-UED/vue-core-image-upload)
 
 
+### Vue-Router ###
+vue.js的路由模块[Vue-Router](https://router.vuejs.org/zh-cn/)
 
 
 ## 其他注意事项 ##
@@ -152,13 +154,13 @@ Vue.js的Markdown Editor组件。访问地址：[Vue-SimpleMDE](https://github.c
 第二步：删除引入该组件的文件。在目录 src/components/page/ 删除 VueTable.vue 文件。
 
 第三步：删除该页面的入口。在目录 src/components/common/Sidebar.vue 中，找到该入口，删除下面这段代码。
-	
+
 ```HTML
 <el-menu-item index="vuetable">Vue表格组件</el-menu-item>
 ```
 
 第四步：卸载该组件。执行以下命令：
-	
+
 	npm un vue-datasource -S
 
 完成。

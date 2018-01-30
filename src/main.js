@@ -42,9 +42,9 @@ let u5="http://192.168.1.106:5000";
 let u6="http://gateway.neweplatform.com/risk-warning";
 let u9="http://panoramic.neweplatform.com:60002/risk-warning"
 Vue.prototype.$axios = axios;
-Vue.prototype.$url=u2;
-Vue.prototype.$url3=u4;
-Vue.prototype.$url5=u6;
+Vue.prototype.$url=u1;
+Vue.prototype.$url3=u3;
+Vue.prototype.$url5=u5;
 /*请求拦截器*/
 Vue.prototype.$axios.interceptors.request.use(function (config) {
     config.headers['Content-Type'] ="application/x-www-form-urlencoded"
